@@ -2,11 +2,11 @@ plugins {
     id "java"
     id "eclipse"
     id "idea"
-    id "jaci.openrio.gradle.Gra dleRIO" version "2018.01.20"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.20"
 }
 
 def TEAM = 190
-def ROBOT_CLASS = "frc.team190.robot.Robot"
+def ROBOT_CLASS = "team190.robot.Robot"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
