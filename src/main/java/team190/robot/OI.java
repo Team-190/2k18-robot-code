@@ -7,36 +7,51 @@
 
 package team190.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * @author Jerry Brown
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
 
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
+    // Ports for controllers
+    private static final int PORT_DRIVER_JOYSTICK_1 = 0,
+                             PORT_DRIVER_JOYSTICK_2 = 1,
+                             PORT_OPERATOR_CONTROLLER = 3;
 
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
+    // Buttons for the operator
+    private static final int BUTTON_EXAMPLE_ACTION = 0;
 
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
+    Joystick leftStick;
+    Joystick rightStick;
 
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
+    Joystick operatorController;
 
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
+    /**
+     * Constructor
+     */
+    public OI() {
+        leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
+        rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
+
+        operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
+    }
+
+    /**
+     * Get the value of the left Y axis
+     * @return Left Y axis (0.0 to 1.0)
+     */
+    public double getLeftY() {
+        return leftStick.getY();
+    }
+
+    /**
+     * Get the value of the right Y axis
+     * @return Right Y axis (0.0 to 1.0)
+     */
+    public double getRightY() {
+        return rightStick.getY();
+    }
 }
