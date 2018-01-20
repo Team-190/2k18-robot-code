@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team190.robot;
+package team190.robot;
 
 /**
  * This class is the glue that binds the controls on the physical operator

@@ -1,6 +1,6 @@
-package org.usfirst.frc.team190.robot.subsystems;
+package team190.robot.subsystems;
 
-import org.usfirst.frc.team190.models.PairedTalonSRX;
+import team190.models.PairedTalonSRX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
