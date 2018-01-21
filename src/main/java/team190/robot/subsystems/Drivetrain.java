@@ -1,11 +1,12 @@
-package org.usfirst.frc.team190.robot.subsystems;
+package team190.robot.subsystems;
 
-import org.usfirst.frc.team190.models.PairedTalonSRX;
+import team190.models.PairedTalonSRX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import team190.robot.commands.ControllerDriveCommand;
 
 /**
  *
@@ -40,8 +41,7 @@ public class Drivetrain extends Subsystem {
 	
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new ControllerDriveCommand());
     }
 }
 

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team190.robot;
+package team190.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team190.robot.subsystems.Carriage;
 import org.usfirst.frc.team190.robot.subsystems.Collector;
 import org.usfirst.frc.team190.robot.subsystems.Elevator;
+import team190.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,10 +25,12 @@ import org.usfirst.frc.team190.robot.subsystems.Elevator;
  * project.
  */
 public class Robot extends TimedRobot {
+
 	public static final Collector collector = new Collector();
 	public static final Elevator elevator = new Elevator();
 	public static final Carriage carriage = new Carriage();
 	public static OI m_oi;
+	public static Drivetrain drivetrain;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -38,7 +41,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		drivetrain = new Drivetrain();
+
 		m_oi = new OI();
+		//m_chooser.addDefault("Default Auto", null);
 		//m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);

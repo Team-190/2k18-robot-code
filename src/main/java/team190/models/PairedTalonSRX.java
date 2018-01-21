@@ -1,4 +1,4 @@
-package org.usfirst.frc.team190.models;
+package team190.models;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
