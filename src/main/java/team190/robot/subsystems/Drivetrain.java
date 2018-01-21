@@ -40,6 +40,8 @@ public class Drivetrain extends Subsystem {
 
 		// TODO: put in the actual PID values
 		// this.configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0);
+
+		this.setPositionZero();
 	}
 	
 	public void drive(ControlMode controlMode, double left, double right) {
@@ -54,7 +56,6 @@ public class Drivetrain extends Subsystem {
     public void configPIDF(int profile, double P, double I, double D, double F) {
 	    this.leftPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
 	    this.rightPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
-
     }
 
 	public double getLeftPosition() {
