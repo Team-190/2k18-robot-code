@@ -8,6 +8,9 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import team190.robot.commands.*;
+import team190.robot.subsystems.Elevator;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -29,6 +32,19 @@ public class OI {
 
     Joystick operatorController;
 
+    JoystickButton elevatorUp = new JoystickButton(operatorController, 4);
+    JoystickButton elevatorDown = new JoystickButton(operatorController, 1);
+    JoystickButton elevatorGround = new JoystickButton(operatorController, 5);
+    JoystickButton elevatorRest = new JoystickButton(operatorController, 6);
+    JoystickButton elevatorFiveFt = new JoystickButton(operatorController, 7);
+    JoystickButton elevatorSixFt = new JoystickButton(operatorController, 8);
+    JoystickButton elevatorSevenFt = new JoystickButton(operatorController, 9);
+    JoystickButton elevatorEightFt = new JoystickButton(operatorController, 10);
+
+    JoystickButton intakeCube = new JoystickButton(operatorController, 11);
+    JoystickButton extakeCube = new JoystickButton(operatorController, 12);
+    JoystickButton carriagePlace = new JoystickButton(operatorController, 13);
+
     /**
      * Constructor
      */
@@ -37,6 +53,19 @@ public class OI {
         rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
 
         operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
+
+        elevatorUp.whileHeld(new ElevatorManualMove(0.5));
+        elevatorDown.whileHeld(new ElevatorManualMove(-0.5));
+        elevatorGround.whenPressed(new ElevatorMove(Elevator.GROUND));
+        elevatorRest.whenPressed(new ElevatorMove(Elevator.REST));
+        elevatorFiveFt.whenPressed(new ElevatorMove(Elevator.FIVEFT));
+        elevatorSixFt.whenPressed(new ElevatorMove(Elevator.SIXFT));
+        elevatorSevenFt.whenPressed(new ElevatorMove(Elevator.SEVENFT));
+        elevatorEightFt.whenPressed(new ElevatorMove(Elevator.EIGHTFT));
+
+        intakeCube.whenPressed(new IntakeCube());
+        extakeCube.whenPressed(new ExtakeCube());
+        carriagePlace.whenPressed(new CarriagePlace());
     }
 
     /**

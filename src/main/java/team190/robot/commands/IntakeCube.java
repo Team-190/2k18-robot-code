@@ -1,10 +1,10 @@
-package org.usfirst.frc.team190.robot.commands;
+package team190.robot.commands;
 
-import org.usfirst.frc.team190.robot.Robot;
-import org.usfirst.frc.team190.robot.subsystems.Collector;
-import org.usfirst.frc.team190.robot.subsystems.Collector.IntakeMode;
+
 
 import edu.wpi.first.wpilibj.command.Command;
+import team190.robot.Robot;
+import team190.robot.subsystems.Collector;
 
 /**
  *
@@ -24,7 +24,7 @@ public class IntakeCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.collector.intake(IntakeMode.Intake);
+    	Robot.collector.intake(Collector.IntakeMode.Intake);
     }
 
     // Make this return true when this Command no longer needs to run execute()

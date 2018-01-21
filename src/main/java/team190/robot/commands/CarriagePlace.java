@@ -1,9 +1,10 @@
-package org.usfirst.frc.team190.robot.commands;
+package team190.robot.commands;
 
-import org.usfirst.frc.team190.robot.Robot;
-import org.usfirst.frc.team190.robot.subsystems.Carriage.CarriageMode;
+
 
 import edu.wpi.first.wpilibj.command.Command;
+import team190.robot.Robot;
+import team190.robot.subsystems.Carriage;
 
 /**
  *
@@ -22,7 +23,7 @@ public class CarriagePlace extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.carriage.move(CarriageMode.Place);
+    	Robot.carriage.move(Carriage.CarriageMode.Place);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,12 +33,12 @@ public class CarriagePlace extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.carriage.move(CarriageMode.Stop);
+    	Robot.carriage.move(Carriage.CarriageMode.Stop);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.carriage.move(CarriageMode.Stop);
+    	Robot.carriage.move(Carriage.CarriageMode.Stop);
     }
 }

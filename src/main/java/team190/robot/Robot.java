@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team190.robot.subsystems.Carriage;
-import org.usfirst.frc.team190.robot.subsystems.Collector;
-import org.usfirst.frc.team190.robot.subsystems.Elevator;
+
+import team190.robot.subsystems.Carriage;
+import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
+import team190.robot.subsystems.Elevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
