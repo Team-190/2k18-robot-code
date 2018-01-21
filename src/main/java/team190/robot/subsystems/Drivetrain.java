@@ -23,8 +23,8 @@ public class Drivetrain extends Subsystem {
 	public static final int LOW_GEAR_PROFILE = 0;
 	public static final int HIGH_GEAR_PROFILE = 1;
 	
-	private PairedTalonSRX leftPair = new PairedTalonSRX(0, 1);
-	private PairedTalonSRX rightPair = new PairedTalonSRX(2, 3);
+	public PairedTalonSRX leftPair = new PairedTalonSRX(0, 1);
+	public PairedTalonSRX rightPair = new PairedTalonSRX(2, 3);
 
 	public Drivetrain() {
 		this.leftPair.setInverted(false);
