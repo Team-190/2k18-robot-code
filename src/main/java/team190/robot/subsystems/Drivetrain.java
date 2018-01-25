@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import team190.robot.commands.ControllerDriveCommand;
+import team190.util.PathfinderTranslator;
 
 /**
  *
@@ -108,32 +109,15 @@ public class Drivetrain extends Subsystem {
 	}
 
 	// take your trajectory and stream it the srx's
-    public void fillMotionProfilingBuffer(Trajectory left, Trajectory right) {
-        processTrajectory(leftPair, HIGH_GEAR_PROFILE, left);
-        processTrajectory(rightPair, HIGH_GEAR_PROFILE, right);
+    public void fillMotionProfilingBuffer(TrajectoryPoint[] left, TrajectoryPoint[] right) {
+        processTrajectory(leftPair, left);
+        processTrajectory(rightPair, right);
     }
 
-    private void processTrajectory(PairedTalonSRX pair, int pidfSlot, Trajectory trajectory) {
-        for (int i = 0; i < trajectory.length(); i++) {
-            boolean zeroPos = (i == 0);
-            boolean isLastPoint = ((i+i) == trajectory.length());
-            TrajectoryPoint point = processSegment(trajectory.get(i), pidfSlot, zeroPos, isLastPoint);
-            pair.pushMotionProfileTrajectory(point);
+    private void processTrajectory(PairedTalonSRX pair, TrajectoryPoint[] points) {
+        for (int i = 0; i < points.length; i++) {
+            pair.pushMotionProfileTrajectory(points[i]);
         }
-    }
-
-    private TrajectoryPoint processSegment(Trajectory.Segment seg, int pidfSlot, boolean zeroPos, boolean isLastPoint) {
-        TrajectoryPoint point = new TrajectoryPoint();
-        point.position = seg.position;
-        point.velocity = seg.velocity;
-        point.headingDeg = seg.heading;
-        point.profileSlotSelect0 = pidfSlot;
-        point.profileSlotSelect1 = pidfSlot;
-        point.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_10ms;
-        point.zeroPos = zeroPos;
-        point.isLastPoint = isLastPoint;
-
-        return point;
     }
 
     public SetValueMotionProfile getMotionProfileValue() {

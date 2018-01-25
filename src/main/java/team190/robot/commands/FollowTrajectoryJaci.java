@@ -11,16 +11,12 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 
 import team190.robot.Robot;
+import team190.util.PathfinderTranslator;
 
 import java.io.File;
 
 
 public class FollowTrajectoryJaci extends Command {
-
-
-    private double wheelbase = 2.1;
-    private String csvFile;
-    private String directory = "/home/lvuser/AutosJaci";
 
     // periodically tells the SRXs to do the thing
     private class PeriodicRunnable implements Runnable {
@@ -32,9 +28,8 @@ public class FollowTrajectoryJaci extends Command {
     // Runs the runnable
     private Notifier SrxNotifier = new Notifier(new PeriodicRunnable());
 
-    public FollowTrajectoryJaci(String csvFile) {
+    public FollowTrajectoryJaci() {
         requires(Robot.drivetrain);
-        this.csvFile = csvFile;
     }
 
     // Called just before this Command runs the first time
@@ -48,13 +43,9 @@ public class FollowTrajectoryJaci extends Command {
                 new Waypoint(10, 0, 0)
         };
 
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.05, 14, 10, 60);
-        Trajectory trajectory = Pathfinder.generate(points, config);
+        PathfinderTranslator path = new PathfinderTranslator(points, Robot.drivetrain.HIGH_GEAR_PROFILE);
 
-        TankModifier mod = new TankModifier(trajectory);
-        mod.modify(wheelbase);
-
-        Robot.drivetrain.fillMotionProfilingBuffer(mod.getLeftTrajectory(), mod.getRightTrajectory());
+        Robot.drivetrain.fillMotionProfilingBuffer(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints());
     }
 
     // Called repeatedly when this Command is scheduled to run
