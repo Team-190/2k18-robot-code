@@ -28,10 +28,9 @@ public class PairedTalonSRX extends TalonSRX {
 	}
 
 	public ErrorCode configPIDF(int slotIdx, int timeout, double P, double I, double D, double F) {
-	    ErrorCode errorCode = ErrorCode.OK;
+	    ErrorCode errorCode = config_kP(slotIdx, P, timeout);
 
-	    errorCode = config_kP(slotIdx, P, timeout);
-	    if (errorCode != ErrorCode.OK) { return errorCode; }
+        if (errorCode != ErrorCode.OK) { return errorCode; }
 
 	    errorCode = config_kI(slotIdx, I, timeout);
 	    if (errorCode != ErrorCode.OK) { return errorCode; }
