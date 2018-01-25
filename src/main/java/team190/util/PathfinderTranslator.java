@@ -19,6 +19,11 @@ public class PathfinderTranslator {
 
     private int pidfSlot;
 
+    /**
+     * Generate a Pathfinder Trajectory based upon supplied Waypoints
+     * @param points Array of Pathfinder Waypoints
+     * @param pidfSlot The pidfSlot on the Talon SRX that should be used for motion profiling
+     */
     public PathfinderTranslator(Waypoint points[], int pidfSlot) {
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
                 Trajectory.Config.SAMPLES_HIGH, 0.05, 14, 10, 60);
@@ -33,6 +38,12 @@ public class PathfinderTranslator {
         this.pidfSlot = pidfSlot;
     }
 
+    /**
+     *
+     * @param leftCSV file path for Pathfinder csv left profile
+     * @param rightCSV file path for Pathfinder csv right profile
+     * @param pidfSlot The pidfSlot on the Talon SRX that should be used for motion profiling
+     */
     public PathfinderTranslator(String leftCSV, String rightCSV, int pidfSlot) {
         File left = new File(leftCSV);
         File right = new File(rightCSV);
@@ -42,6 +53,13 @@ public class PathfinderTranslator {
         this.pidfSlot = pidfSlot;
     }
 
+    /**
+     * Convert a Pathfinder segment to an SRX trajectory point
+     * @param seg Pathfinder segment
+     * @param zeroPos Should we zero the SRX encoders (i.e. is it the first point?)
+     * @param isLastPoint Should we hold the position after this point (i.e. is it the last point?)
+     * @return
+     */
     public TrajectoryPoint processSegment(Trajectory.Segment seg, boolean zeroPos, boolean isLastPoint) {
         TrajectoryPoint point = new TrajectoryPoint();
         point.position = seg.position;
@@ -63,6 +81,11 @@ public class PathfinderTranslator {
         return translateTrajectory(rightTraj);
     }
 
+    /**
+     *
+     * @param traj Pathfinder trajectory
+     * @return Array of TrajectoryPoint for SRX
+     */
     public TrajectoryPoint[] translateTrajectory(Trajectory traj) {
         ArrayList<TrajectoryPoint> points = new ArrayList<>();
         for (int i = 0; i < traj.length(); i++) {
