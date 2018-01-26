@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Waypoint;
+import team190.models.AutoSequence;
 import team190.robot.Robot;
 import team190.robot.subsystems.Drivetrain;
 import team190.util.PathfinderTranslator;
@@ -15,8 +16,11 @@ public class FollowTrajectory extends Command {
     // Runs the runnable
     private Notifier SrxNotifier = new Notifier(new PeriodicRunnable());
 
-    public FollowTrajectory() {
+    private AutoSequence sequence;
+
+    public FollowTrajectory(AutoSequence seq) {
         requires(Robot.drivetrain);
+        sequence = seq;
     }
 
     // Called just before this Command runs the first time
@@ -29,7 +33,7 @@ public class FollowTrajectory extends Command {
                 new Waypoint(0, 0, 0),
                 new Waypoint(10, 0, 0)
         };
-
+        // TODO: use the sequence.....
         PathfinderTranslator path = new PathfinderTranslator(points, Drivetrain.HIGH_GEAR_PROFILE);
 
         Robot.drivetrain.fillMotionProfilingBuffer(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints());

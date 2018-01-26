@@ -68,6 +68,7 @@ public class PathfinderTranslator {
      */
     private TrajectoryPoint processSegment(Trajectory.Segment seg, boolean zeroPos, boolean isLastPoint) {
         TrajectoryPoint point = new TrajectoryPoint();
+        // TODO: convert to native units
         point.position = seg.position;
         point.velocity = seg.velocity;
         point.headingDeg = seg.heading;
