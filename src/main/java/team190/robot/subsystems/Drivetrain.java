@@ -29,8 +29,8 @@ public class Drivetrain extends Subsystem {
     private static final int DOWNLOAD_PERIOD_MS = 5;
     public static final double DOWNLOAD_PERIOD_SEC = DOWNLOAD_PERIOD_MS / 1000;
 
-    private PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
-    private PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
+    private final PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
+    private final PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
 
     public Drivetrain() {
         leftPair.setInverted(false);
