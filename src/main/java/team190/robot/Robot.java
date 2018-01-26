@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
         drivetrain = new Drivetrain();
 
         m_oi = new OI();
+        drivetrain.shift(Drivetrain.Gear.LOW);
         //m_chooser.addDefault("Default Auto", null);
         // chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", m_chooser);

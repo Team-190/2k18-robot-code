@@ -6,6 +6,7 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,8 +24,9 @@ public class Drivetrain extends Subsystem {
     // Shifting
     public static final int LOW_GEAR_PROFILE = 0;
     public static final int HIGH_GEAR_PROFILE = 1;
-    public static final int SHIFTER_PDM = 0,
-            SHIFTER_PORT = 0;
+    public static final int SHIFTER_PCM = 0,
+            SHIFTER_FWD_PORT = 0,
+    SHIFTER_REV_PORT = 1;
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
     // Motion Profiling
@@ -37,7 +39,7 @@ public class Drivetrain extends Subsystem {
 
     private final PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
     private final PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
-    private Solenoid shifter = new Solenoid(SHIFTER_PDM, SHIFTER_PORT);
+    private DoubleSolenoid shifter = new DoubleSolenoid(SHIFTER_PCM, SHIFTER_FWD_PORT, SHIFTER_REV_PORT);
 
     public Drivetrain() {
         //leftPair.setInverted(false);
@@ -107,9 +109,9 @@ public class Drivetrain extends Subsystem {
     //Shifts gear
     public void shift(Gear gear) {
         if (gear.equals(Gear.HIGH)) {
-            shifter.set(true);
+            shifter.set(DoubleSolenoid.Value.kForward);
         } else if (gear.equals(Gear.LOW)) {
-            shifter.set(false);
+            shifter.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
