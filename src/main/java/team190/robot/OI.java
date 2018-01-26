@@ -8,6 +8,10 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import team190.robot.commands.Shift;
+import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,8 +31,10 @@ public class OI {
 
     Joystick leftStick;
     Joystick rightStick;
-
+    Button highGear;
+    
     Joystick operatorController;
+
 
     /**
      * Constructor
@@ -36,8 +42,12 @@ public class OI {
     public OI() {
         leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
         rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
+        
+        highGear = new JoystickButton(rightStick,3); 
 
         operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
+        
+        highGear.whenPressed(new Shift(Gear.HIGH));
     }
 
     /**
