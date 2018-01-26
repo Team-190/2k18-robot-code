@@ -36,13 +36,13 @@ public class Drivetrain extends Subsystem {
     private final PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
 
     public Drivetrain() {
-        leftPair.setInverted(false);
+        //leftPair.setInverted(false);
         leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        leftPair.setSensorPhase(false);
+        //leftPair.setSensorPhase(false);
 
         rightPair.setInverted(true);
         rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        rightPair.setSensorPhase(true);
+        //rightPair.setSensorPhase(true);
 
         setCoastMode();
 
