@@ -23,6 +23,7 @@ public class Drivetrain extends Subsystem {
     public static final int HIGH_GEAR_PROFILE = 1;
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
+    
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
     private static final int DOWNLOAD_PERIOD_MS = 5;
@@ -30,9 +31,6 @@ public class Drivetrain extends Subsystem {
 
     private PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
     private PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
-    private SetValueMotionProfile motionProfileValue = SetValueMotionProfile.Disable;
-    private MotionProfileStatus rightStatus = new MotionProfileStatus();
-    private MotionProfileStatus leftStatus = new MotionProfileStatus();
 
     public Drivetrain() {
         this.leftPair.setInverted(false);
@@ -103,14 +101,13 @@ public class Drivetrain extends Subsystem {
     // called before entering motion profiling
     public void prepareMotionProfiling() {
         // TODO: shift high gear
-        motionProfileValue = SetValueMotionProfile.Disable;
         leftPair.setNeutralMode(NeutralMode.Brake);
         rightPair.setNeutralMode(NeutralMode.Brake);
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
         leftPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
         rightPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
-        drive(ControlMode.MotionProfile, motionProfileValue.value, motionProfileValue.value);
+        drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
     }
 
     // take your trajectory and stream it the srx's
@@ -126,6 +123,8 @@ public class Drivetrain extends Subsystem {
     }
 
     public SetValueMotionProfile getMotionProfileValue() {
+        MotionProfileStatus rightStatus = new MotionProfileStatus();
+        MotionProfileStatus leftStatus = new MotionProfileStatus();
         leftPair.getMotionProfileStatus(leftStatus);
         rightPair.getMotionProfileStatus(rightStatus);
         if (leftStatus.isUnderrun || rightStatus.isUnderrun)
@@ -145,15 +144,13 @@ public class Drivetrain extends Subsystem {
 
     // clean up all the motion profiling things
     public void endMotionProfiling() {
-        // TODO: Shift low gear
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
-        leftPair.set(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value);
-        rightPair.set(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value);
-        leftPair.set(ControlMode.PercentOutput, 0);
-        rightPair.set(ControlMode.PercentOutput, 0);
+        drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
+        drive(ControlMode.PercentOutput, 0, 0);
         leftPair.setNeutralMode(NeutralMode.Coast);
         rightPair.setNeutralMode(NeutralMode.Coast);
+        // TODO: Shift low gear
     }
 
 }
