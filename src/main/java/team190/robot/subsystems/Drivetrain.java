@@ -125,7 +125,7 @@ public class Drivetrain extends Subsystem {
 
     // called before entering motion profiling
     public void prepareMotionProfiling() {
-        // TODO: shift high gear
+        shift(Gear.HIGH);
         setBrakeMode();
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
@@ -179,7 +179,7 @@ public class Drivetrain extends Subsystem {
         drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
         drive(ControlMode.PercentOutput, 0, 0);
         setCoastMode();
-        // TODO: Shift low gear
+        shift(Gear.LOW);
     }
 
     public enum Gear {
