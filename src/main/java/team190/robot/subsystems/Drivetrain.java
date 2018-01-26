@@ -23,7 +23,7 @@ public class Drivetrain extends Subsystem {
     public static final int HIGH_GEAR_PROFILE = 1;
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
-    
+
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
     private static final int DOWNLOAD_PERIOD_MS = 5;
@@ -33,28 +33,37 @@ public class Drivetrain extends Subsystem {
     private PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
 
     public Drivetrain() {
-        this.leftPair.setInverted(false);
-        this.leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, DEFAULT_TIMEOUT_MS);
-        this.leftPair.setSensorPhase(false);
+        leftPair.setInverted(false);
+        leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+        leftPair.setSensorPhase(false);
 
-        this.rightPair.setInverted(true);
-        this.rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, DEFAULT_TIMEOUT_MS);
-        this.rightPair.setSensorPhase(true);
+        rightPair.setInverted(true);
+        rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+        rightPair.setSensorPhase(true);
 
-        this.leftPair.setNeutralMode(NeutralMode.Coast);
-        this.rightPair.setNeutralMode(NeutralMode.Coast);
+        setCoastMode();
 
         // TODO: put in the actual PIDF values
-        // this.configPIDF(LOW_GEAR_PROFILE, 0, 0, 0, 0);
-        // this.configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0);
+        // configPIDF(LOW_GEAR_PROFILE, 0, 0, 0, 0);
+        // configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0);
 
-        this.setPositionZero();
+        setPositionZero();
     }
 
     public void drive(ControlMode controlMode, double left, double right) {
-        this.leftPair.set(controlMode, left);
-        this.rightPair.set(controlMode, right);
+        leftPair.set(controlMode, left);
+        rightPair.set(controlMode, right);
         updateSmartDashboard();
+    }
+
+    public void setBrakeMode() {
+        leftPair.setNeutralMode(NeutralMode.Brake);
+        rightPair.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void setCoastMode() {
+        leftPair.setNeutralMode(NeutralMode.Coast);
+        rightPair.setNeutralMode(NeutralMode.Coast);
     }
 
     public void initDefaultCommand() {
@@ -62,29 +71,29 @@ public class Drivetrain extends Subsystem {
     }
 
     public void configPIDF(int profile, double P, double I, double D, double F) {
-        this.leftPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
-        this.rightPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
+        leftPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
+        rightPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
     }
 
     public double getLeftPosition() {
-        return this.leftPair.getSelectedSensorPosition(DEFAULT_PIDX);
+        return leftPair.getSelectedSensorPosition(DEFAULT_PIDX);
     }
 
     public double getRightPosition() {
-        return this.rightPair.getSelectedSensorPosition(DEFAULT_PIDX);
+        return rightPair.getSelectedSensorPosition(DEFAULT_PIDX);
     }
 
     public double getLeftVelocity() {
-        return this.leftPair.getSelectedSensorVelocity(DEFAULT_PIDX);
+        return leftPair.getSelectedSensorVelocity(DEFAULT_PIDX);
     }
 
     public double getRightVelocity() {
-        return this.rightPair.getSelectedSensorVelocity(DEFAULT_PIDX);
+        return rightPair.getSelectedSensorVelocity(DEFAULT_PIDX);
     }
 
     public void setPositionZero() {
-        this.leftPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        this.rightPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+        leftPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+        rightPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         updateSmartDashboard();
     }
 
@@ -101,8 +110,7 @@ public class Drivetrain extends Subsystem {
     // called before entering motion profiling
     public void prepareMotionProfiling() {
         // TODO: shift high gear
-        leftPair.setNeutralMode(NeutralMode.Brake);
-        rightPair.setNeutralMode(NeutralMode.Brake);
+        setBrakeMode();
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
         leftPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
@@ -148,8 +156,7 @@ public class Drivetrain extends Subsystem {
         rightPair.clearMotionProfileTrajectories();
         drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
         drive(ControlMode.PercentOutput, 0, 0);
-        leftPair.setNeutralMode(NeutralMode.Coast);
-        rightPair.setNeutralMode(NeutralMode.Coast);
+        setCoastMode();
         // TODO: Shift low gear
     }
 
