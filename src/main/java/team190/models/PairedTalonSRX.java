@@ -1,51 +1,37 @@
 package team190.models;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class PairedTalonSRX extends TalonSRX {
-	
-	private final TalonSRX follower;
 
-	public PairedTalonSRX(int leaderDeviceNumber, int followerDeviceNumber) {
-		super(leaderDeviceNumber);
-		
-		follower = new TalonSRX(followerDeviceNumber);
-		follower.follow(this);
-	}
-	
-	@Override
-	public void setNeutralMode(NeutralMode neutralMode) {
-		super.setNeutralMode(neutralMode);
-		follower.setNeutralMode(neutralMode);
-	}
-	
-	@Override
-	public void setInverted(boolean invert) {
-		super.setInverted(invert);
-		follower.setInverted(invert);
-	}
+    private final TalonSRX follower;
 
-	public ErrorCode configPIDF(int slotIdx, int timeout, double P, double I, double D, double F) {
-	    ErrorCode errorCode = config_kP(slotIdx, P, timeout);
+    public PairedTalonSRX(int leaderDeviceNumber, int followerDeviceNumber) {
+        super(leaderDeviceNumber);
 
-        if (errorCode != ErrorCode.OK) { return errorCode; }
-
-	    errorCode = config_kI(slotIdx, I, timeout);
-	    if (errorCode != ErrorCode.OK) { return errorCode; }
-
-	    errorCode = config_kD(slotIdx, D, timeout);
-	    if (errorCode != ErrorCode.OK) { return errorCode; }
-
-	    errorCode = config_kF(slotIdx, F, timeout);
-	    if (errorCode != ErrorCode.OK) { return errorCode; }
-
-	    return errorCode;
-
+        follower = new TalonSRX(followerDeviceNumber);
+        follower.follow(this);
     }
 
+    @Override
+    public void setNeutralMode(NeutralMode neutralMode) {
+        super.setNeutralMode(neutralMode);
+        follower.setNeutralMode(neutralMode);
+    }
 
+    @Override
+    public void setInverted(boolean invert) {
+        super.setInverted(invert);
+        follower.setInverted(invert);
+    }
+
+    public void configPIDF(int slotIdx, int timeout, double P, double I, double D, double F) {
+        config_kP(slotIdx, P, timeout);
+        config_kI(slotIdx, I, timeout);
+        config_kD(slotIdx, D, timeout);
+        config_kF(slotIdx, F, timeout);
+    }
 
 
 }

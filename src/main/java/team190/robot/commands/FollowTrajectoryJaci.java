@@ -1,29 +1,16 @@
-
 package team190.robot.commands;
 
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.modifiers.TankModifier;
-
 import team190.robot.Robot;
+import team190.robot.subsystems.Drivetrain;
 import team190.util.PathfinderTranslator;
-
-import java.io.File;
 
 
 public class FollowTrajectoryJaci extends Command {
-
-    // periodically tells the SRXs to do the thing
-    private class PeriodicRunnable implements Runnable {
-        public void run() {
-            Robot.drivetrain.processMotionProfilingBuffer();
-        }
-    }
 
     // Runs the runnable
     private Notifier SrxNotifier = new Notifier(new PeriodicRunnable());
@@ -38,12 +25,12 @@ public class FollowTrajectoryJaci extends Command {
 
         SrxNotifier.startPeriodic(.005);
 
-        Waypoint[] points = new Waypoint[] {
+        Waypoint[] points = new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(10, 0, 0)
         };
 
-        PathfinderTranslator path = new PathfinderTranslator(points, Robot.drivetrain.HIGH_GEAR_PROFILE);
+        PathfinderTranslator path = new PathfinderTranslator(points, Drivetrain.HIGH_GEAR_PROFILE);
 
         Robot.drivetrain.fillMotionProfilingBuffer(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints());
     }
@@ -69,6 +56,13 @@ public class FollowTrajectoryJaci extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
         end();
+    }
+
+    // periodically tells the SRXs to do the thing
+    private class PeriodicRunnable implements Runnable {
+        public void run() {
+            Robot.drivetrain.processMotionProfilingBuffer();
+        }
     }
 
 

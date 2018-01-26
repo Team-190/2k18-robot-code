@@ -19,9 +19,10 @@ public enum AutoPaths {
     ScaleRightCollectCubeTwo,
     ScaleRightPlaceCubeTwo;
 
-    AutoPaths() {}
-
     private String directory = "/home/lvuser/Paths";
+
+    AutoPaths() {
+    }
 
 
 }
