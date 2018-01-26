@@ -34,7 +34,7 @@ public enum AutoSequence {
     ForwardFiveFeet,
     ForwardTenFeet;
 
-    private String directory = "/home/lvuser/Paths";
+    private String directory = "/home/lvuser/Sequences";
 
     public String getLeftCSV() {
         return directory + "/" + name() + "left_detailed.csv";

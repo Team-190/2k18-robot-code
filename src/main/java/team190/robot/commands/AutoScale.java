@@ -13,31 +13,31 @@ public class AutoScale extends CommandGroup {
 
         if (scale.equals(MatchData.OwnedSide.LEFT)) {
             if (start.equals(StartSide.LEFT)) {
-                addSequential(new FollowTrajectory(AutoSequence.StartLeftScaleLeft));
+                addSequential(new FollowSequence(AutoSequence.StartLeftScaleLeft));
             } else if (start.equals(StartSide.RIGHT)) {
-                addSequential(new FollowTrajectory(AutoSequence.StartRightScaleLeft));
+                addSequential(new FollowSequence(AutoSequence.StartRightScaleLeft));
             }
             // Go get and place the first cube
-            addSequential(new FollowTrajectory(AutoSequence.ScaleLeftCollectCubeOne));
-            addSequential(new FollowTrajectory(AutoSequence.ScaleLeftPlaceCubeOne));
+            addSequential(new FollowSequence(AutoSequence.ScaleLeftCollectCubeOne));
+            addSequential(new FollowSequence(AutoSequence.ScaleLeftPlaceCubeOne));
 
             // Go get and place the second cube
-            addSequential(new FollowTrajectory(AutoSequence.ScaleLeftCollectCubeTwo));
-            addSequential(new FollowTrajectory(AutoSequence.ScaleLeftPlaceCubeTwo));
+            addSequential(new FollowSequence(AutoSequence.ScaleLeftCollectCubeTwo));
+            addSequential(new FollowSequence(AutoSequence.ScaleLeftPlaceCubeTwo));
 
         } else if (scale.equals(MatchData.OwnedSide.RIGHT)) {
             if (start.equals(StartSide.LEFT)) {
-                addSequential(new FollowTrajectory(AutoSequence.StartLeftScaleRight));
+                addSequential(new FollowSequence(AutoSequence.StartLeftScaleRight));
             } else if (start.equals(StartSide.RIGHT)) {
-                addSequential(new FollowTrajectory(AutoSequence.StartRightScaleRight));
+                addSequential(new FollowSequence(AutoSequence.StartRightScaleRight));
             }
             // go get and place the first cube
-            addSequential(new FollowTrajectory(AutoSequence.ScaleRightCollectCubeOne));
-            addSequential(new FollowTrajectory(AutoSequence.ScaleRightPlaceCubeOne));
+            addSequential(new FollowSequence(AutoSequence.ScaleRightCollectCubeOne));
+            addSequential(new FollowSequence(AutoSequence.ScaleRightPlaceCubeOne));
 
             // Go get and place the second cube
-            addSequential(new FollowTrajectory(AutoSequence.ScaleRightCollectCubeTwo));
-            addSequential(new FollowTrajectory(AutoSequence.ScaleRightPlaceCubeTwo));
+            addSequential(new FollowSequence(AutoSequence.ScaleRightCollectCubeTwo));
+            addSequential(new FollowSequence(AutoSequence.ScaleRightPlaceCubeTwo));
         }
     }
 

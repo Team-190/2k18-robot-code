@@ -11,14 +11,14 @@ import team190.robot.subsystems.Drivetrain;
 import team190.util.PathfinderTranslator;
 
 
-public class FollowTrajectory extends Command {
+public class FollowSequence extends Command {
 
     // Runs the runnable
     private Notifier SrxNotifier = new Notifier(new PeriodicRunnable());
 
     private AutoSequence sequence;
 
-    public FollowTrajectory(AutoSequence seq) {
+    public FollowSequence(AutoSequence seq) {
         requires(Robot.drivetrain);
         sequence = seq;
     }
