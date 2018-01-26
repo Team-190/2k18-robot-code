@@ -3,7 +3,7 @@ package team190.models;
 /**
  * Created by Kevin O'Brien on 1/25/2018.
  */
-public enum AutoPaths {
+public enum AutoPath {
     StartLeftScaleLeft,
     StartLeftScaleRight,
     StartRightScaleLeft,
@@ -21,8 +21,11 @@ public enum AutoPaths {
 
     private String directory = "/home/lvuser/Paths";
 
-    AutoPaths() {
+    public String getLeftCSV() {
+        return directory + "/" + name() + "left_detailed.csv";
     }
 
-
+    public String getRightCSV() {
+        return directory + "/" + name() + "right_detailed.csv";
+    }
 }

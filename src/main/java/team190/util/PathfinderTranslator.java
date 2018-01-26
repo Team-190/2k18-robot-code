@@ -5,6 +5,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
+import team190.models.AutoPath;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,13 +45,17 @@ public class PathfinderTranslator {
      * @param rightCSV file path for Pathfinder csv right profile
      * @param pidfSlot The pidfSlot on the Talon SRX that should be used for motion profiling
      */
-    public PathfinderTranslator(String leftCSV, String rightCSV, int pidfSlot) {
+    private PathfinderTranslator(String leftCSV, String rightCSV, int pidfSlot) {
         File left = new File(leftCSV);
         File right = new File(rightCSV);
         leftTraj = Pathfinder.readFromCSV(left);
         rightTraj = Pathfinder.readFromCSV(right);
 
         this.pidfSlot = pidfSlot;
+    }
+
+    public PathfinderTranslator(AutoPath path, int pidfSlot) {
+        this(path.getLeftCSV(), path.getRightCSV(), pidfSlot);
     }
 
     /**
