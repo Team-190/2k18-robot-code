@@ -20,6 +20,15 @@ public class PathfinderTranslator {
 
     private int pidfSlot;
 
+    private final double WHEELDIAMETER_FT = 4 / 12; // 4 inch diameter wheels
+    private final double WHEELCIRCUMFERENCE_FT = Math.PI * WHEELDIAMETER_FT;
+    private final double REV_PER_FT = 1 / WHEELCIRCUMFERENCE_FT;
+
+    private final double TICKS_PER_REV = 4096 * 3; // Vex: "Encoder output spins at 3x the speed of the output shaft"
+    private final double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
+
+    private final double HUNDRED_MS_PER_SEC = 10;
+
     /**
      * Generate a Pathfinder Trajectory based upon supplied Waypoints
      *
@@ -68,9 +77,10 @@ public class PathfinderTranslator {
      */
     private TrajectoryPoint processSegment(Trajectory.Segment seg, boolean zeroPos, boolean isLastPoint) {
         TrajectoryPoint point = new TrajectoryPoint();
-        // TODO: convert to native units
-        point.position = seg.position;
-        point.velocity = seg.velocity;
+        // convert from feet to Native Units
+        point.position = seg.position * TICKS_PER_FT;
+        // convert from feet/s to native units / 100ms
+        point.velocity = seg.velocity * TICKS_PER_FT * HUNDRED_MS_PER_SEC;
         point.headingDeg = seg.heading;
         point.profileSlotSelect0 = pidfSlot;
         point.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_10ms;
