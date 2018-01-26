@@ -10,12 +10,12 @@ import team190.robot.subsystems.Drivetrain;
 import team190.util.PathfinderTranslator;
 
 
-public class FollowTrajectoryJaci extends Command {
+public class FollowTrajectory extends Command {
 
     // Runs the runnable
     private Notifier SrxNotifier = new Notifier(new PeriodicRunnable());
 
-    public FollowTrajectoryJaci() {
+    public FollowTrajectory() {
         requires(Robot.drivetrain);
     }
 
