@@ -6,6 +6,7 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.PairedTalonSRX;
@@ -24,8 +25,16 @@ public class Drivetrain extends Subsystem {
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
 
+    // Shifting
+    public static final int LOW_GEAR_PROFILE = 0;
+    public static final int HIGH_GEAR_PROFILE = 1;
+    public static final int SHIFTER_PDM = 0,
+            SHIFTER_PORT = 0;
+
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
+
+    private static final int DEFAULT_TIMEOUT_MS = 10;
 
     private static final int TRAJECTORY_PERIOD_MS = 10;
     private static final int TRAJECTORY_PERIOD_SEC = TRAJECTORY_PERIOD_MS / 1000;
@@ -34,6 +43,7 @@ public class Drivetrain extends Subsystem {
 
     private final PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
     private final PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
+    private Solenoid shifter = new Solenoid(SHIFTER_PDM, SHIFTER_PORT);
 
     public Drivetrain() {
         //leftPair.setInverted(false);
@@ -98,6 +108,15 @@ public class Drivetrain extends Subsystem {
         leftPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         rightPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         updateSmartDashboard();
+    }
+
+    //Shifts gear
+    public void shift(Gear gear) {
+        if (gear.equals(Gear.HIGH)) {
+            shifter.set(true);
+        } else if (gear.equals(Gear.LOW)) {
+            shifter.set(false);
+        }
     }
 
     public void updateSmartDashboard() {
@@ -167,6 +186,10 @@ public class Drivetrain extends Subsystem {
         drive(ControlMode.PercentOutput, 0, 0);
         setCoastMode();
         // TODO: Shift low gear
+    }
+
+    public enum Gear {
+        HIGH, LOW;
     }
 
 }
