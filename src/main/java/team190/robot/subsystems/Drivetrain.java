@@ -25,6 +25,9 @@ public class Drivetrain extends Subsystem {
     private static final int DEFAULT_PIDX = 0;
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
+    private static final int DOWNLOAD_PERIOD_MS = 5;
+    public static final double DOWNLOAD_PERIOD_SEC = DOWNLOAD_PERIOD_MS / 1000;
+
     private PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
     private PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
     private SetValueMotionProfile motionProfileValue = SetValueMotionProfile.Disable;
@@ -105,8 +108,8 @@ public class Drivetrain extends Subsystem {
         rightPair.setNeutralMode(NeutralMode.Brake);
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
-        leftPair.changeMotionControlFramePeriod(5);
-        rightPair.changeMotionControlFramePeriod(5);
+        leftPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
+        rightPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
         drive(ControlMode.MotionProfile, motionProfileValue.value, motionProfileValue.value);
     }
 

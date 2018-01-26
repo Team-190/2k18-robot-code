@@ -27,7 +27,7 @@ public class FollowSequence extends Command {
     protected void initialize() {
         Robot.drivetrain.prepareMotionProfiling();
 
-        SrxNotifier.startPeriodic(.005);
+        SrxNotifier.startPeriodic(Drivetrain.DOWNLOAD_PERIOD_SEC);
 
         Waypoint[] points = new Waypoint[]{
                 new Waypoint(0, 0, 0),
