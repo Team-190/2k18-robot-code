@@ -32,6 +32,7 @@ public class OI {
     Joystick leftStick;
     Joystick rightStick;
     Button highGear;
+    Button lowGear;
     
     Joystick operatorController;
 
@@ -48,6 +49,7 @@ public class OI {
         operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
         
         highGear.whenPressed(new Shift(Gear.HIGH));
+        lowGear.whenPressed(new Shift(Gear.LOW));
     }
 
     /**
