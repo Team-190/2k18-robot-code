@@ -4,6 +4,8 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import team190.models.PairedTalonSRX;
 
@@ -28,8 +30,8 @@ public class Drivetrain extends Subsystem {
 	public static final int LOW_GEAR_PROFILE = 0;
 	public static final int HIGH_GEAR_PROFILE = 1;
 	
-	public PairedTalonSRX leftPair = new PairedTalonSRX(0, 1);
-	public PairedTalonSRX rightPair = new PairedTalonSRX(2, 3);
+	public PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
+	public PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
 
 	// Motion Profiling
     public static final int kMinPointsInTalon = 5;
@@ -59,6 +61,7 @@ public class Drivetrain extends Subsystem {
 	public void drive(ControlMode controlMode, double left, double right) {
 		this.leftPair.set(controlMode, left);
 		this.rightPair.set(controlMode, right);
+		updateSmartDashboard();
 	}
 
     public void initDefaultCommand() {
@@ -89,8 +92,15 @@ public class Drivetrain extends Subsystem {
     public void setPositionZero() {
 	    this.leftPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 	    this.rightPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+	    updateSmartDashboard();
     }
 
+    public void updateSmartDashboard() {
+        SmartDashboard.putNumber("Left Encoder Pos", getLeftPosition());
+        SmartDashboard.putNumber("Right Encoder Pos", getRightPosition());
+        SmartDashboard.putNumber("Left Encoder Vel", getLeftVelocity());
+        SmartDashboard.putNumber("Right Encoder Vel", getRightVelocity());
+    }
 
     // MOTION PROFILING METHODS
 
@@ -150,8 +160,6 @@ public class Drivetrain extends Subsystem {
         leftPair.setNeutralMode(NeutralMode.Coast);
         rightPair.setNeutralMode(NeutralMode.Coast);
     }
-
-
-
+    
 }
 
