@@ -5,6 +5,7 @@ import team190.models.PairedTalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import team190.robot.commands.ControllerDriveCommand;
 
@@ -21,10 +22,24 @@ public class Drivetrain extends Subsystem {
 	public static final int LOW_GEAR_PROFILE = 0;
 	public static final int HIGH_GEAR_PROFILE = 1;
 	
-	private PairedTalonSRX leftPair = new PairedTalonSRX(0, 1);
-	private PairedTalonSRX rightPair = new PairedTalonSRX(2, 3);
+	public static final int SHIFTER_PDM = 0,
+			SHIFTER_PORT = 0;
+	public enum Gear{
+		HIGH, LOW;
+	}
+	public static final boolean SHIFTER_HIGH = true;
+	
+	private PairedTalonSRX leftPair;
+	private PairedTalonSRX rightPair;
 
+	private Solenoid shifter;
+	
 	public Drivetrain() {
+		leftPair = new PairedTalonSRX(0, 1);
+		rightPair = new PairedTalonSRX(2, 3);
+		
+		shifter = new Solenoid(SHIFTER_PDM, SHIFTER_PORT);
+		
 		this.leftPair.setInverted(false);
 		this.leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, DEFAULT_TIMEOUT_MS);
 		this.leftPair.setSensorPhase(false);
@@ -34,14 +49,23 @@ public class Drivetrain extends Subsystem {
 		this.rightPair.setSensorPhase(true);
 	}
 	
+	 public void initDefaultCommand() {
+			setDefaultCommand(new ControllerDriveCommand());
+	 }
+	 
+	 //Shifts gear
+	 public void shift(Gear gear) {
+		 if (gear.equals(Gear.HIGH)) {
+			 shifter.set(SHIFTER_HIGH);
+		 } else if (gear.equals(Gear.LOW)) {
+			 shifter.set(!SHIFTER_HIGH);
+		 }
+	 }
+	
 	public void drive(ControlMode controlMode, double left, double right) {
 		this.leftPair.set(controlMode, left);
 		this.rightPair.set(controlMode, right);
 	}
-	
-	
-    public void initDefaultCommand() {
-		setDefaultCommand(new ControllerDriveCommand());
-    }
+  
 }
 
