@@ -20,21 +20,15 @@ public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    public static final int LOW_GEAR_PROFILE = 0;
-    public static final int HIGH_GEAR_PROFILE = 1;
-    private static final int DEFAULT_TIMEOUT_MS = 0;
-    private static final int DEFAULT_PIDX = 0;
-
     // Shifting
     public static final int LOW_GEAR_PROFILE = 0;
     public static final int HIGH_GEAR_PROFILE = 1;
     public static final int SHIFTER_PDM = 0,
             SHIFTER_PORT = 0;
-
+    private static final int DEFAULT_TIMEOUT_MS = 0;
+    private static final int DEFAULT_PIDX = 0;
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
-
-    private static final int DEFAULT_TIMEOUT_MS = 10;
 
     private static final int TRAJECTORY_PERIOD_MS = 10;
     private static final int TRAJECTORY_PERIOD_SEC = TRAJECTORY_PERIOD_MS / 1000;

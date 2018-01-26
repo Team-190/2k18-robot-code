@@ -15,19 +15,15 @@ import java.util.ArrayList;
  */
 public class PathfinderTranslator {
 
-    private Trajectory leftTraj;
-    private Trajectory rightTraj;
-
-    private int pidfSlot;
-
     private final double WHEELDIAMETER_FT = 4 / 12; // 4 inch diameter wheels
     private final double WHEELCIRCUMFERENCE_FT = Math.PI * WHEELDIAMETER_FT;
     private final double REV_PER_FT = 1 / WHEELCIRCUMFERENCE_FT;
-
     private final double TICKS_PER_REV = 4096 * 3; // Vex: "Encoder output spins at 3x the speed of the output shaft"
     private final double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
-
     private final double HUNDRED_MS_PER_SEC = 10;
+    private Trajectory leftTraj;
+    private Trajectory rightTraj;
+    private int pidfSlot;
 
     /**
      * Generate a Pathfinder Trajectory based upon supplied Waypoints
