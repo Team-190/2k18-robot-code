@@ -5,7 +5,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
-import team190.models.AutoPath;
+import team190.models.AutoSequence;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class PathfinderTranslator {
         this.pidfSlot = pidfSlot;
     }
 
-    public PathfinderTranslator(AutoPath path, int pidfSlot) {
+    public PathfinderTranslator(AutoSequence path, int pidfSlot) {
         this(path.getLeftCSV(), path.getRightCSV(), pidfSlot);
     }
 
