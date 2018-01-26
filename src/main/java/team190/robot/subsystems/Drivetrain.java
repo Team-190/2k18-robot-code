@@ -26,7 +26,10 @@ public class Drivetrain extends Subsystem {
 
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
-    private static final int DOWNLOAD_PERIOD_MS = 5;
+
+    private static final int TRAJECTORY_PERIOD_MS = 10;
+    private static final int TRAJECTORY_PERIOD_SEC = TRAJECTORY_PERIOD_MS / 1000;
+    private static final int DOWNLOAD_PERIOD_MS = TRAJECTORY_PERIOD_MS / 2; // Download points at twice the speed
     public static final double DOWNLOAD_PERIOD_SEC = DOWNLOAD_PERIOD_MS / 1000;
 
     private final PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
@@ -113,9 +116,15 @@ public class Drivetrain extends Subsystem {
         setBrakeMode();
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
+
+        drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
+    }
+
+    public void configUpdateRate() {
+        leftPair.configMotionProfileTrajectoryPeriod(TRAJECTORY_PERIOD_MS, DEFAULT_TIMEOUT_MS);
+        rightPair.configMotionProfileTrajectoryPeriod(TRAJECTORY_PERIOD_MS, DEFAULT_TIMEOUT_MS);
         leftPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
         rightPair.changeMotionControlFramePeriod(DOWNLOAD_PERIOD_MS);
-        drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
     }
 
     // take your trajectory and stream it the srx's
