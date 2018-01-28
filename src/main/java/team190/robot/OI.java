@@ -44,7 +44,8 @@ public class OI {
         leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
         rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
         
-        highGear = new JoystickButton(rightStick,3); 
+        highGear = new JoystickButton(rightStick,3);
+        lowGear = new JoystickButton(rightStick, 4);
 
         operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
         
