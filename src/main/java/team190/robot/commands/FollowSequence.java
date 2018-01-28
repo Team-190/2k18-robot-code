@@ -29,12 +29,7 @@ public class FollowSequence extends Command {
 
         SrxNotifier.startPeriodic(Drivetrain.DOWNLOAD_PERIOD_SEC);
 
-        Waypoint[] points = new Waypoint[]{
-                new Waypoint(0, 0, 0),
-                new Waypoint(10, 0, 0)
-        };
-        // TODO: use the sequence.....
-        PathfinderTranslator path = new PathfinderTranslator(points, Drivetrain.HIGH_GEAR_PROFILE);
+        PathfinderTranslator path = new PathfinderTranslator(sequence, Drivetrain.HIGH_GEAR_PROFILE);
 
         Robot.drivetrain.fillMotionProfilingBuffer(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints());
     }
