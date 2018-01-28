@@ -42,6 +42,7 @@ public class Drivetrain extends Subsystem {
     private DoubleSolenoid shifter = new DoubleSolenoid(SHIFTER_PCM, SHIFTER_FWD_PORT, SHIFTER_REV_PORT);
 
     public Drivetrain() {
+        shift(Gear.LOW);
         //leftPair.setInverted(false);
         leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         //leftPair.setSensorPhase(false);
@@ -131,6 +132,8 @@ public class Drivetrain extends Subsystem {
         setBrakeMode();
         leftPair.clearMotionProfileTrajectories();
         rightPair.clearMotionProfileTrajectories();
+
+        configUpdateRate();
 
         drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
     }
