@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.PairedTalonSRX;
@@ -26,7 +25,7 @@ public class Drivetrain extends Subsystem {
     public static final int HIGH_GEAR_PROFILE = 1;
     public static final int SHIFTER_PCM = 0,
             SHIFTER_FWD_PORT = 0,
-    SHIFTER_REV_PORT = 1;
+            SHIFTER_REV_PORT = 1;
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
     // Motion Profiling
