@@ -8,9 +8,10 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import team190.robot.commands.*;
-import team190.robot.subsystems.Elevator;
+import team190.robot.commands.Shift;
+import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -21,14 +22,16 @@ public class OI {
 
     // Ports for controllers
     private static final int PORT_DRIVER_JOYSTICK_1 = 0,
-                             PORT_DRIVER_JOYSTICK_2 = 1,
-                             PORT_OPERATOR_CONTROLLER = 3;
+            PORT_DRIVER_JOYSTICK_2 = 1,
+            PORT_OPERATOR_CONTROLLER = 3;
 
     // Buttons for the operator
     private static final int BUTTON_EXAMPLE_ACTION = 0;
 
     Joystick leftStick;
     Joystick rightStick;
+    Button highGear;
+    Button lowGear;
 
     Joystick operatorController;
 
@@ -45,6 +48,7 @@ public class OI {
     JoystickButton extakeCube = new JoystickButton(operatorController, 12);
     JoystickButton carriagePlace = new JoystickButton(operatorController, 13);
 
+
     /**
      * Constructor
      */
@@ -52,7 +56,13 @@ public class OI {
         leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
         rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
 
+        highGear = new JoystickButton(rightStick,3);
+        lowGear = new JoystickButton(rightStick, 4);
+
         operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
+
+        highGear.whenPressed(new Shift(Gear.HIGH));
+        lowGear.whenPressed(new Shift(Gear.LOW));
 
         elevatorUp.whileHeld(new ElevatorManualMove(0.5));
         elevatorDown.whileHeld(new ElevatorManualMove(-0.5));
@@ -70,6 +80,7 @@ public class OI {
 
     /**
      * Get the value of the left Y axis
+     *
      * @return Left Y axis (0.0 to 1.0)
      */
     public double getLeftY() {
@@ -78,6 +89,7 @@ public class OI {
 
     /**
      * Get the value of the right Y axis
+     *
      * @return Right Y axis (0.0 to 1.0)
      */
     public double getRightY() {
