@@ -58,9 +58,7 @@ public class OI {
      *
      * @return Left Y axis (0.0 to 1.0)
      */
-    public double getLeftY() {
-        return leftStick.getY();
-    }
+    public double getLeftY() { return leftStick.getY() * -1.0; }
 
     /**
      * Get the value of the right Y axis
@@ -68,6 +66,6 @@ public class OI {
      * @return Right Y axis (0.0 to 1.0)
      */
     public double getRightY() {
-        return rightStick.getY();
+        return rightStick.getY() * -1.0;
     }
 }

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.AutoSequence;
 import team190.robot.commands.FollowSequence;
+import team190.robot.commands.TestVelocityControl;
 import team190.robot.commands.ZeroEncoders;
 import team190.robot.subsystems.Drivetrain;
 
@@ -46,6 +47,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Drive 10 Feet", new FollowSequence(AutoSequence.ForwardTenFeet));
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Auto mode", m_chooser);
+        SmartDashboard.putData("Velocity Control Test", new TestVelocityControl());
     }
 
     /**

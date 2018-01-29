@@ -42,11 +42,11 @@ public class Drivetrain extends Subsystem {
 
     public Drivetrain() {
         shift(Gear.LOW);
-        //leftPair.setInverted(false);
+        leftPair.setInverted(true);
         leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         //leftPair.setSensorPhase(false);
 
-        rightPair.setInverted(true);
+        //rightPair.setInverted(false);
         rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         //rightPair.setSensorPhase(true);
 
