@@ -15,14 +15,15 @@ import java.util.ArrayList;
  */
 public class PathfinderTranslator {
 
-    private final double WHEELDIAMETER_FT = 4 / 12; // 4 inch diameter wheels
-    private final double WHEELCIRCUMFERENCE_FT = Math.PI * WHEELDIAMETER_FT;
-    private final double REV_PER_FT = 1 / WHEELCIRCUMFERENCE_FT;
-    private final double TICKS_PER_REV = 4096 * 3; // Vex: "Encoder output spins at 3x the speed of the output shaft"
-    private final double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
-    private final double HUNDRED_MS_PER_SEC = 10;
+    private double WHEELDIAMETER_FT = 4.0 / 12.0; // 4 inch diameter wheels
+    private double WHEELCIRCUMFERENCE_FT = 3.14 * WHEELDIAMETER_FT;
+    private double REV_PER_FT = 1.0 / WHEELCIRCUMFERENCE_FT;
+    private double TICKS_PER_REV = 1024.0 * 3.0 * (50.0/34.0); // Encoder PPR: 256 (*4 for quadrature), Vex: "Encoder output spins at 3x the speed of the output shaft", "then a 50:34 reduction"
+    private double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
+    private double HUNDRED_MS_PER_SEC = 10.0;
     private Trajectory leftTraj;
     private Trajectory rightTraj;
+    private TrajectoryPoint trajPoint = new TrajectoryPoint();
     private int pidfSlot;
 
     /**
@@ -33,11 +34,11 @@ public class PathfinderTranslator {
      */
     public PathfinderTranslator(Waypoint points[], int pidfSlot) {
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
-                Trajectory.Config.SAMPLES_HIGH, 0.05, 14, 10, 60);
+                Trajectory.Config.SAMPLES_HIGH, 0.01, 5, 10, 60);
         Trajectory trajectory = Pathfinder.generate(points, config);
 
         TankModifier mod = new TankModifier(trajectory);
-        mod.modify(2.1); //wheelbase
+        mod.modify(2.15); //wheelbase
 
         leftTraj = mod.getLeftTrajectory();
         rightTraj = mod.getRightTrajectory();
@@ -72,18 +73,17 @@ public class PathfinderTranslator {
      * @return a trajectory point for the talon srx
      */
     private TrajectoryPoint processSegment(Trajectory.Segment seg, boolean zeroPos, boolean isLastPoint) {
-        TrajectoryPoint point = new TrajectoryPoint();
         // convert from feet to Native Units
-        point.position = seg.position * TICKS_PER_FT;
+        trajPoint.position = seg.position * TICKS_PER_FT;
         // convert from feet/s to native units / 100ms
-        point.velocity = seg.velocity * TICKS_PER_FT * HUNDRED_MS_PER_SEC;
-        point.headingDeg = seg.heading;
-        point.profileSlotSelect0 = pidfSlot;
-        point.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_10ms;
-        point.zeroPos = zeroPos;
-        point.isLastPoint = isLastPoint;
+        trajPoint.velocity = seg.velocity * TICKS_PER_FT * HUNDRED_MS_PER_SEC;
+        trajPoint.headingDeg = seg.heading;
+        trajPoint.profileSlotSelect0 = pidfSlot;
+        trajPoint.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_10ms;
+        trajPoint.zeroPos = zeroPos;
+        trajPoint.isLastPoint = isLastPoint;
 
-        return point;
+        return trajPoint;
     }
 
     public TrajectoryPoint[] getLeftTrajectoryPoints() {
@@ -106,6 +106,6 @@ public class PathfinderTranslator {
             TrajectoryPoint point = processSegment(traj.get(i), zeroPos, isLastPoint);
             points.add(point);
         }
-        return (TrajectoryPoint[]) points.toArray();
+        return points.toArray(new TrajectoryPoint[points.size()]);
     }
 }

@@ -29,7 +29,15 @@ public class FollowSequence extends Command {
 
         SrxNotifier.startPeriodic(Drivetrain.DOWNLOAD_PERIOD_SEC);
 
-        PathfinderTranslator path = new PathfinderTranslator(sequence, Drivetrain.HIGH_GEAR_PROFILE);
+        Waypoint[] points = new Waypoint[] {
+                new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+                new Waypoint(10, 0, 0)
+        };
+
+
+        //PathfinderTranslator path = new PathfinderTranslator(sequence, Drivetrain.HIGH_GEAR_PROFILE);
+
+        PathfinderTranslator path = new PathfinderTranslator(points, Drivetrain.HIGH_GEAR_PROFILE);
 
         Robot.drivetrain.fillMotionProfilingBuffer(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints());
     }
@@ -37,6 +45,7 @@ public class FollowSequence extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         SetValueMotionProfile motionProfileValue = Robot.drivetrain.getMotionProfileValue();
+        System.out.println("motion profile value" + motionProfileValue);
         Robot.drivetrain.drive(ControlMode.MotionProfile, motionProfileValue.value, motionProfileValue.value);
     }
 

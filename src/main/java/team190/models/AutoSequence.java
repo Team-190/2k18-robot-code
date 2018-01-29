@@ -37,10 +37,10 @@ public enum AutoSequence {
     private final String directory = "/home/lvuser/sequences";
 
     public String getLeftCSV() {
-        return directory + "/" + name() + "left_detailed.csv";
+        return directory + "/" + name() + "_left_detailed.csv";
     }
 
     public String getRightCSV() {
-        return directory + "/" + name() + "right_detailed.csv";
+        return directory + "/" + name() + "_right_detailed.csv";
     }
 }

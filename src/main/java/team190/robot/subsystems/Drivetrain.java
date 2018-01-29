@@ -32,12 +32,12 @@ public class Drivetrain extends Subsystem {
     private static final int kMinPointsInTalon = 5;
 
     private static final int TRAJECTORY_PERIOD_MS = 10;
-    private static final int TRAJECTORY_PERIOD_SEC = TRAJECTORY_PERIOD_MS / 1000;
-    private static final int DOWNLOAD_PERIOD_MS = TRAJECTORY_PERIOD_MS / 2; // Download points at twice the speed
-    public static final double DOWNLOAD_PERIOD_SEC = DOWNLOAD_PERIOD_MS / 1000;
+    private static final double TRAJECTORY_PERIOD_SEC = (double)TRAJECTORY_PERIOD_MS / 1000;
+    public static final int DOWNLOAD_PERIOD_MS = TRAJECTORY_PERIOD_MS / 2; // Download points at twice the speed
+    public static final double DOWNLOAD_PERIOD_SEC = (double)DOWNLOAD_PERIOD_MS / 1000;
 
-    private final PairedTalonSRX leftPair = new PairedTalonSRX(3, 1);
-    private final PairedTalonSRX rightPair = new PairedTalonSRX(2, 0);
+    private final PairedTalonSRX leftPair = new PairedTalonSRX(0, 2);
+    private final PairedTalonSRX rightPair = new PairedTalonSRX(6, 5);
     private DoubleSolenoid shifter = new DoubleSolenoid(SHIFTER_PCM, SHIFTER_FWD_PORT, SHIFTER_REV_PORT);
 
     public Drivetrain() {
@@ -54,7 +54,7 @@ public class Drivetrain extends Subsystem {
 
         // TODO: put in the actual PIDF values
         // configPIDF(LOW_GEAR_PROFILE, 0, 0, 0, 0);
-        // configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0);
+        configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0.1425);
 
         setPositionZero();
     }
@@ -161,12 +161,20 @@ public class Drivetrain extends Subsystem {
         MotionProfileStatus leftStatus = new MotionProfileStatus();
         leftPair.getMotionProfileStatus(leftStatus);
         rightPair.getMotionProfileStatus(rightStatus);
-        if (leftStatus.isUnderrun || rightStatus.isUnderrun)
+        if (leftStatus.isUnderrun || rightStatus.isUnderrun) {
+            System.out.println("We are underrun");
             return SetValueMotionProfile.Disable;
-        else if (leftStatus.btmBufferCnt > kMinPointsInTalon && rightStatus.btmBufferCnt > kMinPointsInTalon)
+        }
+        else if (leftStatus.btmBufferCnt > kMinPointsInTalon && rightStatus.btmBufferCnt > kMinPointsInTalon) {
+            System.out.println("Cool we're enabling");
             return SetValueMotionProfile.Enable;
-        else if (leftStatus.activePointValid && leftStatus.isLast && rightStatus.activePointValid && rightStatus.isLast)
+        }
+
+        else if (leftStatus.activePointValid && leftStatus.isLast && rightStatus.activePointValid && rightStatus.isLast) {
+            System.out.println("We are holding");
             return SetValueMotionProfile.Hold;
+        }
+
         else
             return SetValueMotionProfile.Disable;
     }
