@@ -1,4 +1,4 @@
-package team190.robot.commands;
+package team190.robot.commands.collector;
 
 
 
@@ -9,30 +9,26 @@ import team190.robot.subsystems.Collector;
 /**
  *
  */
-public class ExtakeCube extends Command {
+public class CollectorIntake extends Command {
 
-    public ExtakeCube() {
+    public CollectorIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.collector);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+    protected void initialize() { }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.collector.intake(Collector.IntakeMode.Extake);
+    	Robot.collector.intake(Collector.IntakeMode.Intake);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !Robot.collector.cubeGrabbed();
+        return Robot.collector.cubeGrabbed(); // TODO maybe also finish if a cube is detected in the carriage?
     }
-
-    //TODO: end, interrupt?
-    
     // Called once after isFinished returns true
     protected void end() {
     	Robot.collector.intake(Collector.IntakeMode.Stop);
@@ -43,5 +39,4 @@ public class ExtakeCube extends Command {
     protected void interrupted() {
     	Robot.collector.intake(Collector.IntakeMode.Stop);
     }
-    
 }
