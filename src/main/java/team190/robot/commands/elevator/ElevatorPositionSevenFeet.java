@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ElevatorPositionSevenFeet extends Command {
 
     public ElevatorPositionSevenFeet() {
-        // requires...
+        // requires elevator (control), intake & carriage (to ensure they don't spin while running)
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ElevatorPositionSevenFeet extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return false; // TODO return true when elevator is at position
     }
 
     @Override

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ElevatorPositionIntake extends Command {
 
     public ElevatorPositionIntake() {
-        // requires...
+        // requires elevator (control), intake & carriage (to ensure they don't spin while running)
     }
 
     @Override
