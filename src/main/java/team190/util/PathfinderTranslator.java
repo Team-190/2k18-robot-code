@@ -70,7 +70,7 @@ public class PathfinderTranslator {
     private TrajectoryPoint processSegment(Trajectory.Segment seg, boolean zeroPos, boolean isLastPoint) {
         TrajectoryPoint trajPoint = new TrajectoryPoint();
         // convert from feet to Native Units
-        trajPoint.position = seg.position * Drivetrain.TICKS_PER_FT;
+        trajPoint.position = Drivetrain.feetToTicks(seg.position);
         // convert from feet/s to native units / 100ms
         trajPoint.velocity = Drivetrain.feetPerSecToTicksPerHundredMs(seg.velocity);
         trajPoint.headingDeg = seg.heading;
