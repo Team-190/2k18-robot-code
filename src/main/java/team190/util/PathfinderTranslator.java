@@ -6,6 +6,7 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 import team190.models.AutoSequence;
+import team190.robot.subsystems.Drivetrain;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,15 +16,9 @@ import java.util.ArrayList;
  */
 public class PathfinderTranslator {
 
-    private double WHEELDIAMETER_FT = 4.0 / 12.0; // 4 inch diameter wheels
-    private double WHEELCIRCUMFERENCE_FT = 3.14 * WHEELDIAMETER_FT;
-    private double REV_PER_FT = 1.0 / WHEELCIRCUMFERENCE_FT;
-    private double TICKS_PER_REV = 1024.0 * 3.0 * (50.0/34.0); // Encoder PPR: 256 (*4 for quadrature), Vex: "Encoder output spins at 3x the speed of the output shaft", "then a 50:34 reduction"
-    private double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
-    private double HUNDRED_MS_PER_SEC = 10.0;
+
     private Trajectory leftTraj;
     private Trajectory rightTraj;
-    private TrajectoryPoint trajPoint = new TrajectoryPoint();
     private int pidfSlot;
 
     /**
@@ -73,16 +68,16 @@ public class PathfinderTranslator {
      * @return a trajectory point for the talon srx
      */
     private TrajectoryPoint processSegment(Trajectory.Segment seg, boolean zeroPos, boolean isLastPoint) {
+        TrajectoryPoint trajPoint = new TrajectoryPoint();
         // convert from feet to Native Units
-        trajPoint.position = seg.position * TICKS_PER_FT;
+        trajPoint.position = seg.position * Drivetrain.TICKS_PER_FT;
         // convert from feet/s to native units / 100ms
-        trajPoint.velocity = seg.velocity * TICKS_PER_FT * HUNDRED_MS_PER_SEC;
+        trajPoint.velocity = Drivetrain.feetPerSecToTicksPerHundredMs(seg.velocity);
         trajPoint.headingDeg = seg.heading;
         trajPoint.profileSlotSelect0 = pidfSlot;
         trajPoint.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_10ms;
         trajPoint.zeroPos = zeroPos;
         trajPoint.isLastPoint = isLastPoint;
-
         return trajPoint;
     }
 
@@ -102,7 +97,7 @@ public class PathfinderTranslator {
         ArrayList<TrajectoryPoint> points = new ArrayList<>();
         for (int i = 0; i < traj.length(); i++) {
             boolean zeroPos = (i == 0);
-            boolean isLastPoint = ((i + i) == traj.length());
+            boolean isLastPoint = ((i + 1) == traj.length());
             TrajectoryPoint point = processSegment(traj.get(i), zeroPos, isLastPoint);
             points.add(point);
         }

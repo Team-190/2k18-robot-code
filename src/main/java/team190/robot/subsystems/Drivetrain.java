@@ -36,6 +36,13 @@ public class Drivetrain extends Subsystem {
     public static final int DOWNLOAD_PERIOD_MS = TRAJECTORY_PERIOD_MS / 2; // Download points at twice the speed
     public static final double DOWNLOAD_PERIOD_SEC = (double)DOWNLOAD_PERIOD_MS / 1000;
 
+    public static double WHEELDIAMETER_FT = 4.0 / 12.0; // 4 inch diameter wheels
+    public static double WHEELCIRCUMFERENCE_FT = Math.PI * WHEELDIAMETER_FT;
+    public static double REV_PER_FT = 1.0 / WHEELCIRCUMFERENCE_FT;
+    public static double TICKS_PER_REV = 1024.0 * 3.0 * (50.0 / 34.0); // Encoder PPR: 256 (*4 for quadrature), Vex: "Encoder output spins at 3x the speed of the output shaft", "then a 50:34 reduction"
+    public static double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
+    public static double HUNDRED_MS_PER_SEC = 10.0;
+
     private final PairedTalonSRX leftPair = new PairedTalonSRX(0, 2);
     private final PairedTalonSRX rightPair = new PairedTalonSRX(6, 5);
     private DoubleSolenoid shifter = new DoubleSolenoid(SHIFTER_PCM, SHIFTER_FWD_PORT, SHIFTER_REV_PORT);
@@ -48,6 +55,7 @@ public class Drivetrain extends Subsystem {
 
         //rightPair.setInverted(false);
         rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+        rightPair.setSensorPhase(true);
         //rightPair.setSensorPhase(true);
 
         setCoastMode();
@@ -151,7 +159,20 @@ public class Drivetrain extends Subsystem {
     }
 
     private void processTrajectory(PairedTalonSRX pair, TrajectoryPoint[] points) {
-        for (TrajectoryPoint point : points) {
+        System.out.println("Loading the points into the top level buffer");
+        for (int i = 0; i < points.length; i++) {
+            TrajectoryPoint point = points[i];
+            StringBuilder sb = new StringBuilder();
+            sb.append("Loading point :" + i);
+            sb.append(" Time duration: " + point.timeDur.name());
+            sb.append(" PIDF Slot: " + point.profileSlotSelect0);
+            sb.append(" Velocity Native: " + point.velocity);
+            sb.append(" Velocity ft/s: " + TicksPerHundredMsToFeetPerSec(point.velocity));
+            sb.append(" Position Native: " + point.position);
+            sb.append(" Positiion ft: " + TicksToFeet(point.position));
+            sb.append(" Zero: " + point.zeroPos);
+            sb.append(" Last: " + point.isLastPoint);
+            System.out.println(sb);
             pair.pushMotionProfileTrajectory(point);
         }
     }
@@ -162,16 +183,13 @@ public class Drivetrain extends Subsystem {
         leftPair.getMotionProfileStatus(leftStatus);
         rightPair.getMotionProfileStatus(rightStatus);
         if (leftStatus.isUnderrun || rightStatus.isUnderrun) {
-            System.out.println("We are underrun");
             return SetValueMotionProfile.Disable;
         }
         else if (leftStatus.btmBufferCnt > kMinPointsInTalon && rightStatus.btmBufferCnt > kMinPointsInTalon) {
-            System.out.println("Cool we're enabling");
             return SetValueMotionProfile.Enable;
         }
 
         else if (leftStatus.activePointValid && leftStatus.isLast && rightStatus.activePointValid && rightStatus.isLast) {
-            System.out.println("We are holding");
             return SetValueMotionProfile.Hold;
         }
 
@@ -192,6 +210,22 @@ public class Drivetrain extends Subsystem {
         drive(ControlMode.PercentOutput, 0, 0);
         setCoastMode();
         shift(Gear.LOW);
+    }
+
+    public static double feetPerSecToTicksPerHundredMs(double feetPerSec) {
+        return feetPerSec * TICKS_PER_FT / HUNDRED_MS_PER_SEC;
+    }
+
+    public static double feetToTicks(double feet) {
+        return feet * TICKS_PER_FT;
+    }
+
+    public static double TicksPerHundredMsToFeetPerSec(double ticksPerHundredMs) {
+        return ticksPerHundredMs / (TICKS_PER_FT / HUNDRED_MS_PER_SEC);
+    }
+
+    public static double TicksToFeet(double ticks) {
+        return ticks / TICKS_PER_FT;
     }
 
     public enum Gear {

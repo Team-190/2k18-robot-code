@@ -45,7 +45,6 @@ public class FollowSequence extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         SetValueMotionProfile motionProfileValue = Robot.drivetrain.getMotionProfileValue();
-        System.out.println("motion profile value" + motionProfileValue);
         Robot.drivetrain.drive(ControlMode.MotionProfile, motionProfileValue.value, motionProfileValue.value);
     }
 
