@@ -75,7 +75,8 @@ public class PathfinderTranslator {
         trajPoint.velocity = Drivetrain.feetPerSecToTicksPerHundredMs(seg.velocity);
         trajPoint.headingDeg = seg.heading;
         trajPoint.profileSlotSelect0 = pidfSlot;
-        trajPoint.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_10ms;
+        trajPoint.profileSlotSelect1 = 0;
+        trajPoint.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_0ms;
         trajPoint.zeroPos = zeroPos;
         trajPoint.isLastPoint = isLastPoint;
         return trajPoint;

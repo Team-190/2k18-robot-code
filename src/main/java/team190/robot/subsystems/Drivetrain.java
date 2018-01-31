@@ -138,7 +138,9 @@ public class Drivetrain extends Subsystem {
         shift(Gear.HIGH);
         setBrakeMode();
         leftPair.clearMotionProfileTrajectories();
+        leftPair.clearMotionProfileHasUnderrun(DEFAULT_TIMEOUT_MS);
         rightPair.clearMotionProfileTrajectories();
+        rightPair.clearMotionProfileHasUnderrun(DEFAULT_TIMEOUT_MS);
 
         configUpdateRate();
 
