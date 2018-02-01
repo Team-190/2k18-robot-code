@@ -2,8 +2,10 @@ package team190.models;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Sendable;
 
-public class PairedTalonSRX extends TalonSRX {
+public class PairedTalonSRX extends WPI_TalonSRX {
 
     private final TalonSRX follower;
 

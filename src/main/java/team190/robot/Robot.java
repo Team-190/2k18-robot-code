@@ -41,6 +41,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         drivetrain = new Drivetrain();
 
+        SmartDashboard.putData("Drivetrain", drivetrain);
+
         m_oi = new OI();
         //m_chooser.addDefault("Default Auto", null);
         // chooser.addObject("My Auto", new MyAutoCommand());

@@ -58,11 +58,14 @@ public class Drivetrain extends Subsystem {
         rightPair.setSensorPhase(true);
         //rightPair.setSensorPhase(true);
 
+        // Add SRX Pairs as Children of the subsystem
+        addChild(leftPair);
+        addChild(rightPair);;
+
         setCoastMode();
 
-        // TODO: put in the actual PIDF values
-        // configPIDF(LOW_GEAR_PROFILE, 0, 0, 0, 0);
-        configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0.1425);
+        leftPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0, 0, 0, 0.1425);
+        rightPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0, 0, 0, 0.1425);
 
         setPositionZero();
     }
@@ -85,11 +88,6 @@ public class Drivetrain extends Subsystem {
 
     public void initDefaultCommand() {
         setDefaultCommand(new ControllerDriveCommand());
-    }
-
-    public void configPIDF(int profile, double P, double I, double D, double F) {
-        leftPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
-        rightPair.configPIDF(profile, DEFAULT_TIMEOUT_MS, P, I, D, F);
     }
 
     public double getLeftPosition() {
@@ -124,10 +122,10 @@ public class Drivetrain extends Subsystem {
     }
 
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber("Left Encoder Pos", getLeftPosition());
-        SmartDashboard.putNumber("Right Encoder Pos", getRightPosition());
-        SmartDashboard.putNumber("Left Encoder Vel", getLeftVelocity());
-        SmartDashboard.putNumber("Right Encoder Vel", getRightVelocity());
+        SmartDashboard.putNumber("Left Encoder Pos", TicksToFeet(getLeftPosition()));
+        SmartDashboard.putNumber("Right Encoder Pos", TicksToFeet(getRightPosition()));
+        SmartDashboard.putNumber("Left Encoder Vel", (getLeftVelocity()));
+        SmartDashboard.putNumber("Right Encoder Vel", (getRightVelocity()));
     }
 
     // MOTION PROFILING METHODS

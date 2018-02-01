@@ -22,7 +22,8 @@ public class TestVelocityControl extends Command {
     protected void execute() {
         double speed = Drivetrain.feetPerSecToTicksPerHundredMs(5.0);
         System.out.println("speed = " + speed);
-        Robot.drivetrain.drive(ControlMode.Velocity, speed, speed);
+        Robot.drivetrain.drive(ControlMode.PercentOutput, 1, 1);
+        //Robot.drivetrain.drive(ControlMode.Velocity, speed, speed);
     }
 
     @Override
