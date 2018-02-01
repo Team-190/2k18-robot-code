@@ -43,8 +43,8 @@ public class Drivetrain extends Subsystem {
     public static double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
     public static double HUNDRED_MS_PER_SEC = 10.0;
 
-    private final PairedTalonSRX leftPair = new PairedTalonSRX(0, 2);
-    private final PairedTalonSRX rightPair = new PairedTalonSRX(6, 5);
+    public final PairedTalonSRX leftPair = new PairedTalonSRX(0, 2);
+    public final PairedTalonSRX rightPair = new PairedTalonSRX(6, 5);
     private DoubleSolenoid shifter = new DoubleSolenoid(SHIFTER_PCM, SHIFTER_FWD_PORT, SHIFTER_REV_PORT);
 
     public Drivetrain() {
@@ -62,7 +62,10 @@ public class Drivetrain extends Subsystem {
 
         // TODO: put in the actual PIDF values
         // configPIDF(LOW_GEAR_PROFILE, 0, 0, 0, 0);
-        configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0.1425);
+
+        //configPIDF(HIGH_GEAR_PROFILE, 0, 0, 0, 0.1425);
+        leftPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0, 0, 0, 0.1441);
+        rightPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0, 0, 0, 0.1487);
 
         setPositionZero();
     }
@@ -178,10 +181,8 @@ public class Drivetrain extends Subsystem {
             pair.pushMotionProfileTrajectory(point);
         }
     }
-
+/*
     public SetValueMotionProfile getMotionProfileValue() {
-        MotionProfileStatus rightStatus = new MotionProfileStatus();
-        MotionProfileStatus leftStatus = new MotionProfileStatus();
         leftPair.getMotionProfileStatus(leftStatus);
         rightPair.getMotionProfileStatus(rightStatus);
         if (leftStatus.isUnderrun || rightStatus.isUnderrun) {
@@ -197,7 +198,7 @@ public class Drivetrain extends Subsystem {
 
         else
             return SetValueMotionProfile.Disable;
-    }
+    }*/
 
     public void processMotionProfilingBuffer() {
         leftPair.processMotionProfileBuffer();
