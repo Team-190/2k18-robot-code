@@ -27,9 +27,9 @@ import team190.robot.subsystems.Elevator;
  */
 public class Robot extends TimedRobot {
 
-	public static final Collector collector = new Collector();
-	public static final Elevator elevator = new Elevator();
-	public static final Carriage carriage = new Carriage();
+	public static Collector collector;
+	public static Elevator elevator;
+	public static Carriage carriage;
 	public static OI m_oi;
 	public static Drivetrain drivetrain;
 
@@ -43,6 +43,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
+        collector = new Collector();
+        elevator = new Elevator();
+        carriage = new Carriage();
 
         m_oi = new OI();
         //m_chooser.addDefault("Default Auto", null);

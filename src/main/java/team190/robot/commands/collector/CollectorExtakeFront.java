@@ -16,7 +16,7 @@ public class CollectorExtakeFront extends Command {
 
     @Override
     protected void initialize() {
-        canExtake = Robot.carriage.inCarriage();
+        canExtake = Robot.carriage.hasCube();
 
         setTimeout(1); // TODO find actual timeout for extake front
     }
@@ -34,8 +34,7 @@ public class CollectorExtakeFront extends Command {
 
     @Override
     protected void interrupted() {
-        Robot.collector.intake(Collector.IntakeMode.Stop);
-        Robot.carriage.move(Carriage.CarriageMode.Stop);
+        end();
     }
 
     @Override

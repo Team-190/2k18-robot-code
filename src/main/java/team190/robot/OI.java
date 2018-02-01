@@ -10,7 +10,11 @@ package team190.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import team190.robot.commands.CollectCube;
 import team190.robot.commands.Shift;
+import team190.robot.commands.collector.CollectorExtakeFront;
+import team190.robot.commands.collector.CollectorExtakeRear;
+import team190.robot.commands.elevator.*;
 import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
@@ -69,16 +73,29 @@ public class OI {
 
         // Elevator Positions
         elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_CARRIAGE_FT);
+        elevatorPosCarriageButton.whenPressed(new ElevatorPositionCarriage());
+
         elevatorPosFiveFtButton  = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_FIVE_FT);
+        elevatorPosFiveFtButton.whenPressed(new ElevatorPositionFiveFeet());
+
         elevatorPosSixFtButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_SIX_FT);
+        elevatorPosSixFtButton.whenPressed(new ElevatorPositionSixFeet());
+
         elevatorPosSevenFtButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_SEVEN_FT);
+        elevatorPosSevenFtButton.whenPressed(new ElevatorPositionSevenFeet());
+
         elevatorPosClimbButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_CLIMB);
+        elevatorPosClimbButton.whenPressed(new ElevatorPositionClimb());
 
         // Intake & Extake
         intakeButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_INTAKE);
-        extakeFrontButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_EXTAKE_FRONT);
-        extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_EXTAKE_REAR);
+        intakeButton.whenPressed(new CollectCube());
 
+        extakeFrontButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_EXTAKE_FRONT);
+        extakeFrontButton.whenPressed(new CollectorExtakeFront());
+
+        extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_EXTAKE_REAR);
+        extakeRearButton.whenPressed(new CollectorExtakeRear());
     }
 
     /**

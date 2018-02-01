@@ -11,45 +11,55 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Collector extends Subsystem {
 
-	public static enum IntakeMode {
+	public enum IntakeMode {
 		Stop, Intake, Extake, Transfer
 	}
+
+	// CAN Channels
+	private static final int SRX_LEFT = 5, SRX_RIGHT = 6;
+
+	private static final boolean INVERT_LEFT = false, INVERT_RIGHT = true;
+
+	// DIO inputs
+    private static final int INTAKE_CUBE_SENSOR_PORT = 1;
 	
 	//TODO: change channels
-	private TalonSRX left = new TalonSRX(5);
-	private TalonSRX right = new TalonSRX(6);
+	private TalonSRX left, right;
 	
-	private DigitalInput sensor = new DigitalInput(1);
+	private DigitalInput cubeSensor = new DigitalInput(INTAKE_CUBE_SENSOR_PORT);
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
 	//TODO: switch?
 	public Collector() {
-		left.setInverted(false);
-		right.setInverted(true);
+	    left = new TalonSRX(SRX_LEFT);
+		left.setInverted(INVERT_LEFT);
+
+		right = new TalonSRX(SRX_RIGHT);
+		right.setInverted(INVERT_RIGHT);
+		right.follow(left);
 	}
 
-	//TODO: change to speed mode?
-	//TODO: change actual speeds
+	//TODO: change to actual values
 	public void intake(IntakeMode mode) {
-		double speed = 0;
+		double percent = 0;
 		if (mode == IntakeMode.Stop) {
-			speed = 0.0;
+			percent = 0.0;
 		} else if (mode == IntakeMode.Intake) {
-			speed = 0.5;
+			percent = 0.5;
 		} else if (mode == IntakeMode.Extake) {
-			speed = -0.2;
-		} else if (mode == IntakeMode.Transfer) {
-			speed = 0.1;
+			percent = -0.2;
+		} else if (mode == IntakeMode.Transfer) { // TODO the transfer mode might be more complicated
+			percent = 0.1;
 		}
 
-		left.set(ControlMode.PercentOutput, speed);
-		right.set(ControlMode.PercentOutput, speed);
+		left.set(ControlMode.PercentOutput, percent);
+		right.set(ControlMode.PercentOutput, percent);
 	}
 
-	public boolean cubeGrabbed() {
-		return sensor.get();
+	public boolean hasCube() {
+		return cubeSensor.get();
 	}
 
 	public void initDefaultCommand() {

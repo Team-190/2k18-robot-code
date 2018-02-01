@@ -1,6 +1,7 @@
 package team190.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,6 +10,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Elevator extends Subsystem {
+
+    // CAN Channels
+	private static final int ELEVATOR_SRX_MAIN = 4,
+                             ELEVATOR_SRX_FOLLOWER = 5;
 	
 	// TODO: change exact values
 	public final static double GROUND = 0;
@@ -16,24 +21,29 @@ public class Elevator extends Subsystem {
 	public final static double FIVEFT = 60;
 	public final static double SIXFT = 72;
 	public final static double SEVENFT = 84;
-	public final static double EIGHTFT = 96;
+	public final static double MAX = 96;
 
 	// TODO: change channels
-	private TalonSRX elevator = new TalonSRX(4);
+	private TalonSRX mainMotor, followerMotor;
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	
 	public Elevator() {
-		//TODO: stuffz
+		 mainMotor = new TalonSRX(ELEVATOR_SRX_MAIN);
+		 mainMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
+
+		 // TODO more srx setup here
+
+		 followerMotor = new TalonSRX(ELEVATOR_SRX_FOLLOWER);
+		 followerMotor.follow(mainMotor);
 	}
 	
 	public void moveElevator(double height) {
-		elevator.set(ControlMode.Position, height);
+		mainMotor.set(ControlMode.Position, height);
 	}
 	
-	//TODO: change to velocity?
-	public void manualMove(double speed) {
-		elevator.set(ControlMode.PercentOutput, speed);
+	public void manualMove(double percent) {
+        mainMotor.set(ControlMode.PercentOutput, percent);
 	}
 	
 	//TODO: fix
