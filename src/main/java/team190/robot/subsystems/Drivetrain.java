@@ -64,8 +64,8 @@ public class Drivetrain extends Subsystem {
 
         setCoastMode();
 
-        leftPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0, 0, 0, 0.1441);
-        rightPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0, 0, 0, 0.1487);
+        leftPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0.45, 0, 0.45, 0.1441);
+        rightPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0.45, 0, 0.45, 0.1487);
 
         setPositionZero();
     }
@@ -124,8 +124,8 @@ public class Drivetrain extends Subsystem {
     public void updateSmartDashboard() {
         SmartDashboard.putNumber("Left Encoder Pos", TicksToFeet(getLeftPosition()));
         SmartDashboard.putNumber("Right Encoder Pos", TicksToFeet(getRightPosition()));
-        SmartDashboard.putNumber("Left Encoder Vel", (getLeftVelocity()));
-        SmartDashboard.putNumber("Right Encoder Vel", (getRightVelocity()));
+        SmartDashboard.putNumber("Left Encoder Vel", TicksPerHundredMsToFeetPerSec(getLeftVelocity()));
+        SmartDashboard.putNumber("Right Encoder Vel", TicksPerHundredMsToFeetPerSec(getRightVelocity()));
     }
 
     // MOTION PROFILING METHODS

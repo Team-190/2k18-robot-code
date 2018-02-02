@@ -32,7 +32,11 @@ public enum AutoSequence {
 
     // Basic Drive Straights
     ForwardFiveFeet,
-    ForwardTenFeet;
+    ForwardTenFeet,
+
+    // Other
+    TestSCurve,
+    CoursePath;
 
     private final String directory = "/home/lvuser/sequences";
 
