@@ -60,7 +60,7 @@ public class Drivetrain extends Subsystem {
 
         // Add SRX Pairs as Children of the subsystem
         addChild(leftPair);
-        addChild(rightPair);;
+        addChild(rightPair);
 
         setCoastMode();
 
