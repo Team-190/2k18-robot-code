@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.PairedTalonSRX;
@@ -154,8 +155,18 @@ public class Drivetrain extends Subsystem {
 
     // take your trajectory and stream it the srx's
     public void fillMotionProfilingBuffer(TrajectoryPoint[] left, TrajectoryPoint[] right) {
-        processTrajectory(leftPair, left);
-        processTrajectory(rightPair, right);
+        if(left.length != right.length) {
+            DriverStation.reportError("The left trajectory point length is not equal to right", false);
+            return;
+        }
+        for (int i = 0; i < left.length; i++) {
+            TrajectoryPoint leftPoint = left[i];
+            TrajectoryPoint rightPoint = right[i];
+            leftPair.pushMotionProfileTrajectory(leftPoint);
+            rightPair.pushMotionProfileTrajectory(rightPoint);
+        }
+        //processTrajectory(leftPair, left);
+        //processTrajectory(rightPair, right);
     }
 
     private void processTrajectory(PairedTalonSRX pair, TrajectoryPoint[] points) {

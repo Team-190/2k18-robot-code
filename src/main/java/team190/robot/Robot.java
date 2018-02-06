@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
         m_oi = new OI();
         //m_chooser.addDefault("Default Auto", null);
         // chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Drive 10 Feet", new FollowSequence(AutoSequence.CoursePath));
+        SmartDashboard.putData("Drive 10 Feet", new FollowSequence(AutoSequence.ForwardTenFeet));
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Auto mode", m_chooser);
         SmartDashboard.putData("Velocity Control Test", new TestVelocityControl());

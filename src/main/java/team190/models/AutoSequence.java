@@ -1,5 +1,10 @@
 package team190.models;
 
+import team190.robot.subsystems.Drivetrain;
+import team190.util.PathfinderTranslator;
+
+import java.util.HashMap;
+
 /**
  * Sequences that make up an auto. Each possible autonomous will likely use a combination of AutoSequences.
  * For example, if you started on the left and had possession of the left plate of the scale, wanted to collect 2
@@ -37,6 +42,23 @@ public enum AutoSequence {
     // Other
     TestSCurve,
     CoursePath;
+
+    private HashMap<AutoSequence, PairedTrajectoryPoints> trajectories;
+
+    public PairedTrajectoryPoints getPairedTrajectoryPoints(AutoSequence sequence) {
+        if (trajectories == null) {
+            loadTrajectories();
+        }
+        return trajectories.get(sequence);
+    }
+
+    public void loadTrajectories() {
+        trajectories = new HashMap<>();
+        for (AutoSequence sequence: AutoSequence.values()) {
+            PathfinderTranslator path = new PathfinderTranslator(sequence, Drivetrain.HIGH_GEAR_PROFILE);
+            trajectories.put(sequence, new PairedTrajectoryPoints(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints()));
+        }
+    }
 
     private final String directory = "/home/lvuser/sequences";
 
