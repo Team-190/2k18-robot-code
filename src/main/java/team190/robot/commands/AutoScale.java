@@ -8,7 +8,9 @@ import team190.models.AutoSequence;
  * Created by Kevin O'Brien on 1/25/2018.
  */
 public class AutoScale extends CommandGroup {
+
     public AutoScale(StartSide start) {
+        /*
         MatchData.OwnedSide scale = MatchData.getOwnedSide(MatchData.GameFeature.SCALE);
 
         if (scale.equals(MatchData.OwnedSide.LEFT)) {
@@ -39,6 +41,7 @@ public class AutoScale extends CommandGroup {
             addSequential(new FollowSequence(AutoSequence.ScaleRightCollectCubeTwo));
             addSequential(new FollowSequence(AutoSequence.ScaleRightPlaceCubeTwo));
         }
+        */
     }
 
     public enum StartSide {

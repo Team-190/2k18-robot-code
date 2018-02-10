@@ -3,7 +3,9 @@ package team190.models;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Sendable;
+import team190.robot.subsystems.Drivetrain;
 
 public class PairedTalonSRX extends WPI_TalonSRX {
 
@@ -14,6 +16,9 @@ public class PairedTalonSRX extends WPI_TalonSRX {
 
         follower = new TalonSRX(followerDeviceNumber);
         follower.follow(this);
+
+        configNominalOutputForward(0, Drivetrain.DEFAULT_TIMEOUT_MS);
+        configNominalOutputReverse(0, Drivetrain.DEFAULT_TIMEOUT_MS);
     }
 
     @Override

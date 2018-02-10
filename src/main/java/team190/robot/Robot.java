@@ -48,10 +48,13 @@ public class Robot extends TimedRobot {
         //m_chooser.addDefault("Default Auto", null);
         // chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Drive 10 Feet", new FollowSequence(AutoSequence.ForwardTenFeet));
+        SmartDashboard.putData("Collect First Cube Left", new FollowSequence(AutoSequence.ScaleLeftCollectCubeOne));
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Auto mode", m_chooser);
         SmartDashboard.putData("Velocity Control Test", new TestVelocityControl());
         SmartDashboard.putData("Full speed", new FullSteamAhead());
+
+        AutoSequence.loadTrajectories();
     }
 
     /**

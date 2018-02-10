@@ -13,6 +13,9 @@ import java.util.HashMap;
  * Created by Kevin O'Brien on 1/25/2018.
  */
 public enum AutoSequence {
+    ForwardTenFeet,
+    ScaleLeftCollectCubeOne;
+    /*
     // Starting Positions => Scale
     StartLeftScaleLeft,
     StartLeftScaleRight,
@@ -41,18 +44,18 @@ public enum AutoSequence {
 
     // Other
     TestSCurve,
-    CoursePath;
+    CoursePath;*/
 
-    private HashMap<AutoSequence, PairedTrajectoryPoints> trajectories;
+    private static HashMap<AutoSequence, PairedTrajectoryPoints> trajectories;
 
-    public PairedTrajectoryPoints getPairedTrajectoryPoints(AutoSequence sequence) {
+    public PairedTrajectoryPoints getPairedTrajectoryPoints() {
         if (trajectories == null) {
             loadTrajectories();
         }
-        return trajectories.get(sequence);
+        return trajectories.get(this);
     }
 
-    public void loadTrajectories() {
+    public static void loadTrajectories() {
         trajectories = new HashMap<>();
         for (AutoSequence sequence: AutoSequence.values()) {
             PathfinderTranslator path = new PathfinderTranslator(sequence, Drivetrain.HIGH_GEAR_PROFILE);

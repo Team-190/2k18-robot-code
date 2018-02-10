@@ -27,7 +27,7 @@ public class Drivetrain extends Subsystem {
     public static final int SHIFTER_PCM = 0,
             SHIFTER_FWD_PORT = 0,
             SHIFTER_REV_PORT = 1;
-    private static final int DEFAULT_TIMEOUT_MS = 0;
+    public static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
     // Motion Profiling
     private static final int kMinPointsInTalon = 5;
@@ -59,6 +59,14 @@ public class Drivetrain extends Subsystem {
         rightPair.setSensorPhase(true);
         //rightPair.setSensorPhase(true);
 
+
+        leftPair.configPeakOutputForward(1, DEFAULT_TIMEOUT_MS);
+        leftPair.configPeakOutputReverse(-1, DEFAULT_TIMEOUT_MS);
+        leftPair.configNeutralDeadband(0.001, DEFAULT_TIMEOUT_MS);
+
+        rightPair.configPeakOutputForward(1, DEFAULT_TIMEOUT_MS);
+        rightPair.configPeakOutputReverse(-1, DEFAULT_TIMEOUT_MS);
+        rightPair.configNeutralDeadband(0.001, DEFAULT_TIMEOUT_MS);
         // Add SRX Pairs as Children of the subsystem
         addChild(leftPair);
         addChild(rightPair);
@@ -161,7 +169,27 @@ public class Drivetrain extends Subsystem {
         }
         for (int i = 0; i < left.length; i++) {
             TrajectoryPoint leftPoint = left[i];
+            StringBuilder sb = new StringBuilder();
+            sb.append("Loading left point :" + i);
+            sb.append(" Time duration: " + leftPoint.timeDur.name());
+            sb.append(" PIDF Slot: " + leftPoint.profileSlotSelect0);
+            sb.append(" Velocity Native: " + leftPoint.velocity);
+            sb.append(" Velocity ft/s: " + TicksPerHundredMsToFeetPerSec(leftPoint.velocity));
+            sb.append(" Position Native: " + leftPoint.position);
+            sb.append(" Positiion ft: " + TicksToFeet(leftPoint.position));
+            sb.append(" Zero: " + leftPoint.zeroPos);
+            sb.append(" Last: " + leftPoint.isLastPoint);
             TrajectoryPoint rightPoint = right[i];
+            sb.append("Loading left point :" + i);
+            sb.append(" Time duration: " + rightPoint.timeDur.name());
+            sb.append(" PIDF Slot: " + rightPoint.profileSlotSelect0);
+            sb.append(" Velocity Native: " + rightPoint.velocity);
+            sb.append(" Velocity ft/s: " + TicksPerHundredMsToFeetPerSec(rightPoint.velocity));
+            sb.append(" Position Native: " + rightPoint.position);
+            sb.append(" Positiion ft: " + TicksToFeet(rightPoint.position));
+            sb.append(" Zero: " + rightPoint.zeroPos);
+            sb.append(" Last: " + rightPoint.isLastPoint);
+            //System.out.println(sb);
             leftPair.pushMotionProfileTrajectory(leftPoint);
             rightPair.pushMotionProfileTrajectory(rightPoint);
         }
