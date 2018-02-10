@@ -62,19 +62,17 @@ public class Drivetrain extends Subsystem {
 
         leftPair.configPeakOutputForward(1, DEFAULT_TIMEOUT_MS);
         leftPair.configPeakOutputReverse(-1, DEFAULT_TIMEOUT_MS);
-        leftPair.configNeutralDeadband(0.001, DEFAULT_TIMEOUT_MS);
 
         rightPair.configPeakOutputForward(1, DEFAULT_TIMEOUT_MS);
         rightPair.configPeakOutputReverse(-1, DEFAULT_TIMEOUT_MS);
-        rightPair.configNeutralDeadband(0.001, DEFAULT_TIMEOUT_MS);
         // Add SRX Pairs as Children of the subsystem
         addChild(leftPair);
         addChild(rightPair);
 
         setCoastMode();
 
-        leftPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0.45, 0, 0.45, 0.1441);
-        rightPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0.45, 0, 0.45, 0.1487);
+        leftPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0.0125, 0, 0.0, 0.1441);
+        rightPair.configPIDF(HIGH_GEAR_PROFILE, DEFAULT_TIMEOUT_MS, 0.0125, 0, 0.0, 0.1487);
 
         setPositionZero();
     }
@@ -150,8 +148,6 @@ public class Drivetrain extends Subsystem {
         rightPair.clearMotionProfileHasUnderrun(DEFAULT_TIMEOUT_MS);
 
         configUpdateRate();
-
-        drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
     }
 
     public void configUpdateRate() {
@@ -169,70 +165,11 @@ public class Drivetrain extends Subsystem {
         }
         for (int i = 0; i < left.length; i++) {
             TrajectoryPoint leftPoint = left[i];
-            StringBuilder sb = new StringBuilder();
-            sb.append("Loading left point :" + i);
-            sb.append(" Time duration: " + leftPoint.timeDur.name());
-            sb.append(" PIDF Slot: " + leftPoint.profileSlotSelect0);
-            sb.append(" Velocity Native: " + leftPoint.velocity);
-            sb.append(" Velocity ft/s: " + TicksPerHundredMsToFeetPerSec(leftPoint.velocity));
-            sb.append(" Position Native: " + leftPoint.position);
-            sb.append(" Positiion ft: " + TicksToFeet(leftPoint.position));
-            sb.append(" Zero: " + leftPoint.zeroPos);
-            sb.append(" Last: " + leftPoint.isLastPoint);
             TrajectoryPoint rightPoint = right[i];
-            sb.append("Loading left point :" + i);
-            sb.append(" Time duration: " + rightPoint.timeDur.name());
-            sb.append(" PIDF Slot: " + rightPoint.profileSlotSelect0);
-            sb.append(" Velocity Native: " + rightPoint.velocity);
-            sb.append(" Velocity ft/s: " + TicksPerHundredMsToFeetPerSec(rightPoint.velocity));
-            sb.append(" Position Native: " + rightPoint.position);
-            sb.append(" Positiion ft: " + TicksToFeet(rightPoint.position));
-            sb.append(" Zero: " + rightPoint.zeroPos);
-            sb.append(" Last: " + rightPoint.isLastPoint);
-            //System.out.println(sb);
             leftPair.pushMotionProfileTrajectory(leftPoint);
             rightPair.pushMotionProfileTrajectory(rightPoint);
         }
-        //processTrajectory(leftPair, left);
-        //processTrajectory(rightPair, right);
     }
-
-    private void processTrajectory(PairedTalonSRX pair, TrajectoryPoint[] points) {
-        System.out.println("Loading the points into the top level buffer");
-        for (int i = 0; i < points.length; i++) {
-            TrajectoryPoint point = points[i];
-            StringBuilder sb = new StringBuilder();
-            sb.append("Loading point :" + i);
-            sb.append(" Time duration: " + point.timeDur.name());
-            sb.append(" PIDF Slot: " + point.profileSlotSelect0);
-            sb.append(" Velocity Native: " + point.velocity);
-            sb.append(" Velocity ft/s: " + TicksPerHundredMsToFeetPerSec(point.velocity));
-            sb.append(" Position Native: " + point.position);
-            sb.append(" Positiion ft: " + TicksToFeet(point.position));
-            sb.append(" Zero: " + point.zeroPos);
-            sb.append(" Last: " + point.isLastPoint);
-            System.out.println(sb);
-            pair.pushMotionProfileTrajectory(point);
-        }
-    }
-/*
-    public SetValueMotionProfile getMotionProfileValue() {
-        leftPair.getMotionProfileStatus(leftStatus);
-        rightPair.getMotionProfileStatus(rightStatus);
-        if (leftStatus.isUnderrun || rightStatus.isUnderrun) {
-            return SetValueMotionProfile.Disable;
-        }
-        else if (leftStatus.btmBufferCnt > kMinPointsInTalon && rightStatus.btmBufferCnt > kMinPointsInTalon) {
-            return SetValueMotionProfile.Enable;
-        }
-
-        else if (leftStatus.activePointValid && leftStatus.isLast && rightStatus.activePointValid && rightStatus.isLast) {
-            return SetValueMotionProfile.Hold;
-        }
-
-        else
-            return SetValueMotionProfile.Disable;
-    }*/
 
     public void processMotionProfilingBuffer() {
         leftPair.processMotionProfileBuffer();
@@ -245,7 +182,7 @@ public class Drivetrain extends Subsystem {
         rightPair.clearMotionProfileTrajectories();
         drive(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value, SetValueMotionProfile.Disable.value);
         drive(ControlMode.PercentOutput, 0, 0);
-        setCoastMode();
+        //setCoastMode();
         shift(Gear.LOW);
     }
 

@@ -17,11 +17,11 @@ import team190.util.PathfinderTranslator;
 public class FollowSequence extends Command {
 
     // Runs the runnable
-    private Notifier SrxNotifier = new Notifier(new PeriodicRunnable());
+    private Notifier SrxNotifier;
 
 
-    private MotionProfileStatus rightStatus = new MotionProfileStatus();
-    private MotionProfileStatus leftStatus = new MotionProfileStatus();
+    private MotionProfileStatus rightStatus;
+    private MotionProfileStatus leftStatus;
 
     private AutoSequence sequence;
 
@@ -38,6 +38,9 @@ public class FollowSequence extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        SrxNotifier = new Notifier(new PeriodicRunnable());
+        rightStatus = new MotionProfileStatus();
+        leftStatus = new MotionProfileStatus();
         _state = 1;
         _setValue = SetValueMotionProfile.Disable;
         Robot.drivetrain.prepareMotionProfiling();
@@ -105,50 +108,10 @@ public class FollowSequence extends Command {
         Robot.drivetrain.rightPair.getMotionProfileStatus(rightStatus);
 
         Robot.drivetrain.drive(ControlMode.MotionProfile, _setValue.value, _setValue.value);
-
-        /*
-
-        if (rightStatus.isUnderrun || leftStatus.isUnderrun)
-        {
-            // if either MP has underrun, stop both
-            System.out.println("Motion profile has underrun!");
-            setValue = SetValueMotionProfile.Disable;
-        }
-        else if (rightStatus.btmBufferCnt > 5.0 && leftStatus.btmBufferCnt > 5.0)
-        {
-            // if we have enough points in the talon, go.
-            setValue = SetValueMotionProfile.Enable;
-        }
-        else if (leftStatus.topBufferCnt == 0 && rightStatus.topBufferCnt == 0 && leftStatus.btmBufferCnt == 0 && rightStatus.btmBufferCnt == 0)
-        {
-            finished = true;
-            DriverStation.reportWarning("We have reached hold status", false);
-            // if both profiles are at their last points, hold the last point
-            setValue = SetValueMotionProfile.Hold;
-        }
-        System.out.println("Left Top Buffer: " + leftStatus.topBufferCnt);
-        System.out.println("Right Top Buffer: " + rightStatus.topBufferCnt);
-        System.out.println("Left Bottom Buffer: " + leftStatus.btmBufferCnt);
-        System.out.println("Right Bottom Buffer: " + rightStatus.btmBufferCnt);
-        System.out.println("Left velocity of active: " + Robot.drivetrain.leftPair.getActiveTrajectoryVelocity());
-        System.out.println("Right velocity of active: " + Robot.drivetrain.rightPair.getActiveTrajectoryVelocity());
-        System.out.println("Left active: " + leftStatus.activePointValid);
-        System.out.println("Right active: " + rightStatus.activePointValid);
-        Robot.drivetrain.drive(ControlMode.MotionProfile, setValue.value, setValue.value);*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        /*
-        System.out.println("leftStatus = " + leftStatus.isLast);
-        System.out.println("rightStatus = " + rightStatus.isLast);
-        System.out.println("leftStatus valid = " + leftStatus.activePointValid);
-        System.out.println("rightStatus valid = " + rightStatus.activePointValid);
-        boolean leftComplete = leftStatus.activePointValid && leftStatus.isLast;
-        boolean rightComplete = rightStatus.activePointValid && rightStatus.isLast;
-        boolean trajectoryComplete = leftComplete && rightComplete;
-        return trajectoryComplete;
-        */
         return _state == 0;
     }
 

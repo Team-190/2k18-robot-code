@@ -49,6 +49,8 @@ public class Robot extends TimedRobot {
         // chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Drive 10 Feet", new FollowSequence(AutoSequence.ForwardTenFeet));
         SmartDashboard.putData("Collect First Cube Left", new FollowSequence(AutoSequence.ScaleLeftCollectCubeOne));
+        SmartDashboard.putData("Start Right Scale Left", new FollowSequence(AutoSequence.StartRightScaleLeft));
+
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Auto mode", m_chooser);
         SmartDashboard.putData("Velocity Control Test", new TestVelocityControl());

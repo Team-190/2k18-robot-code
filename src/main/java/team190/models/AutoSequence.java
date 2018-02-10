@@ -14,7 +14,8 @@ import java.util.HashMap;
  */
 public enum AutoSequence {
     ForwardTenFeet,
-    ScaleLeftCollectCubeOne;
+    ScaleLeftCollectCubeOne,
+    StartRightScaleLeft;
     /*
     // Starting Positions => Scale
     StartLeftScaleLeft,
