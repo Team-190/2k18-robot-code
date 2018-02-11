@@ -7,6 +7,8 @@
 
 package team190.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -27,6 +29,7 @@ public class Robot extends TimedRobot {
 
     public static OI m_oi;
     public static Drivetrain drivetrain;
+    public static AHRS navx;
 
     Command m_autonomousCommand;
     SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -38,6 +41,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
+        navx = new AHRS(SPI.Port.kMXP);
 
         SmartDashboard.putData("Drivetrain", drivetrain);
 
@@ -115,6 +119,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         SmartDashboard.putNumber("Left Y", m_oi.getLeftY());
         SmartDashboard.putNumber("Right Y", m_oi.getRightY());
+        SmartDashboard.putNumber("Gryo Heading", navx.getAngle());
         Scheduler.getInstance().run();
     }
 

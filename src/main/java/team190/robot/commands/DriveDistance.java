@@ -2,6 +2,7 @@ package team190.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
@@ -25,6 +26,7 @@ public class DriveDistance extends Command {
     @Override
     protected void initialize() {
         Robot.drivetrain.setBrakeMode();
+        Robot.navx.reset();
 
         Trajectory leftTraj = Pathfinder.readFromCSV(new File(AutoSequence.StartRightScaleLeft.getLeftCSV()));
         leftFollower = new EncoderFollower(leftTraj);
@@ -36,7 +38,6 @@ public class DriveDistance extends Command {
         rightFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         rightFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
-
         Robot.drivetrain.setPositionZero();
     }
 
@@ -44,10 +45,16 @@ public class DriveDistance extends Command {
     protected void execute() {
         double leftSpeed = leftFollower.calculate((int) Robot.drivetrain.getLeftPosition());
         double rightSpeed = rightFollower.calculate((int) Robot.drivetrain.getRightPosition());
-        leftFollower.getHeading();
-        rightFollower.getHeading();
-        Robot.drivetrain.drive(ControlMode.PercentOutput, leftSpeed, rightSpeed);
 
+        double kG = 0.8 * (1.0/80.0);
+        double angle_delta = r2d(-leftFollower.getHeading()) - Robot.navx.getAngle();
+        double turn = kG * angle_delta;
+
+        SmartDashboard.putNumber("Desired Heading: ", r2d(leftFollower.getHeading()));
+        SmartDashboard.putNumber("Actual Heading: ", Robot.navx.getAngle());
+        SmartDashboard.putNumber("Turn Value: ", turn);
+
+        Robot.drivetrain.drive(ControlMode.PercentOutput, leftSpeed + turn, rightSpeed - turn);
     }
 
     @Override
@@ -65,5 +72,7 @@ public class DriveDistance extends Command {
         end();
     }
 
-
+    double r2d(double angleInRads) {
+        return angleInRads * 180 / Math.PI;
+    }
 }
