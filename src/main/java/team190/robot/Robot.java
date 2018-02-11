@@ -13,10 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.AutoSequence;
-import team190.robot.commands.FollowSequence;
-import team190.robot.commands.FullSteamAhead;
-import team190.robot.commands.TestVelocityControl;
-import team190.robot.commands.ZeroEncoders;
+import team190.robot.commands.*;
 import team190.robot.subsystems.Drivetrain;
 
 /**
@@ -47,14 +44,11 @@ public class Robot extends TimedRobot {
         m_oi = new OI();
         //m_chooser.addDefault("Default Auto", null);
         // chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Drive 10 Feet", new FollowSequence(AutoSequence.ForwardTenFeet));
-        SmartDashboard.putData("Collect First Cube Left", new FollowSequence(AutoSequence.ScaleLeftCollectCubeOne));
-        SmartDashboard.putData("Start Right Scale Left", new FollowSequence(AutoSequence.StartRightScaleLeft));
 
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Auto mode", m_chooser);
-        SmartDashboard.putData("Velocity Control Test", new TestVelocityControl());
-        SmartDashboard.putData("Full speed", new FullSteamAhead());
+
+        SmartDashboard.putData("Encoder Follower", new DriveDistance());
 
         AutoSequence.loadTrajectories();
     }
@@ -119,6 +113,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        SmartDashboard.putNumber("Left Y", m_oi.getLeftY());
+        SmartDashboard.putNumber("Right Y", m_oi.getRightY());
         Scheduler.getInstance().run();
     }
 

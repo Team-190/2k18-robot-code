@@ -26,12 +26,12 @@ public class DriveDistance extends Command {
     protected void initialize() {
         Robot.drivetrain.setBrakeMode();
 
-        Trajectory leftTraj = Pathfinder.readFromCSV(new File(AutoSequence.ForwardTenFeet.getLeftCSV()));
+        Trajectory leftTraj = Pathfinder.readFromCSV(new File(AutoSequence.StartRightScaleLeft.getLeftCSV()));
         leftFollower = new EncoderFollower(leftTraj);
         leftFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         leftFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
-        Trajectory rightTraj = Pathfinder.readFromCSV(new File(AutoSequence.ForwardTenFeet.getRightCSV()));
+        Trajectory rightTraj = Pathfinder.readFromCSV(new File(AutoSequence.StartRightScaleLeft.getRightCSV()));
         rightFollower = new EncoderFollower(rightTraj);
         rightFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         rightFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);

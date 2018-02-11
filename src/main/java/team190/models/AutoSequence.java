@@ -13,8 +13,8 @@ import java.util.HashMap;
  * Created by Kevin O'Brien on 1/25/2018.
  */
 public enum AutoSequence {
-    ForwardTenFeet,
-    ScaleLeftCollectCubeOne,
+    //ForwardTenFeet,
+    //ScaleLeftCollectCubeOne,
     StartRightScaleLeft;
     /*
     // Starting Positions => Scale

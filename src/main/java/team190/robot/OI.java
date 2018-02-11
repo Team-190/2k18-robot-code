@@ -10,6 +10,7 @@ package team190.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import team190.models.DeadbandJoystick;
 import team190.robot.commands.Shift;
 import team190.robot.subsystems.Drivetrain.Gear;
 
@@ -41,8 +42,8 @@ public class OI {
      * Constructor
      */
     public OI() {
-        leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
-        rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
+        leftStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_1, 0.1);
+        rightStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_2, 0.1);
 
         //highGear = new JoystickButton(rightStick,3);
         //lowGear = new JoystickButton(rightStick, 4);
