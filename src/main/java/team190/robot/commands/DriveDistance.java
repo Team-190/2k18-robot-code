@@ -21,15 +21,22 @@ public class DriveDistance extends Command {
 
     private AutoSequence sequence;
 
+    private boolean resetNavx;
+
     public DriveDistance(AutoSequence sequence) {
+        this(sequence, true);
+    }
+
+    public DriveDistance(AutoSequence sequence, boolean resetNavx) {
         requires(Robot.drivetrain);
         this.sequence = sequence;
+        this.resetNavx = resetNavx;
     }
 
     @Override
     protected void initialize() {
         Robot.drivetrain.setBrakeMode();
-        Robot.navx.reset();
+        if (resetNavx) Robot.navx.reset();
 
         Trajectory leftTraj = Pathfinder.readFromCSV(new File(sequence.getLeftCSV()));
         leftFollower = new EncoderFollower(leftTraj);

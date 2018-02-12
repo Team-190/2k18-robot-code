@@ -11,8 +11,8 @@ public class AutoScale extends CommandGroup {
 
     public AutoScale() {
         addSequential(new DriveDistance(AutoSequence.StartRightScaleLeft));
-        addSequential(new DriveDistance(AutoSequence.ScaleLeftCollectCubeOne));
-        addSequential(new DriveDistance(AutoSequence.ScaleLeftPlaceCubeOne));
+        addSequential(new DriveDistance(AutoSequence.ScaleLeftCollectCubeOne, false));
+        addSequential(new DriveDistance(AutoSequence.ScaleLeftPlaceCubeOne, false));
     }
     public AutoScale(StartSide start) {
 
