@@ -9,7 +9,13 @@ import team190.models.AutoSequence;
  */
 public class AutoScale extends CommandGroup {
 
+    public AutoScale() {
+        addSequential(new DriveDistance(AutoSequence.StartRightScaleLeft));
+        addSequential(new DriveDistance(AutoSequence.ScaleLeftCollectCubeOne));
+        addSequential(new DriveDistance(AutoSequence.ScaleLeftPlaceCubeOne));
+    }
     public AutoScale(StartSide start) {
+
         /*
         MatchData.OwnedSide scale = MatchData.getOwnedSide(MatchData.GameFeature.SCALE);
 

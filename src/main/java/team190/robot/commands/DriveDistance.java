@@ -19,8 +19,11 @@ public class DriveDistance extends Command {
     private EncoderFollower leftFollower;
     private EncoderFollower rightFollower;
 
-    public DriveDistance() {
+    private AutoSequence sequence;
+
+    public DriveDistance(AutoSequence sequence) {
         requires(Robot.drivetrain);
+        this.sequence = sequence;
     }
 
     @Override
@@ -28,12 +31,12 @@ public class DriveDistance extends Command {
         Robot.drivetrain.setBrakeMode();
         Robot.navx.reset();
 
-        Trajectory leftTraj = Pathfinder.readFromCSV(new File(AutoSequence.StartRightScaleLeft.getLeftCSV()));
+        Trajectory leftTraj = Pathfinder.readFromCSV(new File(sequence.getLeftCSV()));
         leftFollower = new EncoderFollower(leftTraj);
         leftFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         leftFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
-        Trajectory rightTraj = Pathfinder.readFromCSV(new File(AutoSequence.StartRightScaleLeft.getRightCSV()));
+        Trajectory rightTraj = Pathfinder.readFromCSV(new File(sequence.getRightCSV()));
         rightFollower = new EncoderFollower(rightTraj);
         rightFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         rightFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);

@@ -52,7 +52,11 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Auto mode", m_chooser);
 
-        SmartDashboard.putData("Encoder Follower", new DriveDistance());
+        SmartDashboard.putData("Start Right Scale", new DriveDistance(AutoSequence.StartRightScaleLeft));
+        SmartDashboard.putData("Get First Cube", new DriveDistance(AutoSequence.ScaleLeftCollectCubeOne));
+        SmartDashboard.putData("Place First Cube", new DriveDistance(AutoSequence.ScaleLeftPlaceCubeOne));
+        SmartDashboard.putData("Left Scale Sequence", new AutoScale());
+
 
         AutoSequence.loadTrajectories();
     }
