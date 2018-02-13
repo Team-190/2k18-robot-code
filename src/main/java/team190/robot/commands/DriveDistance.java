@@ -21,34 +21,36 @@ public class DriveDistance extends Command {
 
     private AutoSequence sequence;
 
-    private boolean resetNavx;
+    private boolean resetSensors;
 
     public DriveDistance(AutoSequence sequence) {
         this(sequence, true);
     }
 
-    public DriveDistance(AutoSequence sequence, boolean resetNavx) {
+    public DriveDistance(AutoSequence sequence, boolean resetSensors) {
         requires(Robot.drivetrain);
         this.sequence = sequence;
-        this.resetNavx = resetNavx;
+        this.resetSensors = resetSensors;
     }
 
     @Override
     protected void initialize() {
         Robot.drivetrain.setBrakeMode();
-        if (resetNavx) Robot.navx.reset();
+        if (resetSensors) {
+            Robot.navx.reset();
+            Robot.drivetrain.setPositionZero();
+        }
 
         Trajectory leftTraj = Pathfinder.readFromCSV(new File(sequence.getLeftCSV()));
         leftFollower = new EncoderFollower(leftTraj);
-        leftFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
+        leftFollower.configureEncoder((int) Robot.drivetrain.getLeftPosition(), (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         leftFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
         Trajectory rightTraj = Pathfinder.readFromCSV(new File(sequence.getRightCSV()));
         rightFollower = new EncoderFollower(rightTraj);
-        rightFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
+        rightFollower.configureEncoder((int) Robot.drivetrain.getRightPosition(), (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         rightFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
-        Robot.drivetrain.setPositionZero();
     }
 
     @Override
