@@ -57,10 +57,14 @@ public class DriveDistance extends Command {
         double rightSpeed = rightFollower.calculate((int) Robot.drivetrain.getRightPosition());
 
         double kG = 0.8 * (1.0/80.0);
-        double angle_delta = r2d(-leftFollower.getHeading()) - Robot.navx.getAngle();
+
+        double gyroHeading = Robot.navx.getAngle();
+        double desiredHeading = Pathfinder.r2d(-leftFollower.getHeading());
+        double angle_delta = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         double turn = kG * angle_delta;
 
-        SmartDashboard.putNumber("Desired Heading: ", r2d(leftFollower.getHeading()));
+
+        SmartDashboard.putNumber("Desired Heading: ", Pathfinder.r2d(leftFollower.getHeading()));
         SmartDashboard.putNumber("Actual Heading: ", Robot.navx.getAngle());
         SmartDashboard.putNumber("Turn Value: ", turn);
 
@@ -82,7 +86,4 @@ public class DriveDistance extends Command {
         end();
     }
 
-    double r2d(double angleInRads) {
-        return angleInRads * 180 / Math.PI;
-    }
 }
