@@ -60,11 +60,13 @@ public class Drivetrain extends Subsystem {
         //rightPair.setSensorPhase(true);
 
 
+
         leftPair.configPeakOutputForward(1, DEFAULT_TIMEOUT_MS);
         leftPair.configPeakOutputReverse(-1, DEFAULT_TIMEOUT_MS);
 
         rightPair.configPeakOutputForward(1, DEFAULT_TIMEOUT_MS);
         rightPair.configPeakOutputReverse(-1, DEFAULT_TIMEOUT_MS);
+
         // Add SRX Pairs as Children of the subsystem
         addChild(leftPair);
         addChild(rightPair);
@@ -97,19 +99,19 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new ControllerDriveCommand());
     }
 
-    public double getLeftPosition() {
+    public int getLeftPosition() {
         return leftPair.getSelectedSensorPosition(DEFAULT_PIDX);
     }
 
-    public double getRightPosition() {
+    public int getRightPosition() {
         return rightPair.getSelectedSensorPosition(DEFAULT_PIDX);
     }
 
-    public double getLeftVelocity() {
+    public int getLeftVelocity() {
         return leftPair.getSelectedSensorVelocity(DEFAULT_PIDX);
     }
 
-    public double getRightVelocity() {
+    public int getRightVelocity() {
         return rightPair.getSelectedSensorVelocity(DEFAULT_PIDX);
     }
 

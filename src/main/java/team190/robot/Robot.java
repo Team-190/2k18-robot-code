@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
         // chooser.addObject("My Auto", new MyAutoCommand());
 
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
+        SmartDashboard.putData("Reset Gyro", new ResetGyro());
         SmartDashboard.putData("Auto mode", m_chooser);
 
         SmartDashboard.putData("Start Right Scale", new DriveDistance(AutoSequence.StartRightScaleLeft));
@@ -58,7 +59,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Left Scale Sequence", new AutoScale());
 
 
-        AutoSequence.loadTrajectories();
+        //AutoSequence.loadTrajectories();
     }
 
     /**
@@ -121,9 +122,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        SmartDashboard.putNumber("Left Y", m_oi.getLeftY());
-        SmartDashboard.putNumber("Right Y", m_oi.getRightY());
-        SmartDashboard.putNumber("Gryo Heading", navx.getAngle());
+        SmartDashboard.putNumber("Gyro Heading", navx.getAngle());
         Scheduler.getInstance().run();
     }
 
