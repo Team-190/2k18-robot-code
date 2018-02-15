@@ -15,8 +15,8 @@ public class Elevator extends Subsystem {
     private static final int DEFAULT_PIDX = 0;
 
     // CAN Channels
-    private static final int ELEVATOR_SRX_MAIN = 4,
-            ELEVATOR_SRX_FOLLOWER = 5;
+    private static final int ELEVATOR_SRX_LEFT = 5,
+            ELEVATOR_SRX_RIGHT = 6;
 
     // TODO: change exact values
     public final static double GROUND = 0 * (1023 / 96);
@@ -32,7 +32,7 @@ public class Elevator extends Subsystem {
     // here. Call these from Commands.
 
     public Elevator() {
-        motor = new PairedTalonSRX(ELEVATOR_SRX_MAIN, ELEVATOR_SRX_FOLLOWER);
+        motor = new PairedTalonSRX(ELEVATOR_SRX_LEFT, ELEVATOR_SRX_RIGHT);
         motor.setInverted(false);
 
         // TODO more srx setup here?

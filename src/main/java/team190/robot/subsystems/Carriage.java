@@ -13,7 +13,7 @@ public class Carriage extends Subsystem {
 	}
 
 	//TODO: channels
-	private static final int CARRIAGE_SRX = 4;
+	private static final int CARRIAGE_SRX = 9;
 
 	private static final int CARRIAGE_CUBE_SENSOR_PORT = 2;
 	private DigitalInput cubeSensor = new DigitalInput(CARRIAGE_CUBE_SENSOR_PORT);

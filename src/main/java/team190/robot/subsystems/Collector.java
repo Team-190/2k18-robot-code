@@ -16,7 +16,7 @@ public class Collector extends Subsystem {
 	}
 
 	// CAN Channels
-	private static final int SRX_LEFT = 5, SRX_RIGHT = 6;
+	private static final int SRX_LEFT = 7, SRX_RIGHT = 8;
 
 	private static final boolean INVERT_LEFT = false, INVERT_RIGHT = true;
 
