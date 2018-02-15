@@ -7,11 +7,18 @@
 
 package team190.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team190.models.AutoSequence;
+import team190.robot.commands.autonomous.StartRightScaleLeft;
+import team190.robot.commands.drivetrain.DriveSequence;
+import team190.robot.commands.drivetrain.ZeroEncoders;
+import team190.robot.commands.drivetrain.ZeroGyro;
 
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
@@ -32,9 +39,10 @@ public class Robot extends TimedRobot {
 	public static Carriage carriage;
 	public static OI m_oi;
 	public static Drivetrain drivetrain;
+    public static AHRS navx;
 
-    Command m_autonomousCommand;
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
+    private Command m_autonomousCommand;
+    private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -46,11 +54,24 @@ public class Robot extends TimedRobot {
         collector = new Collector();
         elevator = new Elevator();
         carriage = new Carriage();
+        SmartDashboard.putData("Drivetrain", drivetrain);
+        drivetrain.shift(Drivetrain.Gear.HIGH);
 
+        navx = new AHRS(SPI.Port.kMXP);
         m_oi = new OI();
-        //m_chooser.addDefault("Default Auto", null);
-        // chooser.addObject("My Auto", new MyAutoCommand());
+
+        m_chooser.addDefault("Default Auto", null);
+        m_chooser.addObject("Auto Scale", new StartRightScaleLeft());
         SmartDashboard.putData("Auto mode", m_chooser);
+
+        SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
+        SmartDashboard.putData("Zero Gyro", new ZeroGyro());
+
+        SmartDashboard.putData("Start Right Scale", new DriveSequence(AutoSequence.StartRightScaleLeft));
+        SmartDashboard.putData("Get First Cube", new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
+        SmartDashboard.putData("Place First Cube", new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
+        SmartDashboard.putData("Left Scale Sequence", new StartRightScaleLeft());
+
     }
 
     /**
@@ -81,6 +102,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        drivetrain.setBrakeMode();
         m_autonomousCommand = m_chooser.getSelected();
 
         // schedule the autonomous command (example)
@@ -106,6 +128,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        drivetrain.shift(Drivetrain.Gear.LOW);
+        drivetrain.setCoastMode();
     }
 
     /**

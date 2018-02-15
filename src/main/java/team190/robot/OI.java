@@ -8,6 +8,7 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import team190.models.DeadbandJoystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.robot.commands.CollectCube;
@@ -45,9 +46,13 @@ public class OI {
                              BUTTON_OPERATOR_EXTAKE_REAR = 0;
 
     /* Driver Controls */
-    Joystick leftStick;
-    Joystick rightStick;
     Button highGearButton, lowGearButton;
+    private Joystick leftStick;
+    private Joystick rightStick;
+    //Button highGear;
+    //Button lowGear;
+
+    Joystick operatorController;
 
     /* Operator Controls */
     Joystick operatorControllerA, getOperatorControllerB;
@@ -59,11 +64,13 @@ public class OI {
      */
     public OI() {
         // Driver
-        leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
-        rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
-
         highGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_HIGH_GEAR);
         highGearButton.whenPressed(new Shift(Gear.HIGH));
+        leftStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_1, 0.1);
+        rightStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_2, 0.1);
+
+        //highGear = new JoystickButton(rightStick,3);
+        //lowGear = new JoystickButton(rightStick, 4);
 
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
@@ -104,7 +111,7 @@ public class OI {
      * @return Left Y axis (-1.0 to 1.0)
      */
     public double getLeftY() {
-        return leftStick.getY();
+        return leftStick.getY() * -1.0;
     }
 
     /**
@@ -113,6 +120,6 @@ public class OI {
      * @return Right Y axis (-1.0 to 1.0)
      */
     public double getRightY() {
-        return rightStick.getY();
+        return rightStick.getY() * -1.0;
     }
 }
