@@ -3,7 +3,6 @@ package team190.robot.commands.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
@@ -53,7 +52,7 @@ public class DriveSequence extends Command {
         File rFile = new File(sequence.getRightCSV());
 
         // check if the paths exist
-        if (checkFile(lFile) || checkFile(rFile)) return;
+        if (fileDoesntExist(lFile) || fileDoesntExist(rFile)) return;
 
         Trajectory leftTraj = Pathfinder.readFromCSV(lFile);
         leftFollower = new EncoderFollower(leftTraj);
@@ -101,7 +100,7 @@ public class DriveSequence extends Command {
      * @param file A file to check the existence of
      * @return
      */
-    private boolean checkFile(File file) {
+    private boolean fileDoesntExist(File file) {
         if (!file.exists()) {
             DriverStation.reportWarning(file.getPath() + " not found.", false);
             isFinished = true;
