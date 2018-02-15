@@ -11,14 +11,14 @@ public class ElevatorManualMove extends Command {
 
     double speed;
 
-	public ElevatorManualMove(double speed) {
+    public ElevatorManualMove(double speed) {
         requires(Robot.elevator);
-    	this.speed = speed;
+        this.speed = speed;
     }
 
     @Override
     protected void execute() {
-    	Robot.elevator.manualMove(speed);
+        Robot.elevator.manualMove(speed);
     }
 
     @Override
@@ -28,11 +28,11 @@ public class ElevatorManualMove extends Command {
 
     @Override
     protected void end() {
-    	Robot.elevator.manualMove(0);
+        Robot.elevator.manualMove(0);
     }
 
     @Override
     protected void interrupted() {
-    	end();
+        end();
     }
 }

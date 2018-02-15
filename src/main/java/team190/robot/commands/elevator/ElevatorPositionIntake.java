@@ -26,9 +26,10 @@ public class ElevatorPositionIntake extends Command {
      * isFinished should return true in two cases
      * 1) when the elevator is in the intake position
      * 2) if the elevator has a cube loaded
-     *
+     * <p>
      * this makes it so the operator cannot move the elevator
      * to the intake position if a cube is loaded
+     *
      * @return
      */
     @Override

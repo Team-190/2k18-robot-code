@@ -94,9 +94,10 @@ public class DriveSequence extends Command {
     protected void interrupted() {
         end();
     }
-    
+
     /**
      * Return true if the file is not found
+     *
      * @param file A file to check the existence of
      * @return
      */
