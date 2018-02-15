@@ -12,7 +12,6 @@ import team190.robot.Robot;
 import team190.robot.subsystems.Drivetrain;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by Kevin O'Brien on 2/10/2018.
@@ -23,7 +22,7 @@ public class DriveDistance extends Command {
 
     private AutoSequence sequence;
 
-    private boolean resetNavx;
+    private boolean resetSensors;
 
     private boolean isFinished;
 
@@ -31,17 +30,24 @@ public class DriveDistance extends Command {
         this(sequence, true);
     }
 
-    public DriveDistance(AutoSequence sequence, boolean resetNavx) {
+    public DriveDistance(AutoSequence sequence, boolean resetSensors) {
         requires(Robot.drivetrain);
         this.sequence = sequence;
-        this.resetNavx = resetNavx;
+        this.resetSensors = resetSensors;
     }
 
     @Override
     protected void initialize() {
         Robot.drivetrain.setBrakeMode();
-        if (resetNavx)
+        int leftPos = Robot.drivetrain.getLeftPosition();
+        int rightPos = Robot.drivetrain.getRightPosition();
+        if (resetSensors) {
             Robot.navx.reset();
+            Robot.drivetrain.setPositionZero();
+            leftPos = 0;
+            rightPos = 0;
+        }
+
 
         isFinished = false;
 
@@ -61,16 +67,16 @@ public class DriveDistance extends Command {
         Trajectory leftTraj = Pathfinder.readFromCSV(lFile);
 
         leftFollower = new EncoderFollower(leftTraj);
-        leftFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
+        leftFollower.configureEncoder(leftPos, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         leftFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
         Trajectory rightTraj = Pathfinder.readFromCSV(rFile);
 
         rightFollower = new EncoderFollower(rightTraj);
-        rightFollower.configureEncoder(0, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
+        rightFollower.configureEncoder(rightPos, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         rightFollower.configurePIDVA(0.9, 0, 0, (1.0/16.0), 0);
 
-        Robot.drivetrain.setPositionZero();
+
     }
 
     @Override
@@ -90,9 +96,6 @@ public class DriveDistance extends Command {
             SmartDashboard.putNumber("Angle Difference: ", angleDifference);
             SmartDashboard.putNumber("Turn Value: ", turn);
 
-
-            SmartDashboard.putNumber("LEFT SPEED", leftSpeed);
-            SmartDashboard.putNumber("RIGHT SPEED", rightSpeed);
             Robot.drivetrain.drive(ControlMode.PercentOutput, leftSpeed + turn, rightSpeed - turn);
         }
     }
@@ -112,7 +115,4 @@ public class DriveDistance extends Command {
         end();
     }
 
-    double r2d(double angleInRads) {
-        return angleInRads * 180 / Math.PI;
-    }
 }
