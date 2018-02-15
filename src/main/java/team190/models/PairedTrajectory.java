@@ -18,15 +18,7 @@ public class PairedTrajectory {
         return left;
     }
 
-    public void setLeft(Trajectory left) {
-        this.left = left;
-    }
-
     public Trajectory getRight() {
         return right;
-    }
-
-    public void setRight(Trajectory right) {
-        this.right = right;
     }
 }
