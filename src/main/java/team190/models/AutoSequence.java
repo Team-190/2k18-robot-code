@@ -1,8 +1,10 @@
 package team190.models;
 
-import team190.robot.subsystems.Drivetrain;
-import team190.util.PathfinderTranslator;
+import edu.wpi.first.wpilibj.DriverStation;
+import jaci.pathfinder.Pathfinder;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 /**
@@ -13,60 +15,37 @@ import java.util.HashMap;
  * Created by Kevin O'Brien on 1/25/2018.
  */
 public enum AutoSequence {
-    //ForwardTenFeet,
-    //ScaleLeftCollectCubeOne,
     StartRightScaleLeft,
     ScaleLeftCollectCubeOne,
     ScaleLeftPlaceCubeOne;
-    /*
-    // Starting Positions => Scale
-    StartLeftScaleLeft,
-    StartLeftScaleRight,
-    StartRightScaleLeft,
-    StartRightScaleRight,
 
-    // Left Scale => Collect and Place Power Cubes
-    ScaleLeftCollectCubeOne,
-    ScaleLeftPlaceCubeOne,
-    ScaleLeftCollectCubeTwo,
-    ScaleLeftPlaceCubeTwo,
+    private static HashMap<AutoSequence, PairedTrajectory> trajectories;
+    private final String directory = "/home/lvuser/sequences";
 
-    // Right Scale => Collect and Place Power Cubes
-    ScaleRightCollectCubeOne,
-    ScaleRightPlaceCubeOne,
-    ScaleRightCollectCubeTwo,
-    ScaleRightPlaceCubeTwo,
+    public static void loadTrajectories() throws FileNotFoundException {
+        trajectories = new HashMap<>();
+        for (AutoSequence sequence : AutoSequence.values()) {
+            File lFile = new File(sequence.getLeftCSV());
+            File rFile = new File(sequence.getRightCSV());
 
-    // Starting Positions => Switch
-    StartLeftSwitchLeft,
-    StartRightSwitchRight,
+            if (!lFile.exists()) {
+                DriverStation.reportWarning(sequence.getLeftCSV() + " not found.", false);
+                throw new FileNotFoundException();
+            } else if (!rFile.exists()) {
+                DriverStation.reportWarning(sequence.getRightCSV() + " not found.", false);
+                throw new FileNotFoundException();
+            } else {
+                trajectories.put(sequence, new PairedTrajectory(Pathfinder.readFromCSV(lFile), Pathfinder.readFromCSV(rFile)));
+            }
+        }
+    }
 
-    // Basic Drive Straights
-    ForwardFiveFeet,
-    ForwardTenFeet,
-
-    // Other
-    TestSCurve,
-    CoursePath;*/
-
-    private static HashMap<AutoSequence, PairedTrajectoryPoints> trajectories;
-
-    public PairedTrajectoryPoints getPairedTrajectoryPoints() {
+    public PairedTrajectory getPairedTrajectory() throws FileNotFoundException {
         if (trajectories == null) {
             loadTrajectories();
         }
         return trajectories.get(this);
     }
-
-    public static void loadTrajectories() {
-        trajectories = new HashMap<>();
-        for (AutoSequence sequence: AutoSequence.values()) {
-            PathfinderTranslator path = new PathfinderTranslator(sequence, Drivetrain.HIGH_GEAR_PROFILE);
-            trajectories.put(sequence, new PairedTrajectoryPoints(path.getLeftTrajectoryPoints(), path.getRightTrajectoryPoints()));
-        }
-    }
-
-    private final String directory = "/home/lvuser/sequences";
 
     public String getLeftCSV() {
         return directory + "/" + name() + "_left_detailed.csv";

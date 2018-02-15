@@ -8,11 +8,7 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.models.DeadbandJoystick;
-import team190.robot.commands.Shift;
-import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -30,8 +26,8 @@ public class OI {
     // Buttons for the operator
     private static final int BUTTON_EXAMPLE_ACTION = 0;
 
-    Joystick leftStick;
-    Joystick rightStick;
+    private Joystick leftStick;
+    private Joystick rightStick;
     //Button highGear;
     //Button lowGear;
 
@@ -59,7 +55,9 @@ public class OI {
      *
      * @return Left Y axis (0.0 to 1.0)
      */
-    public double getLeftY() { return leftStick.getY() * -1.0; }
+    public double getLeftY() {
+        return leftStick.getY() * -1.0;
+    }
 
     /**
      * Get the value of the right Y axis

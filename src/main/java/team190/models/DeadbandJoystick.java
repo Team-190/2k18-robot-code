@@ -1,7 +1,6 @@
 package team190.models;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.drive.Vector2d;
 
 public class DeadbandJoystick extends Joystick {
     double deadband;

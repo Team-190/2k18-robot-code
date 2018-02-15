@@ -1,4 +1,4 @@
-package team190.robot.commands;
+package team190.robot.commands.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
