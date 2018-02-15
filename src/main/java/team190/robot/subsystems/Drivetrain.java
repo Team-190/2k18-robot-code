@@ -34,12 +34,12 @@ public class Drivetrain extends Subsystem {
     private DoubleSolenoid shifter;
 
     public Drivetrain() {
-        leftPair = new PairedTalonSRX(0, 2);
+        leftPair = new PairedTalonSRX(1, 2);
 
         leftPair.setInverted(true);
         leftPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
-        rightPair = new PairedTalonSRX(6, 5);
+        rightPair = new PairedTalonSRX(3, 4);
         rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         rightPair.setSensorPhase(true);
 
