@@ -8,10 +8,7 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import team190.robot.commands.Shift;
-import team190.robot.subsystems.Drivetrain.Gear;
+import team190.models.DeadbandJoystick;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -29,11 +26,11 @@ public class OI {
     // Buttons for the operator
     private static final int BUTTON_EXAMPLE_ACTION = 0;
 
-    Joystick leftStick;
-    Joystick rightStick;
-    Button highGear;
-    Button lowGear;
-    
+    private Joystick leftStick;
+    private Joystick rightStick;
+    //Button highGear;
+    //Button lowGear;
+
     Joystick operatorController;
 
 
@@ -41,16 +38,16 @@ public class OI {
      * Constructor
      */
     public OI() {
-        leftStick = new Joystick(PORT_DRIVER_JOYSTICK_1);
-        rightStick = new Joystick(PORT_DRIVER_JOYSTICK_2);
-        
-        highGear = new JoystickButton(rightStick,3);
-        lowGear = new JoystickButton(rightStick, 4);
+        leftStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_1, 0.1);
+        rightStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_2, 0.1);
+
+        //highGear = new JoystickButton(rightStick,3);
+        //lowGear = new JoystickButton(rightStick, 4);
 
         operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
-        
-        highGear.whenPressed(new Shift(Gear.HIGH));
-        lowGear.whenPressed(new Shift(Gear.LOW));
+
+        //highGear.whenPressed(new Shift(Gear.HIGH));
+        //lowGear.whenPressed(new Shift(Gear.LOW));
     }
 
     /**
@@ -59,7 +56,7 @@ public class OI {
      * @return Left Y axis (0.0 to 1.0)
      */
     public double getLeftY() {
-        return leftStick.getY();
+        return leftStick.getY() * -1.0;
     }
 
     /**
@@ -68,6 +65,6 @@ public class OI {
      * @return Right Y axis (0.0 to 1.0)
      */
     public double getRightY() {
-        return rightStick.getY();
+        return rightStick.getY() * -1.0;
     }
 }

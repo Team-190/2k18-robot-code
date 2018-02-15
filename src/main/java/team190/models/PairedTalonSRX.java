@@ -2,8 +2,10 @@ package team190.models;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import team190.robot.subsystems.Drivetrain;
 
-public class PairedTalonSRX extends TalonSRX {
+public class PairedTalonSRX extends WPI_TalonSRX {
 
     private final TalonSRX follower;
 
@@ -25,5 +27,13 @@ public class PairedTalonSRX extends TalonSRX {
         super.setInverted(invert);
         follower.setInverted(invert);
     }
+
+    public void configPIDF(int slotIdx, int timeout, double P, double I, double D, double F) {
+        config_kP(slotIdx, P, timeout);
+        config_kI(slotIdx, I, timeout);
+        config_kD(slotIdx, D, timeout);
+        config_kF(slotIdx, F, timeout);
+    }
+
 
 }
