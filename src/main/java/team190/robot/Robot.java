@@ -19,7 +19,11 @@ import team190.robot.commands.autonomous.StartRightScaleLeft;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.drivetrain.ZeroEncoders;
 import team190.robot.commands.drivetrain.ZeroGyro;
+
+import team190.robot.subsystems.Carriage;
+import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
+import team190.robot.subsystems.Elevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,8 +34,11 @@ import team190.robot.subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
 
-    public static OI m_oi;
-    public static Drivetrain drivetrain;
+	public static Collector collector;
+	public static Elevator elevator;
+	public static Carriage carriage;
+	public static OI m_oi;
+	public static Drivetrain drivetrain;
     public static AHRS navx;
 
     private Command m_autonomousCommand;
@@ -44,6 +51,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         drivetrain = new Drivetrain();
+        collector = new Collector();
+        elevator = new Elevator();
+        carriage = new Carriage();
         SmartDashboard.putData("Drivetrain", drivetrain);
         drivetrain.shift(Drivetrain.Gear.HIGH);
 

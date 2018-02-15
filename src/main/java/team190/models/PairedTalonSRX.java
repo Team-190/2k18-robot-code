@@ -35,5 +35,4 @@ public class PairedTalonSRX extends WPI_TalonSRX {
         config_kF(slotIdx, F, timeout);
     }
 
-
 }
