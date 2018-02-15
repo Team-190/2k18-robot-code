@@ -3,6 +3,7 @@ package team190.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Carriage extends Subsystem {
@@ -11,13 +12,17 @@ public class Carriage extends Subsystem {
         Extake, Stop, Transfer
 	}
 
+	//TODO: channels
 	private static final int CARRIAGE_SRX = 4;
 
-	private TalonSRX left, right;
+	private static final int CARRIAGE_CUBE_SENSOR_PORT = 2;
+	private DigitalInput cubeSensor = new DigitalInput(CARRIAGE_CUBE_SENSOR_PORT);
+
+	private TalonSRX mainMotor;
 
 	public Carriage() {
-		left = new TalonSRX(CARRIAGE_SRX);
-		left.setInverted(false);
+		mainMotor = new TalonSRX(CARRIAGE_SRX);
+		mainMotor.setInverted(false);
 	}
 
 	// Put methods for controlling this subsystem
@@ -30,16 +35,14 @@ public class Carriage extends Subsystem {
 		} else if (mode == CarriageMode.Stop) {
 			speed = 0;
 		} else if (mode == CarriageMode.Transfer) { // TODO the transfer mode might be more complicated
-			speed = -0.5;
+			speed = 0.5;
 		}
 		
-		left.set(ControlMode.PercentOutput, speed);
-		right.set(ControlMode.PercentOutput, speed);
+		mainMotor.set(ControlMode.PercentOutput, speed);
 	}
 
-	//TODO: implement
 	public boolean hasCube() {
-		return true;
+		return cubeSensor.get();
 	}
 
 	public void initDefaultCommand() {

@@ -26,4 +26,11 @@ public class PairedTalonSRX extends TalonSRX {
         follower.setInverted(invert);
     }
 
+    public void configPIDF(int slotIdx, int timeout, double P, double I, double D, double F) {
+        config_kP(slotIdx, P, timeout);
+        config_kI(slotIdx, I, timeout);
+        config_kD(slotIdx, D, timeout);
+        config_kF(slotIdx, F, timeout);
+    }
+
 }
