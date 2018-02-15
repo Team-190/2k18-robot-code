@@ -47,35 +47,23 @@ public class DriveSequence extends Command {
             rightPos = 0;
         }
 
-
         isFinished = false;
 
         File lFile = new File(sequence.getLeftCSV());
         File rFile = new File(sequence.getRightCSV());
-        if (!lFile.exists()) {
-            DriverStation.reportWarning(sequence.getLeftCSV() + " not found.", false);
-            isFinished = true;
-            return;
-        }
-        if (!rFile.exists()) {
-            DriverStation.reportWarning(sequence.getRightCSV() + " not found.", false);
-            isFinished = true;
-            return;
-        }
+
+        // check if the paths exist
+        if (checkFile(lFile) || checkFile(rFile)) return;
 
         Trajectory leftTraj = Pathfinder.readFromCSV(lFile);
-
         leftFollower = new EncoderFollower(leftTraj);
         leftFollower.configureEncoder(leftPos, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         leftFollower.configurePIDVA(0.9, 0, 0, (1.0 / 16.0), 0);
 
         Trajectory rightTraj = Pathfinder.readFromCSV(rFile);
-
         rightFollower = new EncoderFollower(rightTraj);
         rightFollower.configureEncoder(rightPos, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
         rightFollower.configurePIDVA(0.9, 0, 0, (1.0 / 16.0), 0);
-
-
     }
 
     @Override
@@ -86,14 +74,8 @@ public class DriveSequence extends Command {
 
             double gyroHeading = -Robot.navx.getAngle();
             double desiredHeading = Pathfinder.r2d(leftFollower.getHeading());
-
             double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
             double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
-
-            SmartDashboard.putNumber("Desired Heading: ", desiredHeading);
-            SmartDashboard.putNumber("Actual Heading: ", gyroHeading);
-            SmartDashboard.putNumber("Angle Difference: ", angleDifference);
-            SmartDashboard.putNumber("Turn Value: ", turn);
 
             Robot.drivetrain.drive(ControlMode.PercentOutput, leftSpeed + turn, rightSpeed - turn);
         }
@@ -113,5 +95,19 @@ public class DriveSequence extends Command {
     protected void interrupted() {
         end();
     }
-
+    
+    /**
+     * Return true if the file is not found
+     * @param file A file to check the existence of
+     * @return
+     */
+    private boolean checkFile(File file) {
+        if (!file.exists()) {
+            DriverStation.reportWarning(file.getPath() + " not found.", false);
+            isFinished = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
