@@ -93,7 +93,6 @@ public class DriveDistance extends Command {
 
             SmartDashboard.putNumber("LEFT SPEED", leftSpeed);
             SmartDashboard.putNumber("RIGHT SPEED", rightSpeed);
-            //Robot.drivetrain.drive(ControlMode.PercentOutput, leftSpeed + turn, rightSpeed - turn);
             Robot.drivetrain.drive(ControlMode.PercentOutput, leftSpeed + turn, rightSpeed - turn);
         }
     }
