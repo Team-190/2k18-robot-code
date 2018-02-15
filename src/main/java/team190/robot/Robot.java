@@ -19,7 +19,6 @@ import team190.robot.commands.autonomous.StartRightScaleLeft;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.drivetrain.ZeroEncoders;
 import team190.robot.commands.drivetrain.ZeroGyro;
-
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
@@ -34,11 +33,11 @@ import team190.robot.subsystems.Elevator;
  */
 public class Robot extends TimedRobot {
 
-	public static Collector collector;
-	public static Elevator elevator;
-	public static Carriage carriage;
-	public static OI m_oi;
-	public static Drivetrain drivetrain;
+    public static Drivetrain drivetrain;
+    public static Collector collector;
+    public static Elevator elevator;
+    public static Carriage carriage;
+    public static OI m_oi;
     public static AHRS navx;
 
     private Command m_autonomousCommand;
@@ -54,14 +53,15 @@ public class Robot extends TimedRobot {
         collector = new Collector();
         elevator = new Elevator();
         carriage = new Carriage();
+        m_oi = new OI();
+        navx = new AHRS(SPI.Port.kMXP);
+
         SmartDashboard.putData("Drivetrain", drivetrain);
         drivetrain.shift(Drivetrain.Gear.HIGH);
 
-        navx = new AHRS(SPI.Port.kMXP);
-        m_oi = new OI();
-
         m_chooser.addDefault("Default Auto", null);
         m_chooser.addObject("Auto Scale", new StartRightScaleLeft());
+
         SmartDashboard.putData("Auto mode", m_chooser);
 
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
@@ -71,7 +71,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Get First Cube", new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
         SmartDashboard.putData("Place First Cube", new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
         SmartDashboard.putData("Left Scale Sequence", new StartRightScaleLeft());
-
     }
 
     /**

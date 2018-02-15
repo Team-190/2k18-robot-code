@@ -2,8 +2,6 @@ package team190.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import team190.models.PairedTalonSRX;
 
@@ -11,13 +9,6 @@ import team190.models.PairedTalonSRX;
  *
  */
 public class Elevator extends Subsystem {
-    private static final int DEFAULT_TIMEOUT_MS = 0;
-    private static final int DEFAULT_PIDX = 0;
-
-    // CAN Channels
-    private static final int ELEVATOR_SRX_LEFT = 5,
-            ELEVATOR_SRX_RIGHT = 6;
-
     // TODO: change exact values
     public final static double GROUND = 0 * (1023 / 96);
     public final static double REST = 20 * (1023 / 96);
@@ -25,12 +16,19 @@ public class Elevator extends Subsystem {
     public final static double SIXFT = 72 * (1023 / 96);
     public final static double SEVENFT = 84 * (1023 / 96);
     public final static double MAX = 96 * (1023 / 96);
-
-    // TODO: change channels
-    private PairedTalonSRX motor;
+    private static final int DEFAULT_TIMEOUT_MS = 0;
+    private static final int DEFAULT_PIDX = 0;
+    // CAN Channels
+    private static final int ELEVATOR_SRX_LEFT = 5,
+            ELEVATOR_SRX_RIGHT = 6;
+    int numKeepTrack = 10;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
+    int allowableError = 50;
+    int[] lastTenErrors = new int[numKeepTrack];
+    int errpos = 0;
+    // TODO: change channels
+    private PairedTalonSRX motor;
     public Elevator() {
         motor = new PairedTalonSRX(ELEVATOR_SRX_LEFT, ELEVATOR_SRX_RIGHT);
         motor.setInverted(false);
@@ -56,12 +54,10 @@ public class Elevator extends Subsystem {
         motor.set(ControlMode.PercentOutput, percent);
     }
 
-    int numKeepTrack = 10;
-    int allowableError = 50;
-    int[] lastTenErrors = new int[numKeepTrack];
-    int errpos = 0;
-
+    // TODO: make work
     public boolean inPosition() {
+        return true;
+        /*
         int err = motor.getClosedLoopError(DEFAULT_PIDX);
         lastTenErrors[errpos % numKeepTrack] = err;
         errpos++;
@@ -76,7 +72,7 @@ public class Elevator extends Subsystem {
         average /= numKeepTrack;
 
         if (average <= allowableError) return true;
-        else return false;
+        else return false;*/
     }
 
     public void initDefaultCommand() {
