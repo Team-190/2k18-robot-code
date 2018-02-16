@@ -11,12 +11,13 @@ public class Carriage extends Subsystem {
     private static final int CARRIAGE_CUBE_SENSOR_PORT = 2;
 
     // Banner sensor
-    private DigitalInput cubeSensor = new DigitalInput(CARRIAGE_CUBE_SENSOR_PORT);
+    private DigitalInput cubeSensor;
 
     private TalonSRX mainMotor;
 
     public Carriage() {
         mainMotor = new TalonSRX(CARRIAGE_SRX);
+        cubeSensor = new DigitalInput(CARRIAGE_CUBE_SENSOR_PORT);
         //mainMotor.setInverted(false);
     }
 

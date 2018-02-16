@@ -19,7 +19,7 @@ public class Collector extends Subsystem {
     private TalonSRX left, right;
 
     // Banner sensor
-    private DigitalInput cubeSensor = new DigitalInput(INTAKE_CUBE_SENSOR_PORT);
+    private DigitalInput cubeSensor;
 
     public Collector() {
         left = new TalonSRX(SRX_LEFT);
@@ -28,6 +28,8 @@ public class Collector extends Subsystem {
         right = new TalonSRX(SRX_RIGHT);
         right.setInverted(INVERT_RIGHT);
         right.follow(left);
+
+        cubeSensor = new DigitalInput(INTAKE_CUBE_SENSOR_PORT);
     }
 
     // Put methods for controlling this subsystem
