@@ -29,7 +29,8 @@ public class OI {
     // Ports for controllers
     private static final int PORT_DRIVER_JOYSTICK_1 = 0,
             PORT_DRIVER_JOYSTICK_2 = 1,
-            PORT_OPERATOR_CONTROLLER = 3;
+            PORT_OPERATOR_CONTROLLER_A = 2,
+            PORT_OPERATOR_CONTROLLER_B = 3;
 
     // Buttons for the driver
     private static final int BUTTON_DRIVER_HIGH_GEAR = 3,
@@ -37,29 +38,31 @@ public class OI {
 
     // Buttons for the operator
     private static final int BUTTON_OPERATOR_ELEV_CARRIAGE_FT = 0,
-            BUTTON_OPERATOR_ELEV_FIVE_FT = 0,
-            BUTTON_OPERATOR_ELEV_SIX_FT = 0,
-            BUTTON_OPERATOR_ELEV_SEVEN_FT = 0,
+            BUTTON_OPERATOR_ELEV_LOW = 0,
+            BUTTON_OPERATOR_ELEV_MID = 0,
+            BUTTON_OPERATOR_ELEV_HIGH = 0,
             BUTTON_OPERATOR_ELEV_CLIMB = 0,
 
-    BUTTON_OPERATOR_INTAKE = 0,
+            BUTTON_OPERATOR_INTAKE = 0,
             BUTTON_OPERATOR_EXTAKE_FRONT = 0,
             BUTTON_OPERATOR_EXTAKE_REAR = 0;
 
     /* Driver Controls */
-    Button highGearButton, lowGearButton;
+    private Button highGearButton, lowGearButton;
     /* Operator Controls */
-    Joystick operatorControllerA, getOperatorControllerB;
-    Button elevatorPosCarriageButton, elevatorPosFiveFtButton, elevatorPosSixFtButton, elevatorPosSevenFtButton,
+    private Joystick operatorControllerA, operatorControllerB;
+    private Button elevatorPosCarriageButton, elevatorPosLowButton, elevatorPosMidButton, elevatorPosHighButton,
             elevatorPosClimbButton, intakeButton, extakeFrontButton, extakeRearButton;
+
     private Joystick leftStick;
     private Joystick rightStick;
 
     /**
      * Constructor
      */
-    public OI() {
+    OI() {
         // Driver
+        // TODO: Calibrate deadband
         leftStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_1, 0.1);
         rightStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_2, 0.1);
 
@@ -69,20 +72,20 @@ public class OI {
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
         /* Operator */
-        operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER);
+        operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
 
         // Elevator Positions
         elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_CARRIAGE_FT);
         elevatorPosCarriageButton.whenPressed(new ElevatorPositionCarriage());
 
-        elevatorPosFiveFtButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_FIVE_FT);
-        elevatorPosFiveFtButton.whenPressed(new ElevatorPositionFiveFeet());
+        elevatorPosLowButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_LOW);
+        elevatorPosLowButton.whenPressed(new ElevatorPositionLow());
 
-        elevatorPosSixFtButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_SIX_FT);
-        elevatorPosSixFtButton.whenPressed(new ElevatorPositionSixFeet());
+        elevatorPosMidButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_MID);
+        elevatorPosMidButton.whenPressed(new ElevatorPositionMed());
 
-        elevatorPosSevenFtButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_SEVEN_FT);
-        elevatorPosSevenFtButton.whenPressed(new ElevatorPositionSevenFeet());
+        elevatorPosHighButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_HIGH);
+        elevatorPosHighButton.whenPressed(new ElevatorPositionHigh());
 
         elevatorPosClimbButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_CLIMB);
         elevatorPosClimbButton.whenPressed(new ElevatorPositionClimb());

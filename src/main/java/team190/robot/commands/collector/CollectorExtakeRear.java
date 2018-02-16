@@ -7,27 +7,26 @@ import team190.robot.subsystems.Collector;
 
 public class CollectorExtakeRear extends Command {
 
-    private boolean canExtake = true;
+    private boolean canExtake;
 
     public CollectorExtakeRear() {
-        // TODO add requires to extake rear
         requires(Robot.collector);
         requires(Robot.carriage);
     }
 
     @Override
     protected void initialize() {
-        /* pseudo code:
-        canExtake = (if cube is loaded)
-         */
+        canExtake = Robot.collector.hasCube();
 
         setTimeout(1); // TODO find actual timeout for extake rear
     }
 
     @Override
     protected void execute() {
-        Robot.carriage.move(Carriage.CarriageMode.Extake);
-        Robot.collector.intake(Collector.IntakeMode.Stop);
+        if (!isFinished()) {
+            Robot.carriage.move(Carriage.CarriageMode.Extake);
+            Robot.collector.intake(Collector.IntakeMode.Stop);
+        }
     }
 
     @Override

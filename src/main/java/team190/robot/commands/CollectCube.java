@@ -9,7 +9,7 @@ import team190.robot.commands.elevator.ElevatorPositionIntake;
 
 public class CollectCube extends CommandGroup {
 
-    private boolean canIntake = true;
+    private boolean canIntake;
 
     public CollectCube() {
         addSequential(new ElevatorPositionIntake());

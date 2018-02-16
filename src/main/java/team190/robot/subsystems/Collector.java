@@ -15,11 +15,12 @@ public class Collector extends Subsystem {
     private static final boolean INVERT_LEFT = false, INVERT_RIGHT = true;
     // DIO inputs
     private static final int INTAKE_CUBE_SENSOR_PORT = 1;
-    //TODO: change channels
+
     private TalonSRX left, right;
+
+    // Banner sensor
     private DigitalInput cubeSensor = new DigitalInput(INTAKE_CUBE_SENSOR_PORT);
 
-    //TODO: switch?
     public Collector() {
         left = new TalonSRX(SRX_LEFT);
         left.setInverted(INVERT_LEFT);
@@ -32,7 +33,7 @@ public class Collector extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    //TODO: change to actual values
+    //TODO: Calibrate speeds
     public void intake(IntakeMode mode) {
         double percent = 0;
         if (mode == IntakeMode.Stop) {
@@ -41,12 +42,11 @@ public class Collector extends Subsystem {
             percent = 0.5;
         } else if (mode == IntakeMode.Extake) {
             percent = -0.2;
-        } else if (mode == IntakeMode.Transfer) { // TODO the transfer mode might be more complicated
+        } else if (mode == IntakeMode.Transfer) {
             percent = 0.1;
         }
 
         left.set(ControlMode.PercentOutput, percent);
-        right.set(ControlMode.PercentOutput, percent);
     }
 
     public boolean hasCube() {

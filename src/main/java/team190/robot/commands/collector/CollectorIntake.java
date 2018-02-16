@@ -28,7 +28,7 @@ public class CollectorIntake extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.collector.hasCube(); // TODO maybe also finish if a cube is detected in the carriage?
+        return Robot.collector.hasCube() || Robot.carriage.hasCube();
     }
 
     @Override
@@ -38,6 +38,6 @@ public class CollectorIntake extends Command {
 
     @Override
     protected void interrupted() {
-        Robot.collector.intake(Collector.IntakeMode.Stop);
+        end();
     }
 }

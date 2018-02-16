@@ -12,9 +12,6 @@ import team190.robot.subsystems.Drivetrain;
 
 import java.io.File;
 
-/**
- * Created by Kevin O'Brien on 2/10/2018.
- */
 public class DriveSequence extends Command {
     private EncoderFollower leftFollower;
     private EncoderFollower rightFollower;
@@ -37,10 +34,13 @@ public class DriveSequence extends Command {
 
     @Override
     protected void initialize() {
+        Robot.drivetrain.shift(Drivetrain.Gear.HIGH);
+        Robot.drivetrain.setBrakeMode();
+
         int leftPos = Robot.drivetrain.getLeftPosition();
         int rightPos = Robot.drivetrain.getRightPosition();
         if (resetSensors) {
-            Robot.navx.reset();
+            Robot.drivetrain.resetNavx();
             Robot.drivetrain.setPositionZero();
             leftPos = 0;
             rightPos = 0;
@@ -71,7 +71,7 @@ public class DriveSequence extends Command {
             double leftSpeed = leftFollower.calculate(Robot.drivetrain.getLeftPosition());
             double rightSpeed = rightFollower.calculate(Robot.drivetrain.getRightPosition());
 
-            double gyroHeading = -Robot.navx.getAngle();
+            double gyroHeading = -Robot.drivetrain.getAngle();
             double desiredHeading = Pathfinder.r2d(leftFollower.getHeading());
             double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
             double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
@@ -99,7 +99,7 @@ public class DriveSequence extends Command {
      * Return true if the file is not found
      *
      * @param file A file to check the existence of
-     * @return
+     * @return True if file not found
      */
     private boolean fileDoesntExist(File file) {
         if (!file.exists()) {

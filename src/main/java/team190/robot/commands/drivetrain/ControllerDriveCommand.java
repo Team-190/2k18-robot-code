@@ -3,6 +3,7 @@ package team190.robot.commands.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 import team190.robot.Robot;
+import team190.robot.subsystems.Drivetrain;
 
 public class ControllerDriveCommand extends Command {
 
@@ -13,6 +14,8 @@ public class ControllerDriveCommand extends Command {
 
     @Override
     protected void initialize() {
+        Robot.drivetrain.shift(Drivetrain.Gear.LOW);
+        Robot.drivetrain.setCoastMode();
     }
 
     @Override

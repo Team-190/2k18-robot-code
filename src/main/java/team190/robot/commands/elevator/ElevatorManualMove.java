@@ -4,12 +4,12 @@ package team190.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import team190.robot.Robot;
 
-/**
+/** Only call from a Button so the Command is properly canceled.
  *
  */
 public class ElevatorManualMove extends Command {
 
-    double speed;
+    private double speed;
 
     public ElevatorManualMove(double speed) {
         requires(Robot.elevator);

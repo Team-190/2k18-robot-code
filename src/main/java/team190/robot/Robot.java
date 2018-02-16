@@ -38,7 +38,6 @@ public class Robot extends TimedRobot {
     public static Elevator elevator;
     public static Carriage carriage;
     public static OI m_oi;
-    public static AHRS navx;
 
     private Command m_autonomousCommand;
     private SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -54,23 +53,17 @@ public class Robot extends TimedRobot {
         elevator = new Elevator();
         carriage = new Carriage();
         m_oi = new OI();
-        navx = new AHRS(SPI.Port.kMXP);
 
         SmartDashboard.putData("Drivetrain", drivetrain);
-        drivetrain.shift(Drivetrain.Gear.HIGH);
 
-        m_chooser.addDefault("Default Auto", null);
-        m_chooser.addObject("Auto Scale", new StartRightScaleLeft());
-
+        m_chooser.addDefault("Do Nothing", null);
+        m_chooser.addObject("Drive Forward", null); // TODO: Add a DriveForward (no encoders) with timeout
+        m_chooser.addObject("Smart Auto 1 Cube", null); // TODO: add command with logic to check GameData String
+        m_chooser.addObject("Smart Auto 2 Cube", null); // TODO: do this
         SmartDashboard.putData("Auto mode", m_chooser);
 
-        SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
-        SmartDashboard.putData("Zero Gyro", new ZeroGyro());
-
-        SmartDashboard.putData("Start Right Scale", new DriveSequence(AutoSequence.StartRightScaleLeft));
-        SmartDashboard.putData("Get First Cube", new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
-        SmartDashboard.putData("Place First Cube", new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
-        SmartDashboard.putData("Left Scale Sequence", new StartRightScaleLeft());
+        // Debug commands
+        debugSmartDashboard();
     }
 
     /**
@@ -102,6 +95,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         drivetrain.setBrakeMode();
+        drivetrain.shift(Drivetrain.Gear.HIGH);
         m_autonomousCommand = m_chooser.getSelected();
 
         // schedule the autonomous command (example)
@@ -144,5 +138,14 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+    }
+
+    private void debugSmartDashboard() {
+        SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
+        SmartDashboard.putData("Zero Gyro", new ZeroGyro());
+        SmartDashboard.putData("Start Right Scale", new DriveSequence(AutoSequence.StartRightScaleLeft));
+        SmartDashboard.putData("Get First Cube", new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
+        SmartDashboard.putData("Place First Cube", new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
+        SmartDashboard.putData("Left Scale Sequence", new StartRightScaleLeft());
     }
 }

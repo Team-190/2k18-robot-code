@@ -6,15 +6,15 @@ import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Elevator;
 
-public class ElevatorPositionClimb extends Command {
+public class ElevatorPositionHigh extends Command {
 
-    public ElevatorPositionClimb() {
+    public ElevatorPositionHigh() {
         requires(Robot.elevator);
     }
 
     @Override
     protected void initialize() {
-        Robot.elevator.moveElevator(Elevator.POS_MAX);
+        Robot.elevator.moveElevator(Elevator.POS_HI);
     }
 
     @Override

@@ -7,24 +7,27 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Carriage extends Subsystem {
 
-    //TODO: channels
     private static final int CARRIAGE_SRX = 9;
     private static final int CARRIAGE_CUBE_SENSOR_PORT = 2;
+
+    // Banner sensor
     private DigitalInput cubeSensor = new DigitalInput(CARRIAGE_CUBE_SENSOR_PORT);
+
     private TalonSRX mainMotor;
 
     public Carriage() {
         mainMotor = new TalonSRX(CARRIAGE_SRX);
-        mainMotor.setInverted(false);
+        //mainMotor.setInverted(false);
     }
 
     public void move(CarriageMode mode) {
         double speed = 0;
+        // TODO: Calibrate speeds
         if (mode == CarriageMode.Extake) {
             speed = 1;
         } else if (mode == CarriageMode.Stop) {
             speed = 0;
-        } else if (mode == CarriageMode.Transfer) { // TODO the transfer mode might be more complicated
+        } else if (mode == CarriageMode.Transfer) {
             speed = 0.5;
         }
 

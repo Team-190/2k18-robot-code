@@ -7,7 +7,7 @@ import team190.robot.subsystems.Collector;
 
 public class CollectorExtakeFront extends Command {
 
-    private boolean canExtake = true;
+    private boolean canExtake;
 
     public CollectorExtakeFront() {
         requires(Robot.collector);
@@ -23,8 +23,10 @@ public class CollectorExtakeFront extends Command {
 
     @Override
     protected void execute() {
-        Robot.collector.intake(Collector.IntakeMode.Extake);
-        Robot.carriage.move(Carriage.CarriageMode.Stop);
+        if (!isFinished()) {
+            Robot.collector.intake(Collector.IntakeMode.Extake);
+            Robot.carriage.move(Carriage.CarriageMode.Stop);
+        }
     }
 
     @Override

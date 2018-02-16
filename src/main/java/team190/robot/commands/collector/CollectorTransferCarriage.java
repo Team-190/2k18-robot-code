@@ -31,7 +31,6 @@ public class CollectorTransferCarriage extends Command {
     }
 
     protected void interrupted() {
-        Robot.collector.intake(Collector.IntakeMode.Stop);
-        Robot.carriage.move(Carriage.CarriageMode.Stop);
+        end();
     }
 }
