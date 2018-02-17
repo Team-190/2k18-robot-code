@@ -29,6 +29,14 @@ public class Elevator extends Subsystem {
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
 
+    // Moving Average
+    private static int NUM_ROLLING_AVG = 25;
+    private int[] errorValues;
+    private int errorValuesIndex;
+
+    private static final double SPEED_TOLERANCE = 0.0;
+    private static final double ERROR_TOLERANCE = 0.0;
+
     // CAN Channels
     private static final int ELEVATOR_SRX_LEFT = 5,
             ELEVATOR_SRX_RIGHT = 6;
@@ -51,6 +59,8 @@ public class Elevator extends Subsystem {
         motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 0.1, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+
+        errorValues = new int[NUM_ROLLING_AVG];
     }
 
     /**
@@ -69,23 +79,15 @@ public class Elevator extends Subsystem {
 
     // TODO: make work
     public boolean inPosition() {
-        return true;
-        /*
-        int err = motor.getClosedLoopError(DEFAULT_PIDX);
-        lastTenErrors[errpos % numKeepTrack] = err;
-        errpos++;
+        int thisError = motor.getClosedLoopError(DEFAULT_PIDX);
+        int lastError = errorValues[errorValuesIndex];
+        errorValues[(errorValuesIndex++ % NUM_ROLLING_AVG)] = thisError;
 
-        if (errpos < numKeepTrack) return false;
+        double sumError = 0;
+        for (int e : errorValues) sumError += e;
+        sumError = sumError / errorValues.length;
 
-        double average = 0;
-        for (int e : lastTenErrors) {
-            average += e;
-            average += e;
-        }
-        average /= numKeepTrack;
-
-        if (average <= allowableError) return true;
-        else return false;*/
+        return (sumError < ERROR_TOLERANCE && (thisError - lastError) < SPEED_TOLERANCE);
     }
 
     public void initDefaultCommand() {
