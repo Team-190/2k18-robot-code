@@ -60,6 +60,7 @@ public class Elevator extends Subsystem {
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
+        errorValuesIndex = 0;
         errorValues = new int[NUM_ROLLING_AVG];
     }
 
@@ -77,17 +78,19 @@ public class Elevator extends Subsystem {
         motor.set(ControlMode.PercentOutput, percent);
     }
 
-    // TODO: make work
+    // TODO: confirm that it works
     public boolean inPosition() {
         int thisError = motor.getClosedLoopError(DEFAULT_PIDX);
-        int lastError = errorValues[errorValuesIndex];
-        errorValues[(errorValuesIndex++ % NUM_ROLLING_AVG)] = thisError;
+        int lastError = errorValues[errorValuesIndex % NUM_ROLLING_AVG];
+        errorValues[(++errorValuesIndex % NUM_ROLLING_AVG)] = thisError;
+
+        if (errorValuesIndex <= NUM_ROLLING_AVG) return false;
 
         double sumError = 0;
         for (int e : errorValues) sumError += e;
-        sumError = sumError / errorValues.length;
+        double averageError = sumError / errorValues.length;
 
-        return (sumError < ERROR_TOLERANCE && (thisError - lastError) < SPEED_TOLERANCE);
+        return (averageError < ERROR_TOLERANCE && Math.abs(thisError - lastError) < SPEED_TOLERANCE);
     }
 
     public void initDefaultCommand() {
