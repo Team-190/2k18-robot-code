@@ -7,14 +7,13 @@
 
 package team190.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.AutoSequence;
+import team190.robot.commands.autonomous.DriveForward;
 import team190.robot.commands.autonomous.StartRightScaleLeft;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.drivetrain.ZeroEncoders;
@@ -57,7 +56,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Drivetrain", drivetrain);
 
         m_chooser.addDefault("Do Nothing", null);
-        m_chooser.addObject("Drive Forward", null); // TODO: Add a DriveForward (no encoders) with timeout
+        m_chooser.addObject("Drive Forward", new DriveForward(5));
         m_chooser.addObject("Smart Auto 1 Cube", null); // TODO: add command with logic to check GameData String
         m_chooser.addObject("Smart Auto 2 Cube", null); // TODO: do this
         SmartDashboard.putData("Auto mode", m_chooser);
