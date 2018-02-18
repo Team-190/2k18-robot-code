@@ -34,18 +34,18 @@ public class OI {
 
     // Buttons for the driver
     private static final int BUTTON_DRIVER_HIGH_GEAR = 3,
-            BUTTON_DRIVER_LOW_GEAR = 4;
+            BUTTON_DRIVER_LOW_GEAR = 2;
 
     // Buttons for the operator
-    private static final int BUTTON_OPERATOR_ELEV_CARRIAGE_FT = 0,
-            BUTTON_OPERATOR_ELEV_LOW = 0,
-            BUTTON_OPERATOR_ELEV_MID = 0,
-            BUTTON_OPERATOR_ELEV_HIGH = 0,
-            BUTTON_OPERATOR_ELEV_CLIMB = 0,
+    private static final int BUTTON_OPERATOR_ELEV_CARRIAGE_FT = 1,
+            BUTTON_OPERATOR_ELEV_LOW = 2,
+            BUTTON_OPERATOR_ELEV_MID = 3,
+            BUTTON_OPERATOR_ELEV_HIGH = 4,
+            BUTTON_OPERATOR_ELEV_CLIMB = 5,
 
-            BUTTON_OPERATOR_INTAKE = 0,
-            BUTTON_OPERATOR_EXTAKE_FRONT = 0,
-            BUTTON_OPERATOR_EXTAKE_REAR = 0;
+            BUTTON_OPERATOR_INTAKE = 6,
+            BUTTON_OPERATOR_EXTAKE_FRONT = 7,
+            BUTTON_OPERATOR_EXTAKE_REAR = 8;
 
     /* Driver Controls */
     private Button highGearButton, lowGearButton;

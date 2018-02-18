@@ -52,7 +52,7 @@ public class Collector extends Subsystem {
     }
 
     public boolean hasCube() {
-        return cubeSensor.get();
+        return !cubeSensor.get();
     }
 
     public void initDefaultCommand() {

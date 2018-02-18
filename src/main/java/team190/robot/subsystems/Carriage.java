@@ -43,7 +43,7 @@ public class Carriage extends Subsystem {
      * @return true if there is a cube in the passthru
      */
     public boolean hasCube() {
-        return cubeSensor.get();
+        return !cubeSensor.get();
     }
 
     /**
