@@ -38,13 +38,18 @@ public class Carriage extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+    /**
+     * Check if the cube banner sensor is indicating a cube in the passthru
+     * @return true if there is a cube in the passthru
+     */
     public boolean hasCube() {
         return cubeSensor.get();
     }
 
+    /**
+     * no default command for Carriage
+     */
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
     }
 
     public enum CarriageMode {

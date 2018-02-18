@@ -139,6 +139,9 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
     }
 
+    /**
+     * Commands written to the dashboard for debugging used in robotInit
+     */
     private void debugSmartDashboard() {
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Zero Gyro", new ZeroGyro());

@@ -14,10 +14,12 @@ public class CollectorIntake extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(Robot.collector);
+
     }
 
     @Override
     protected void initialize() {
+        //TODO: add timeout
 
     }
 
