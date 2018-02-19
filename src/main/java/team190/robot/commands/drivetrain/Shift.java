@@ -1,10 +1,11 @@
 package team190.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import team190.robot.Robot;
 import team190.robot.subsystems.Drivetrain.Gear;
 
-public class Shift extends Command {
+public class Shift extends InstantCommand {
     private Gear gear;
 
     public Shift(Gear gear) {
@@ -15,10 +16,5 @@ public class Shift extends Command {
     @Override
     protected void initialize() {
         Robot.drivetrain.shift(gear);
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return true;
     }
 }

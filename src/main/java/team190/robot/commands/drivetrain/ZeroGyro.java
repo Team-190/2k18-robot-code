@@ -1,16 +1,14 @@
 package team190.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import team190.robot.Robot;
-import team190.robot.subsystems.Drivetrain;
 
-public class ZeroGyro extends Command {
+public class ZeroGyro extends InstantCommand {
     public ZeroGyro() {
         requires(Robot.drivetrain);
     }
-    @Override
-    protected boolean isFinished() {
+
+    public void initialize() {
         Robot.drivetrain.resetNavx();
-        return true;
     }
 }
