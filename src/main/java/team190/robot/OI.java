@@ -12,10 +12,13 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
+import team190.robot.commands.carriage.CarriageIntake;
+import team190.robot.commands.carriage.CarriageManualMove;
 import team190.robot.commands.collector.CollectorExtakeFront;
 import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.drivetrain.Shift;
 import team190.robot.commands.elevator.*;
+import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
@@ -120,15 +123,16 @@ public class OI {
         intakeButton.whenPressed(new CollectCube());
 
         carriageIntakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_INTAKE);
-        // TODO: add command carriage intake
+        carriageIntakeButton.whenPressed(new CarriageIntake());
 
         turboButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_TURBO);
         // TODO: add command for turbo
 
         carriageFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_F);
-        // TODO: add command for carriage manual jog
+        carriageRearManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Intake));
 
         carriageRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_R);
+        carriageRearManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Extake));
 
         intakeFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_F);
         // TODO: add command for intake manual jog
