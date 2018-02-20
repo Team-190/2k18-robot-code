@@ -36,23 +36,37 @@ public class OI {
     private static final int BUTTON_DRIVER_HIGH_GEAR = 3,
             BUTTON_DRIVER_LOW_GEAR = 2;
 
-    // Buttons for the operator
-    private static final int BUTTON_OPERATOR_ELEV_CARRIAGE_FT = 1,
-            BUTTON_OPERATOR_ELEV_LOW = 2,
-            BUTTON_OPERATOR_ELEV_MID = 3,
-            BUTTON_OPERATOR_ELEV_HIGH = 4,
-            BUTTON_OPERATOR_ELEV_CLIMB = 5,
+    // Buttons for the operator a
+    private static final int BUTTON_OPERATOR_A_ELEV_CARRIAGE = 1,
+            BUTTON_OPERATOR_A_ELEV_LOW = 2,
+            BUTTON_OPERATOR_A_ELEV_MID = 3,
+            BUTTON_OPERATOR_A_ELEV_HIGH = 4,
+            BUTTON_OPERATOR_A_PREP_CLIMB = 5,
+            BUTTON_OPERATOR_A_CLIMB = 6,
+            BUTTON_OPERATOR_A_EXTAKE_FRONT = 7,
+            BUTTON_OPERATOR_A_EXTAKE_REAR = 8;
 
-            BUTTON_OPERATOR_INTAKE = 6,
-            BUTTON_OPERATOR_EXTAKE_FRONT = 7,
-            BUTTON_OPERATOR_EXTAKE_REAR = 8;
+    // Buttons for the operator b
+    private static final int BUTTON_OPERATOR_B_INTAKE = 1,
+            BUTTON_OPERATOR_B_CARR_INTAKE = 2,
+            BUTTON_OPERATOR_B_TURBO = 3,
+            BUTTON_OPERATOR_B_CARR_MAN_F = 4,
+            BUTTON_OPERATOR_B_CARR_MAN_R = 5,
+            BUTTON_OPERATOR_B_INT_MAN_F = 6,
+            BUTTON_OPERATOR_B_INT_MAN_R = 7,
+            BUTTON_OPERATOR_B_ELEV_MAN_D = 8,
+            BUTTON_OPERATOR_B_ELEV_MAN_U = 9,
+            BUTTON_OPERATOR_B_MAN_OVERRIDE = 10;
+
 
     /* Driver Controls */
     private Button highGearButton, lowGearButton;
     /* Operator Controls */
     private Joystick operatorControllerA, operatorControllerB;
     private Button elevatorPosCarriageButton, elevatorPosLowButton, elevatorPosMidButton, elevatorPosHighButton,
-            elevatorPosClimbButton, intakeButton, extakeFrontButton, extakeRearButton;
+            elevatorPosClimbButton, intakeButton, carriageIntakeButton, extakeFrontButton, extakeRearButton, prepClimb,
+            turboButton, carriageFrontManualButton, carriageRearManualButton, intakeFrontManualButton, intakeRearManualButton,
+            elevatorManualUpButton, elevatorManualDownButton, manualOverrideButton;
 
     private Joystick leftStick;
     private Joystick rightStick;
@@ -71,34 +85,64 @@ public class OI {
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
-        /* Operator */
+        // A CHANNEL OPERATOR
         operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
 
         // Elevator Positions
-        elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_CARRIAGE_FT);
+        elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_CARRIAGE);
         elevatorPosCarriageButton.whenPressed(new ElevatorPositionCarriage());
 
-        elevatorPosLowButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_LOW);
+        elevatorPosLowButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_LOW);
         elevatorPosLowButton.whenPressed(new ElevatorPositionLow());
 
-        elevatorPosMidButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_MID);
+        elevatorPosMidButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_MID);
         elevatorPosMidButton.whenPressed(new ElevatorPositionMed());
 
-        elevatorPosHighButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_HIGH);
+        elevatorPosHighButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_HIGH);
         elevatorPosHighButton.whenPressed(new ElevatorPositionHigh());
 
-        elevatorPosClimbButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_ELEV_CLIMB);
+        prepClimb = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_PREP_CLIMB);
+        // TODO: Add command to prepare for climbing
+
+        elevatorPosClimbButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_CLIMB);
         elevatorPosClimbButton.whenPressed(new ElevatorPositionClimb());
 
-        // Intake & Extake
-        intakeButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_INTAKE);
-        intakeButton.whenPressed(new CollectCube());
-
-        extakeFrontButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_EXTAKE_FRONT);
+        extakeFrontButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_FRONT);
         extakeFrontButton.whenPressed(new CollectorExtakeFront());
 
-        extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_EXTAKE_REAR);
+        extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_REAR);
         extakeRearButton.whenPressed(new CollectorExtakeRear());
+
+        // B CHANNEL OPERATOR
+        operatorControllerB = new Joystick(PORT_OPERATOR_CONTROLLER_B);
+        // Intake & Extake
+        intakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INTAKE);
+        intakeButton.whenPressed(new CollectCube());
+
+        carriageIntakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_INTAKE);
+        // TODO: add command carriage intake
+
+        turboButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_TURBO);
+        // TODO: add command for turbo
+
+        carriageFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_F);
+        // TODO: add command for carriage manual jog
+
+        carriageRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_R);
+
+        intakeFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_F);
+        // TODO: add command for intake manual jog
+
+        intakeRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_R);
+
+        elevatorManualDownButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_ELEV_MAN_D);
+        elevatorManualDownButton.whileHeld(new ElevatorManualMove(-0.5));
+
+        elevatorManualUpButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_ELEV_MAN_U);
+        elevatorManualUpButton.whileHeld(new ElevatorManualMove(0.5));
+
+        manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
+        // TODO: add manual override to elevator
     }
 
     /**
