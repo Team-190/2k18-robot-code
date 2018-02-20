@@ -30,6 +30,8 @@ public class Carriage extends Subsystem {
             speed = 0;
         } else if (mode == CarriageMode.Transfer) {
             speed = 0.5;
+        } else if (mode == CarriageMode.Intake) {
+            speed = -.75;
         }
 
         mainMotor.set(ControlMode.PercentOutput, speed);
@@ -53,6 +55,6 @@ public class Carriage extends Subsystem {
     }
 
     public enum CarriageMode {
-        Extake, Stop, Transfer
+        Extake, Stop, Transfer, Intake
     }
 }
