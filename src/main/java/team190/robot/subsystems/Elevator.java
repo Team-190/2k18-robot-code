@@ -12,10 +12,6 @@ import team190.models.PairedTalonSRX;
  */
 public class Elevator extends Subsystem {
 
-    // TODO: Calibrate
-    private final static double POT_BOTTOM = 0; // Pot Value
-    private final static double POT_TOP_OFFSET = 0; // Pot Value
-
     // TODO: Correct heights
     // All POS's in INCHES - Height of Intake
     // 0 is bottom of intake travel, POS_MAX is the inches of travel from
@@ -27,28 +23,26 @@ public class Elevator extends Subsystem {
     public final static double POS_HI = 50;
     public final static double POS_CLIMB = 60;
     public final static double POS_MAX = 60;
-
+    // TODO: Calibrate
+    private final static double POT_BOTTOM = 0; // Pot Value
+    private final static double POT_TOP_OFFSET = 0; // Pot Value
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
-
+    private static final double SPEED_TOLERANCE = 0.0;
+    private static final double ERROR_TOLERANCE = 0.0;
+    // CAN Channels
+    private static final int ELEVATOR_SRX_LEFT = 5,
+            ELEVATOR_SRX_RIGHT = 6;
     // Moving Average
     private static int NUM_ROLLING_AVG = 25;
     private int[] errorValues;
     private int errorValuesIndex;
-
-    private static final double SPEED_TOLERANCE = 0.0;
-    private static final double ERROR_TOLERANCE = 0.0;
-
-    // CAN Channels
-    private static final int ELEVATOR_SRX_LEFT = 5,
-            ELEVATOR_SRX_RIGHT = 6;
 
     /*
     int numKeepTrack = 10;
     int allowableError = 50;
     int[] lastTenErrors = new int[numKeepTrack];
     int errpos = 0;*/
-
     private PairedTalonSRX motor;
 
     public Elevator() {
@@ -71,6 +65,7 @@ public class Elevator extends Subsystem {
 
     /**
      * Move the elevator to a given position in inches.
+     *
      * @param inches The height of the intake.
      */
     public void moveElevator(double inches) {

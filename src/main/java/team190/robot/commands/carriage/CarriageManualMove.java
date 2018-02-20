@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import team190.robot.Robot;
 import team190.robot.subsystems.Carriage;
 
-/** Only call from a Button so the Command is properly canceled.
- *
+/**
+ * Only call from a Button so the Command is properly canceled.
  */
 public class CarriageManualMove extends Command {
 

@@ -42,6 +42,7 @@ public class Carriage extends Subsystem {
 
     /**
      * Check if the cube banner sensor is indicating a cube in the passthru
+     *
      * @return true if there is a cube in the passthru
      */
     public boolean hasCube() {

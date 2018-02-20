@@ -1,7 +1,5 @@
 package team190.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import team190.robot.Robot;
 import team190.robot.subsystems.Drivetrain.Gear;
