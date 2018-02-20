@@ -25,7 +25,7 @@ public class CollectorExtakeRear extends Command {
     protected void execute() {
         if (!isFinished()) {
             Robot.carriage.move(Carriage.CarriageMode.Extake);
-            Robot.collector.intake(Collector.IntakeMode.Stop);
+            Robot.collector.move(Collector.IntakeMode.Stop);
         }
     }
 
@@ -42,6 +42,6 @@ public class CollectorExtakeRear extends Command {
     @Override
     protected void end() {
         Robot.carriage.move(Carriage.CarriageMode.Stop);
-        Robot.collector.intake(Collector.IntakeMode.Stop);
+        Robot.collector.move(Collector.IntakeMode.Stop);
     }
 }

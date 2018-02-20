@@ -15,7 +15,7 @@ public class CollectorTransferCarriage extends Command {
 
     @Override
     protected void execute() {
-        Robot.collector.intake(Collector.IntakeMode.Transfer);
+        Robot.collector.move(Collector.IntakeMode.Transfer);
         Robot.carriage.move(Carriage.CarriageMode.Transfer);
     }
 
@@ -26,7 +26,7 @@ public class CollectorTransferCarriage extends Command {
 
     @Override
     protected void end() {
-        Robot.collector.intake(Collector.IntakeMode.Stop);
+        Robot.collector.move(Collector.IntakeMode.Stop);
         Robot.carriage.move(Carriage.CarriageMode.Stop);
     }
 

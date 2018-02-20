@@ -36,7 +36,7 @@ public class Collector extends Subsystem {
     // here. Call these from Commands.
 
     //TODO: Calibrate speeds
-    public void intake(IntakeMode mode) {
+    public void move(IntakeMode mode) {
         double percent = 0;
         if (mode == IntakeMode.Stop) {
             percent = 0.0;

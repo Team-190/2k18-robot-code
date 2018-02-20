@@ -16,9 +16,11 @@ import team190.robot.commands.carriage.CarriageIntake;
 import team190.robot.commands.carriage.CarriageManualMove;
 import team190.robot.commands.collector.CollectorExtakeFront;
 import team190.robot.commands.collector.CollectorExtakeRear;
+import team190.robot.commands.collector.CollectorManualMove;
 import team190.robot.commands.drivetrain.Shift;
 import team190.robot.commands.elevator.*;
 import team190.robot.subsystems.Carriage;
+import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
@@ -135,9 +137,10 @@ public class OI {
         carriageRearManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Extake));
 
         intakeFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_F);
-        // TODO: add command for intake manual jog
+        intakeFrontManualButton.whileHeld(new CollectorManualMove(Collector.IntakeMode.Extake));
 
         intakeRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_R);
+        intakeRearManualButton.whileHeld(new CollectorManualMove(Collector.IntakeMode.Intake));
 
         elevatorManualDownButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_ELEV_MAN_D);
         elevatorManualDownButton.whileHeld(new ElevatorManualMove(-0.5));
