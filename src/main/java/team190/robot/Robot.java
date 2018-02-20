@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.AutoSequence;
 import team190.robot.commands.autonomous.DriveForward;
 import team190.robot.commands.autonomous.StartRightScaleLeft;
-import team190.robot.commands.drivetrain.DriveSequence;
-import team190.robot.commands.drivetrain.ZeroEncoders;
-import team190.robot.commands.drivetrain.ZeroGyro;
+import team190.robot.commands.drivetrain.*;
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
@@ -149,5 +147,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Get First Cube", new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
         SmartDashboard.putData("Place First Cube", new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
         SmartDashboard.putData("Left Scale Sequence", new StartRightScaleLeft());
+        SmartDashboard.putData("HighGearBrake", new HighGearBrakeMode());
+        SmartDashboard.putData("LowGearCoast", new LowGearCoastMode());
     }
 }

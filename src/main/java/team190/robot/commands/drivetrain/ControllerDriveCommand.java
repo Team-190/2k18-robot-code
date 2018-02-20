@@ -14,8 +14,6 @@ public class ControllerDriveCommand extends Command {
 
     @Override
     protected void initialize() {
-        Robot.drivetrain.shift(Drivetrain.Gear.LOW);
-        Robot.drivetrain.setCoastMode();
     }
 
     @Override

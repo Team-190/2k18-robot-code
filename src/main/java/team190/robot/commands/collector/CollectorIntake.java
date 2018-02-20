@@ -19,8 +19,6 @@ public class CollectorIntake extends Command {
 
     @Override
     protected void initialize() {
-        //TODO: add timeout
-
     }
 
     @Override

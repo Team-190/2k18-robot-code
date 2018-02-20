@@ -34,9 +34,6 @@ public class DriveSequence extends Command {
 
     @Override
     protected void initialize() {
-        Robot.drivetrain.shift(Drivetrain.Gear.HIGH);
-        Robot.drivetrain.setBrakeMode();
-
         int leftPos = Robot.drivetrain.getLeftPosition();
         int rightPos = Robot.drivetrain.getRightPosition();
         if (resetSensors) {
