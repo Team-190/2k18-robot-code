@@ -38,7 +38,7 @@ public class Drivetrain extends Subsystem {
 
         rightPair = new PairedTalonSRX(3, 4);
         rightPair.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        rightPair.setSensorPhase(true);
+        //rightPair.setSensorPhase(true);
 
         shifter = new DoubleSolenoid(SHIFTER_PCM, SHIFTER_FWD_PORT, SHIFTER_REV_PORT);
 

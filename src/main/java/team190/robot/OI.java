@@ -131,7 +131,7 @@ public class OI {
         // TODO: add command for turbo
 
         carriageFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_F);
-        carriageRearManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Intake));
+        carriageFrontManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Intake));
 
         carriageRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_R);
         carriageRearManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Extake));
