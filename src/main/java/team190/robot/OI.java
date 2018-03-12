@@ -169,4 +169,11 @@ public class OI {
     public double getRightY() {
         return rightStick.getY() * -1.0;
     }
+
+    /**
+     * Check if the turbo mode is switched on
+     *
+     * @return True if in turbo mode
+     */
+    public boolean getTurbo() { return turboButton.get(); }
 }

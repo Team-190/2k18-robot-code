@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import team190.robot.Robot;
 
 /**
  *
@@ -43,7 +44,8 @@ public class Collector extends Subsystem {
         } else if (mode == IntakeMode.Intake) {
             percent = 0.5;
         } else if (mode == IntakeMode.Extake) {
-            percent = -0.2;
+            // Modify extake speed if in turbo mode
+            percent = Robot.m_oi.getTurbo() ? 0.2 : -0.4;
         } else if (mode == IntakeMode.Transfer) {
             percent = 0.1;
         }

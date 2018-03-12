@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import team190.robot.Robot;
 
 public class Carriage extends Subsystem {
 
@@ -25,7 +26,8 @@ public class Carriage extends Subsystem {
         double speed = 0;
         // TODO: Calibrate speeds
         if (mode == CarriageMode.Extake) {
-            speed = 1;
+            // Modify extake speed if in turbo mode
+            speed = Robot.m_oi.getTurbo() ? 1 : 2;
         } else if (mode == CarriageMode.Stop) {
             speed = 0;
         } else if (mode == CarriageMode.Transfer) {
