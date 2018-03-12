@@ -5,7 +5,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.PairedTalonSRX;
+import team190.robot.Robot;
 
 /**
  *
@@ -63,6 +65,11 @@ public class Elevator extends Subsystem {
         errorValues = new int[NUM_ROLLING_AVG];
     }
 
+    public void log() {
+        SmartDashboard.putNumber("Elevator Pot Position", motor.getSelectedSensorPosition(DEFAULT_PIDX));
+        SmartDashboard.putNumber("Elevator Pot Speed", motor.getSelectedSensorVelocity(DEFAULT_PIDX));
+    }
+
     /**
      * Move the elevator to a given position in inches.
      *
@@ -74,8 +81,15 @@ public class Elevator extends Subsystem {
         motor.set(ControlMode.Position, potValue);
     }
 
+    /**
+     * Move the elevator at a certain percent vbus, only if in manual mode.
+     *
+     * @param percent The percent vbus for the elevator motor.
+     */
     public void manualMove(double percent) {
-        motor.set(ControlMode.PercentOutput, percent);
+        if (Robot.m_oi.isElevatorManual()) {
+            motor.set(ControlMode.PercentOutput, percent);
+        }
     }
 
     // TODO: confirm that it works

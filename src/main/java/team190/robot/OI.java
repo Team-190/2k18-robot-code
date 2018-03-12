@@ -175,5 +175,14 @@ public class OI {
      *
      * @return True if in turbo mode
      */
-    public boolean getTurbo() { return turboButton.get(); }
+    public boolean isTurboActivated() { return turboButton.get(); }
+
+    /**
+     * Check if the elevator manual switch is on
+     *
+     * @return True if in manual mode
+     */
+    public boolean isElevatorManual() {
+        return manualOverrideButton.get();
+    }
 }

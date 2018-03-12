@@ -130,6 +130,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
+        // Print debug values to smart dashboard
+        this.elevator.log();
     }
 
     /**

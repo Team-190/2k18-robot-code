@@ -27,7 +27,7 @@ public class Carriage extends Subsystem {
         // TODO: Calibrate speeds
         if (mode == CarriageMode.Extake) {
             // Modify extake speed if in turbo mode
-            speed = Robot.m_oi.getTurbo() ? 1 : 2;
+            speed = Robot.m_oi.isTurboActivated() ? 1 : 2;
         } else if (mode == CarriageMode.Stop) {
             speed = 0;
         } else if (mode == CarriageMode.Transfer) {
