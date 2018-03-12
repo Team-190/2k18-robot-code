@@ -109,6 +109,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+
+        // Print debug values to smart dashboard
+        debugLogValues();
     }
 
     @Override
@@ -132,7 +135,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
 
         // Print debug values to smart dashboard
-        this.elevator.log();
+        debugLogValues();
     }
 
     /**
@@ -140,6 +143,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+    }
+
+    private void debugLogValues() {
+        this.drivetrain.log();
+        this.elevator.log();
+        this.carriage.log();
+        this.collector.log();
     }
 
     /**

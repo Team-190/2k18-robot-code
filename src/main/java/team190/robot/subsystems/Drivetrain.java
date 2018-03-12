@@ -71,7 +71,6 @@ public class Drivetrain extends Subsystem {
     public void drive(ControlMode controlMode, double left, double right) {
         leftPair.set(controlMode, left);
         rightPair.set(controlMode, right);
-        updateSmartDashboard();
     }
 
     public void setBrakeMode() {
@@ -107,7 +106,6 @@ public class Drivetrain extends Subsystem {
     public void setPositionZero() {
         leftPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
         rightPair.setSelectedSensorPosition(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        updateSmartDashboard();
     }
 
     //Shifts gear
@@ -119,7 +117,7 @@ public class Drivetrain extends Subsystem {
         }
     }
 
-    public void updateSmartDashboard() {
+    public void log() {
         SmartDashboard.putNumber("Left Encoder Pos", TicksToFeet(getLeftPosition()));
         SmartDashboard.putNumber("Right Encoder Pos", TicksToFeet(getRightPosition()));
         SmartDashboard.putNumber("Left Encoder Vel", TicksPerHundredMsToFeetPerSec(getLeftVelocity()));

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.robot.Robot;
 
 /**
@@ -55,6 +56,12 @@ public class Collector extends Subsystem {
 
     public boolean hasCube() {
         return !cubeSensor.get();
+    }
+
+    public void log() {
+        SmartDashboard.putNumber("Intake Left Speed", left.getMotorOutputPercent());
+        SmartDashboard.putNumber("Intake Right Speed", right.getMotorOutputPercent());
+        SmartDashboard.putBoolean("Intake Has Cube", hasCube());
     }
 
     public void initDefaultCommand() {
