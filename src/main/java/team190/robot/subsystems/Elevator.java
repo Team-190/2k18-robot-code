@@ -26,8 +26,8 @@ public class Elevator extends Subsystem {
     public final static double POS_CLIMB = 60;
     public final static double POS_MAX = 60;
     // TODO: Calibrate
-    private final static double POT_BOTTOM = 0; // Pot Value
-    private final static double POT_TOP_OFFSET = 0; // Pot Value
+    private final static double POT_BOTTOM = 855; // Pot Value
+    private final static double POT_TOP_OFFSET = -589; // Pot Value
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
     private static final double SPEED_TOLERANCE = 0.0;
@@ -49,15 +49,16 @@ public class Elevator extends Subsystem {
 
     public Elevator() {
         motor = new PairedTalonSRX(ELEVATOR_SRX_LEFT, ELEVATOR_SRX_RIGHT);
-        //motor.setInverted(false);
+        motor.setInverted(true);
 
         motor.configSelectedFeedbackSensor(FeedbackDevice.Analog, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+        motor.setSensorPhase(true);
 
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
 
         // TODO: Tune PID
-        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 0.1, 0, 0, 0);
+        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 1, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
