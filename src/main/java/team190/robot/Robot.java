@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.AutoSequence;
-import team190.robot.commands.autonomous.AutoStartRightOneCube;
-import team190.robot.commands.autonomous.DriveForward;
-import team190.robot.commands.autonomous.StartRightScaleLeft;
+import team190.robot.commands.autonomous.*;
 import team190.robot.commands.drivetrain.*;
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
@@ -31,7 +29,7 @@ import team190.robot.subsystems.Elevator;
  */
 public class Robot extends TimedRobot {
 
-    public static final double TIME_CROSS_LINE = 5;
+    public static final double TIME_CROSS_LINE = 3;
     public static Drivetrain drivetrain;
     public static Collector collector;
     public static Elevator elevator;
@@ -57,7 +55,9 @@ public class Robot extends TimedRobot {
 
         m_chooser.addDefault("Do Nothing", null);
         m_chooser.addObject("Drive Forward", new DriveForward(TIME_CROSS_LINE));
-        m_chooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
+        m_chooser.addObject("Auto Left This Side", new AutoStartLeftThisSide());
+        m_chooser.addObject("Auto Right This Side", new AutoStartRightThisSide());
+        //m_chooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
         //m_chooser.addObject("Start Right 2 Cube", null); // TODO: Write 2 Cube auto
         SmartDashboard.putData("Auto mode", m_chooser);
 

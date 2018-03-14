@@ -17,7 +17,10 @@ import java.util.HashMap;
 public enum AutoSequence {
     StartRightScaleLeft,
     ScaleLeftCollectCubeOne,
-    ScaleLeftPlaceCubeOne;
+    ScaleLeftPlaceCubeOne,
+
+    StartRightScaleRight,
+    StartLeftScaleLeft;
 
     private static HashMap<AutoSequence, PairedTrajectory> trajectories;
     private final String directory = "/home/lvuser/sequences";
