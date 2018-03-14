@@ -13,7 +13,7 @@ import team190.robot.commands.drivetrain.DriveSequence;
 public class AutoStartLeftThisSide extends ConditionalCommand {
 
     public AutoStartLeftThisSide() {
-        this(new DriveSequence(AutoSequence.StartLeftScaleLeft), new DriveForward(Robot.TIME_CROSS_LINE));
+        this(new StartLeftScaleLeft(), new DriveForward(Robot.TIME_CROSS_LINE));
     }
 
     public AutoStartLeftThisSide(Command onTrue, Command onFalse) {
