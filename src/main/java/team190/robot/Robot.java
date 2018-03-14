@@ -13,12 +13,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.AutoSequence;
+import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.autonomous.*;
 import team190.robot.commands.drivetrain.*;
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
 import team190.robot.subsystems.Elevator;
+
+import java.util.concurrent.Delayed;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,7 +40,9 @@ public class Robot extends TimedRobot {
     public static OI m_oi;
 
     private Command m_autonomousCommand;
-    private SendableChooser<Command> m_chooser = new SendableChooser<>();
+    private SendableChooser<Command> m_autonomousChooser = new SendableChooser<>();
+    private double m_autonomousDelay;
+    private SendableChooser<Double> m_delayChooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -53,13 +58,23 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData("Drivetrain", drivetrain);
 
-        m_chooser.addDefault("Do Nothing", null);
-        m_chooser.addObject("Drive Forward", new DriveForward(TIME_CROSS_LINE));
-        m_chooser.addObject("Auto Left This Side", new AutoStartLeftThisSide());
-        m_chooser.addObject("Auto Right This Side", new AutoStartRightThisSide());
-        //m_chooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
-        //m_chooser.addObject("Start Right 2 Cube", null); // TODO: Write 2 Cube auto
-        SmartDashboard.putData("Auto mode", m_chooser);
+        m_autonomousChooser.addDefault("Do Nothing", null);
+        m_autonomousChooser.addObject("Drive Forward", new DriveForward(TIME_CROSS_LINE));
+        m_autonomousChooser.addObject("Auto Left This Side", new AutoStartLeftThisSide());
+        m_autonomousChooser.addObject("Auto Right This Side", new AutoStartRightThisSide());
+        //m_autonomousChooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
+        //m_autonomousChooser.addObject("Start Right 2 Cube", null); // TODO: Write 2 Cube auto
+        SmartDashboard.putData("Auto mode", m_autonomousChooser);
+
+        // Allow for the delay of the start of autnonmous by 0 to 5 seconds
+        m_delayChooser.addDefault("No Delay", 0.0);
+        m_delayChooser.addObject("1 Sec", 1.0);
+        m_delayChooser.addObject("2 Sec", 2.0);
+        m_delayChooser.addObject("3 Sec", 3.0);
+        m_delayChooser.addObject("4 Sec", 4.0);
+        m_delayChooser.addObject("5 Sec", 5.0);
+        SmartDashboard.putData("Auto delay", m_delayChooser);
+
 
         // Debug commands
         debugSmartDashboard();
@@ -95,10 +110,12 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.setBrakeMode();
         drivetrain.shift(Drivetrain.Gear.HIGH);
-        m_autonomousCommand = m_chooser.getSelected();
+        m_autonomousCommand = m_autonomousChooser.getSelected();
+        m_autonomousDelay = m_delayChooser.getSelected();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
+            m_autonomousCommand = new DelayedCommand(m_autonomousDelay, m_autonomousCommand);
             m_autonomousCommand.start();
         }
     }
