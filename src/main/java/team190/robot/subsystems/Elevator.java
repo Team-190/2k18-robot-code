@@ -19,15 +19,15 @@ public class Elevator extends Subsystem {
     // 0 is bottom of intake travel, POS_MAX is the inches of travel from
     // that 0.
     public final static double POS_INTAKE = 0;
-    public final static double POS_CAR = 20;
+    public final static double POS_CAR = 15;
     public final static double POS_LO = 30;
-    public final static double POS_MED = 40;
-    public final static double POS_HI = 50;
-    public final static double POS_CLIMB = 60;
-    public final static double POS_MAX = 60;
+    public final static double POS_MED = 50;
+    public final static double POS_HI = 70;
+    public final static double POS_CLIMB = 85;
+    public final static double POS_MAX = 90;
     // TODO: Calibrate
-    private final static double POT_BOTTOM = 855; // Pot Value
-    private final static double POT_TOP_OFFSET = -589; // Pot Value
+    private final static double POT_BOTTOM = 174; // Pot Value
+    private final static double POT_TOP_OFFSET = 614; // Pot Value
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
     private static final double SPEED_TOLERANCE = 0.0;
@@ -52,13 +52,13 @@ public class Elevator extends Subsystem {
         motor.setInverted(true);
 
         motor.configSelectedFeedbackSensor(FeedbackDevice.Analog, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        motor.setSensorPhase(true);
+        //motor.setSensorPhase(true);
 
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
 
         // TODO: Tune PID
-        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 1, 0, 0, 0);
+        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 16.0, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
@@ -80,6 +80,7 @@ public class Elevator extends Subsystem {
         double heightScale = inches / POS_MAX;
         double potValue = (POT_TOP_OFFSET * heightScale) + POT_BOTTOM;
         motor.set(ControlMode.Position, potValue);
+        SmartDashboard.putNumber("Elev Setpoint", potValue);
     }
 
     /**
