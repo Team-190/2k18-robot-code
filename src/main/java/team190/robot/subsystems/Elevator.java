@@ -39,10 +39,6 @@ public class Elevator extends Subsystem {
     private static final int ELEVATOR_SRX_LEFT = 5,
             ELEVATOR_SRX_RIGHT = 6;
 
-    // Moving Average
-    private static int NUM_ROLLING_AVG = 25;
-    private double[] errorValues;
-    private int errorValuesIndex;
     private PairedTalonSRX motor;
     private int numLoops;
 
@@ -60,9 +56,6 @@ public class Elevator extends Subsystem {
         motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 16.0, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-
-        errorValuesIndex = 0;
-        errorValues = new double[NUM_ROLLING_AVG];
     }
 
     public void log() {
@@ -101,35 +94,10 @@ public class Elevator extends Subsystem {
     // TODO: confirm that it works
     public boolean inPosition() {
         boolean result = false;
-        numLoops++;
         double thisError = motor.getClosedLoopError(DEFAULT_PIDX);
         System.out.println("thisError = " + thisError);
         boolean onTarget = Math.abs(thisError) <= ERROR_TOLERANCE;
-        return numLoops >= 15 && onTarget;
-        /*
-        double lastError = errorValues[errorValuesIndex];
-
-        errorValuesIndex = (errorValuesIndex  + 1) % NUM_ROLLING_AVG;
-        errorValues[errorValuesIndex] = Math.abs(thisError);
-
-        double sumError = 0;
-        for (doublee : errorValues) sumError += e;
-
-        double averageError = sumError / errorValues.length;
-        double speedError = Math.abs(thisError - lastError);
-
-        result = (averageError < ERROR_TOLERANCE);
-        boolean speedBool = speedError < SPEED_TOLERANCE;
-
-        SmartDashboard.putBoolean("Elevator in pos, p", result);
-        SmartDashboard.putBoolean("Elevator in pos, s", speedBool);
-        SmartDashboard.putNumber("Elevator Pos Error", averageError);
-        SmartDashboard.putNumber("Elevator Spd Error", speedError);
-        System.out.println("Elevator in pos, p = " + result);
-        System.out.println("Elevator in pos, s = " + speedBool);
-        System.out.println("Elevator Pos Error = " + averageError);
-        System.out.println("Elevator Spd Error = " + speedError);
-        return result && speedBool;*/
+        return ++numLoops >= 15 && onTarget;
     }
 
     public void initDefaultCommand() {
