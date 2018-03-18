@@ -48,7 +48,7 @@ public class Collector extends Subsystem {
             // Modify extake speed if in turbo mode
             percent = Robot.m_oi.isTurboActivated() ? -1.0 : -0.5;
         } else if (mode == IntakeMode.Transfer) {
-            percent = 0.1;
+            percent = 0.6;
         }
 
         left.set(ControlMode.PercentOutput, percent);

@@ -54,12 +54,12 @@ public class DriveSequence extends Command {
         Trajectory leftTraj = Pathfinder.readFromCSV(lFile);
         leftFollower = new EncoderFollower(leftTraj);
         leftFollower.configureEncoder(leftPos, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
-        leftFollower.configurePIDVA(0.9, 0, 0, (1.0 / 16.0), 0);
+        leftFollower.configurePIDVA(1.0, 0, 0.125, (1.0 / 16.0), 0);
 
         Trajectory rightTraj = Pathfinder.readFromCSV(rFile);
         rightFollower = new EncoderFollower(rightTraj);
         rightFollower.configureEncoder(rightPos, (int) Drivetrain.TICKS_PER_REV, Drivetrain.WHEELDIAMETER_FT);
-        rightFollower.configurePIDVA(0.9, 0, 0, (1.0 / 16.0), 0);
+        rightFollower.configurePIDVA(1.0, 0, 0.125, (1.0 / 16.0), 0);
     }
 
     @Override

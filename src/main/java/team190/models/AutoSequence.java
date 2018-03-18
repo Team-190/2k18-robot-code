@@ -19,6 +19,8 @@ public enum AutoSequence {
     ScaleLeftCollectCubeOne,
     ScaleLeftPlaceCubeOne,
 
+    ScaleRightCollectCubeOne,
+
     StartRightScaleRight,
     StartLeftScaleLeft;
 

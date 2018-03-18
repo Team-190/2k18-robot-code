@@ -14,18 +14,19 @@ import team190.robot.Robot;
  */
 public class Elevator extends Subsystem {
 
-    // TODO: Correct heights
+    // TODO: re-do heights
     // All POS's in INCHES - Height of Intake
     // 0 is bottom of intake travel, POS_MAX is the inches of travel from
     // that 0.
-    public final static double POS_INTAKE = 5;
-    public final static double POS_CAR = 15; // POT val 283
-    public final static double POS_LO = 30;
-    public final static double POS_MED = 50;
-    public final static double POS_HI = 70;
-    public final static double POS_CLIMB = 85;
+    public final static double POS_INTAKE = 1;
+    public final static double POS_CAR = 30;
+    public final static double POS_LO = 1;
+    public final static double POS_MED = 86.95;
+    public final static double POS_HI = 93.21; // MAX height
+    public final static double POS_CLIMB = 93.21;
     public final static double POS_MAX = 90;
 
+    // TODO redo thsese too
     private final static double POT_BOTTOM = 116; // Pot Value
     private final static double POT_TOP_OFFSET = 560; // Pot Value
 
@@ -40,7 +41,7 @@ public class Elevator extends Subsystem {
             ELEVATOR_SRX_RIGHT = 6;
 
     private PairedTalonSRX motor;
-    private int numLoops;
+    private double motorSetpoint;
 
     public Elevator() {
         motor = new PairedTalonSRX(ELEVATOR_SRX_LEFT, ELEVATOR_SRX_RIGHT);
@@ -56,11 +57,15 @@ public class Elevator extends Subsystem {
         motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 16.0, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
+
+        motorSetpoint = POT_BOTTOM;
     }
 
     public void log() {
-        SmartDashboard.putNumber("Elevator Pot Position", motor.getSelectedSensorPosition(DEFAULT_PIDX));
+        double potValue = motor.getSelectedSensorPosition(DEFAULT_PIDX);
+        SmartDashboard.putNumber("Elevator Pot Position", potValue);
         SmartDashboard.putNumber("Elevator Pot Speed", motor.getSelectedSensorVelocity(DEFAULT_PIDX));
+        SmartDashboard.putNumber("Elevator Height", potToInches(potValue));
     }
 
     /**
@@ -69,11 +74,20 @@ public class Elevator extends Subsystem {
      * @param inches The height of the intake.
      */
     public void moveElevator(double inches) {
+        double potValue = heightToPot(inches);
+        motorSetpoint = potValue;
+        SmartDashboard.putNumber("Elev Setpoint", motorSetpoint);
+
+        motor.set(ControlMode.Position, motorSetpoint);
+    }
+
+    private double heightToPot(double inches) {
         double heightScale = inches / POS_MAX;
-        double potValue = (POT_TOP_OFFSET * heightScale) + POT_BOTTOM;
-        motor.set(ControlMode.Position, potValue);
-        SmartDashboard.putNumber("Elev Setpoint", potValue);
-        numLoops = 0;
+        return (POT_TOP_OFFSET * heightScale) + POT_BOTTOM;
+    }
+
+    private double potToInches(double potValue) {
+        return ((potValue - POT_BOTTOM) / POT_TOP_OFFSET) * POS_MAX;
     }
 
     /**
@@ -93,11 +107,12 @@ public class Elevator extends Subsystem {
 
     // TODO: confirm that it works
     public boolean inPosition() {
-        boolean result = false;
-        double thisError = motor.getClosedLoopError(DEFAULT_PIDX);
+        double thisError = motorSetpoint - motor.getSelectedSensorPosition(DEFAULT_PIDX);
+
         System.out.println("thisError = " + thisError);
+
         boolean onTarget = Math.abs(thisError) <= ERROR_TOLERANCE;
-        return ++numLoops >= 15 && onTarget;
+        return onTarget;
     }
 
     public void initDefaultCommand() {

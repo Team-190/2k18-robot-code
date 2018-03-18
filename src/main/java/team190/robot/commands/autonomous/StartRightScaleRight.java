@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.WaitForChildren;
 import team190.models.AutoSequence;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.collector.CollectorExtakeFront;
+import team190.robot.commands.collector.CollectorIntake;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
 import team190.robot.commands.elevator.ElevatorPositionHigh;
@@ -17,13 +18,16 @@ public class StartRightScaleRight extends CommandGroup {
 
     public StartRightScaleRight() {
         // start moving elevator at start of CommandGroup
-        addSequential(new ElevatorPositionCarriage());
-        addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
+        //addSequential(new ElevatorPositionCarriage());
+        //addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
         // Drive to the Scale
         addSequential(new DriveSequence(AutoSequence.StartRightScaleRight));
         // wait for elevator to be in position
-        addSequential(new WaitForChildren());
+        //addSequential(new WaitForChildren());
         // Extake the cube
-        addSequential(new CollectorExtakeFront());
+        //addSequential(new CollectorExtakeFront());
+        addParallel(new CollectorIntake());
+        addSequential(new DriveSequence(AutoSequence.ScaleRightCollectCubeOne, false));
+
     }
 }

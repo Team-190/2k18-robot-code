@@ -59,7 +59,9 @@ public class Robot extends TimedRobot {
         m_autonomousChooser.addObject("Drive Forward", AutoMode.DRIVE_FORWARD);
         m_autonomousChooser.addObject("Auto Left This Side", AutoMode.AUTO_LEFT_THIS_SIDE);
         m_autonomousChooser.addObject("Auto Right This Side", AutoMode.AUTO_RIGHT_THIS_SIDE);
-        m_autonomousChooser.addObject("Drive and Spit", AutoMode.DRIVE_AND_SPIT);
+        m_autonomousChooser.addObject("SWITCH RIGHT", AutoMode.SWITCH_RIGHT);
+        m_autonomousChooser.addObject("SWITCH LEFT", AutoMode.SWITCH_LEFT);
+
         //m_autonomousChooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
         //m_autonomousChooser.addObject("Start Right 2 Cube", null); // TODO: Write 2 Cube auto
         SmartDashboard.putData("Auto mode", m_autonomousChooser);
@@ -123,8 +125,11 @@ public class Robot extends TimedRobot {
                 case AUTO_RIGHT_THIS_SIDE:
                     m_autonomousCommand = new AutoStartRightThisSide();
                     break;
-                case DRIVE_AND_SPIT:
+                case SWITCH_RIGHT:
                     m_autonomousCommand = new AutoRobotRightSwitchRight();
+                    break;
+                case SWITCH_LEFT:
+                    m_autonomousCommand = new AutoRobotLeftSwitchLeft();
                     break;
             }
 
@@ -200,6 +205,7 @@ public class Robot extends TimedRobot {
         DRIVE_FORWARD,
         AUTO_LEFT_THIS_SIDE,
         AUTO_RIGHT_THIS_SIDE,
-        DRIVE_AND_SPIT
+        SWITCH_RIGHT,
+        SWITCH_LEFT
     }
 }

@@ -11,6 +11,8 @@ public class CollectorTransferCarriage extends Command {
         // requires
         requires(Robot.collector);
         requires(Robot.carriage);
+
+        setTimeout(3);
     }
 
     @Override
@@ -21,7 +23,7 @@ public class CollectorTransferCarriage extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.carriage.hasCube();
+        return Robot.carriage.hasCube() || isTimedOut();
     }
 
     @Override

@@ -7,8 +7,6 @@ import team190.robot.subsystems.Collector;
 
 public class CollectorExtakeFront extends Command {
 
-    private boolean canExtake;
-
     public CollectorExtakeFront() {
         requires(Robot.collector);
         requires(Robot.carriage);
@@ -16,8 +14,6 @@ public class CollectorExtakeFront extends Command {
 
     @Override
     protected void initialize() {
-        canExtake = Robot.carriage.hasCube();
-
         setTimeout(3); // TODO find actual timeout for extake front
     }
 
@@ -31,7 +27,7 @@ public class CollectorExtakeFront extends Command {
 
     @Override
     protected boolean isFinished() {
-        return !canExtake || isTimedOut();
+        return isTimedOut();
     }
 
     @Override

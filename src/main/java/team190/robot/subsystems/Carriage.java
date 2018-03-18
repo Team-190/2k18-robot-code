@@ -31,7 +31,7 @@ public class Carriage extends Subsystem {
         } else if (mode == CarriageMode.Stop) {
             speed = 0;
         } else if (mode == CarriageMode.Transfer) {
-            speed = 0.5;
+            speed = 1.0;
         } else if (mode == CarriageMode.Intake) {
             speed = -1.0;
         }
