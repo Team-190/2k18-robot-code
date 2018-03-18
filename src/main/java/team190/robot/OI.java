@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
-import team190.robot.commands.carriage.CarriageIntake;
 import team190.robot.commands.carriage.CarriageIntakeSequence;
 import team190.robot.commands.carriage.CarriageManualMove;
 import team190.robot.commands.collector.CollectorExtakeFront;
@@ -173,7 +172,9 @@ public class OI {
      *
      * @return True if in turbo mode
      */
-    public boolean isTurboActivated() { return turboButton.get(); }
+    public boolean isTurboActivated() {
+        return turboButton.get();
+    }
 
     /**
      * Check if the elevator manual switch is on

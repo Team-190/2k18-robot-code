@@ -21,8 +21,6 @@ import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
 import team190.robot.subsystems.Elevator;
 
-import java.util.concurrent.Delayed;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -32,20 +30,12 @@ import java.util.concurrent.Delayed;
  */
 public class Robot extends TimedRobot {
 
-    private enum AutoMode {
-        DRIVE_FORWARD,
-        AUTO_LEFT_THIS_SIDE,
-        AUTO_RIGHT_THIS_SIDE,
-        DRIVE_AND_SPIT
-    }
-
     public static final double TIME_CROSS_LINE = 1.7;
     public static Drivetrain drivetrain;
     public static Collector collector;
     public static Elevator elevator;
     public static Carriage carriage;
     public static OI m_oi;
-
     private Command m_autonomousCommand;
     private SendableChooser<AutoMode> m_autonomousChooser = new SendableChooser<>();
     private double m_autonomousDelay;
@@ -124,10 +114,18 @@ public class Robot extends TimedRobot {
         // schedule the autonomous command (example)
         if (autoMode != null) {
             switch (autoMode) {
-                case DRIVE_FORWARD: m_autonomousCommand = new DriveForward(TIME_CROSS_LINE); break;
-                case AUTO_LEFT_THIS_SIDE: m_autonomousCommand = new AutoStartLeftThisSide(); break;
-                case AUTO_RIGHT_THIS_SIDE: m_autonomousCommand = new AutoStartRightThisSide(); break;
-                case DRIVE_AND_SPIT: m_autonomousCommand = new AutoRobotRightSwitchRight(); break;
+                case DRIVE_FORWARD:
+                    m_autonomousCommand = new DriveForward(TIME_CROSS_LINE);
+                    break;
+                case AUTO_LEFT_THIS_SIDE:
+                    m_autonomousCommand = new AutoStartLeftThisSide();
+                    break;
+                case AUTO_RIGHT_THIS_SIDE:
+                    m_autonomousCommand = new AutoStartRightThisSide();
+                    break;
+                case DRIVE_AND_SPIT:
+                    m_autonomousCommand = new AutoRobotRightSwitchRight();
+                    break;
             }
 
             m_autonomousCommand = new DelayedCommand(m_autonomousDelay, m_autonomousCommand);
@@ -196,5 +194,12 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Left Scale Sequence", new StartRightScaleLeft());
         SmartDashboard.putData("HighGearBrake", new HighGearBrakeMode());
         SmartDashboard.putData("LowGearCoast", new LowGearCoastMode());
+    }
+
+    private enum AutoMode {
+        DRIVE_FORWARD,
+        AUTO_LEFT_THIS_SIDE,
+        AUTO_RIGHT_THIS_SIDE,
+        DRIVE_AND_SPIT
     }
 }

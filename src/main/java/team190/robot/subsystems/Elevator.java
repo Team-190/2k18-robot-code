@@ -43,7 +43,7 @@ public class Elevator extends Subsystem {
     private static int NUM_ROLLING_AVG = 25;
     private double[] errorValues;
     private int errorValuesIndex;
-        private PairedTalonSRX motor;
+    private PairedTalonSRX motor;
     private int numLoops;
 
     public Elevator() {

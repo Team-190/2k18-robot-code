@@ -3,7 +3,6 @@ package team190.robot.commands.autonomous;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import team190.models.AutoSequence;
-import team190.robot.commands.CollectCube;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.collector.CollectorExtakeFront;
 import team190.robot.commands.drivetrain.DriveSequence;
