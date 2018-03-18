@@ -18,41 +18,40 @@ public class Elevator extends Subsystem {
     // All POS's in INCHES - Height of Intake
     // 0 is bottom of intake travel, POS_MAX is the inches of travel from
     // that 0.
-    public final static double POS_INTAKE = 0;
-    public final static double POS_CAR = 15;
+    public final static double POS_INTAKE = 5;
+    public final static double POS_CAR = 15; // POT val 283
     public final static double POS_LO = 30;
     public final static double POS_MED = 50;
     public final static double POS_HI = 70;
     public final static double POS_CLIMB = 85;
     public final static double POS_MAX = 90;
-    // TODO: Calibrate
-    private final static double POT_BOTTOM = 174; // Pot Value
-    private final static double POT_TOP_OFFSET = 614; // Pot Value
+
+    private final static double POT_BOTTOM = 116; // Pot Value
+    private final static double POT_TOP_OFFSET = 560; // Pot Value
+
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
-    private static final double SPEED_TOLERANCE = 0.0;
-    private static final double ERROR_TOLERANCE = 0.0;
+
+    private static final double SPEED_TOLERANCE = 0.5;
+    private static final double ERROR_TOLERANCE = 10.0;
+
     // CAN Channels
     private static final int ELEVATOR_SRX_LEFT = 5,
             ELEVATOR_SRX_RIGHT = 6;
+
     // Moving Average
     private static int NUM_ROLLING_AVG = 25;
-    private int[] errorValues;
+    private double[] errorValues;
     private int errorValuesIndex;
-
-    /*
-    int numKeepTrack = 10;
-    int allowableError = 50;
-    int[] lastTenErrors = new int[numKeepTrack];
-    int errpos = 0;*/
-    private PairedTalonSRX motor;
+        private PairedTalonSRX motor;
+    private int numLoops;
 
     public Elevator() {
         motor = new PairedTalonSRX(ELEVATOR_SRX_LEFT, ELEVATOR_SRX_RIGHT);
         motor.setInverted(true);
 
         motor.configSelectedFeedbackSensor(FeedbackDevice.Analog, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
-        //motor.setSensorPhase(true);
+        motor.setSensorPhase(true);
 
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
@@ -63,7 +62,7 @@ public class Elevator extends Subsystem {
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
         errorValuesIndex = 0;
-        errorValues = new int[NUM_ROLLING_AVG];
+        errorValues = new double[NUM_ROLLING_AVG];
     }
 
     public void log() {
@@ -81,6 +80,7 @@ public class Elevator extends Subsystem {
         double potValue = (POT_TOP_OFFSET * heightScale) + POT_BOTTOM;
         motor.set(ControlMode.Position, potValue);
         SmartDashboard.putNumber("Elev Setpoint", potValue);
+        numLoops = 0;
     }
 
     /**
@@ -94,19 +94,42 @@ public class Elevator extends Subsystem {
         }
     }
 
+    public void stop() {
+        motor.set(ControlMode.PercentOutput, 0);
+    }
+
     // TODO: confirm that it works
     public boolean inPosition() {
-        int thisError = motor.getClosedLoopError(DEFAULT_PIDX);
-        int lastError = errorValues[errorValuesIndex % NUM_ROLLING_AVG];
-        errorValues[(++errorValuesIndex % NUM_ROLLING_AVG)] = thisError;
+        boolean result = false;
+        numLoops++;
+        double thisError = motor.getClosedLoopError(DEFAULT_PIDX);
+        System.out.println("thisError = " + thisError);
+        boolean onTarget = Math.abs(thisError) <= ERROR_TOLERANCE;
+        return numLoops >= 15 && onTarget;
+        /*
+        double lastError = errorValues[errorValuesIndex];
 
-        if (errorValuesIndex <= NUM_ROLLING_AVG) return false;
+        errorValuesIndex = (errorValuesIndex  + 1) % NUM_ROLLING_AVG;
+        errorValues[errorValuesIndex] = Math.abs(thisError);
 
         double sumError = 0;
-        for (int e : errorValues) sumError += e;
-        double averageError = sumError / errorValues.length;
+        for (doublee : errorValues) sumError += e;
 
-        return (averageError < ERROR_TOLERANCE && Math.abs(thisError - lastError) < SPEED_TOLERANCE);
+        double averageError = sumError / errorValues.length;
+        double speedError = Math.abs(thisError - lastError);
+
+        result = (averageError < ERROR_TOLERANCE);
+        boolean speedBool = speedError < SPEED_TOLERANCE;
+
+        SmartDashboard.putBoolean("Elevator in pos, p", result);
+        SmartDashboard.putBoolean("Elevator in pos, s", speedBool);
+        SmartDashboard.putNumber("Elevator Pos Error", averageError);
+        SmartDashboard.putNumber("Elevator Spd Error", speedError);
+        System.out.println("Elevator in pos, p = " + result);
+        System.out.println("Elevator in pos, s = " + speedBool);
+        System.out.println("Elevator Pos Error = " + averageError);
+        System.out.println("Elevator Spd Error = " + speedError);
+        return result && speedBool;*/
     }
 
     public void initDefaultCommand() {

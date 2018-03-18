@@ -19,4 +19,9 @@ public class ElevatorPositionHigh extends Command {
     protected boolean isFinished() {
         return Robot.elevator.inPosition();
     }
+
+    @Override
+    protected void end() {
+        Robot.elevator.stop();
+    }
 }

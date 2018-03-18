@@ -6,6 +6,7 @@ import team190.models.AutoSequence;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.collector.CollectorExtakeFront;
 import team190.robot.commands.drivetrain.DriveSequence;
+import team190.robot.commands.elevator.ElevatorPositionCarriage;
 import team190.robot.commands.elevator.ElevatorPositionHigh;
 
 /**
@@ -15,6 +16,7 @@ public class StartLeftScaleLeft extends CommandGroup {
 
     public StartLeftScaleLeft() {
         // start moving elevator at start of CommandGroup
+        addSequential(new ElevatorPositionCarriage());
         addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
         // Drive to the Scale
         addSequential(new DriveSequence(AutoSequence.StartLeftScaleLeft));

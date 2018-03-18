@@ -15,9 +15,9 @@ public class CollectCube extends CommandGroup {
         addSequential(new ElevatorPositionIntake());
         addSequential(new CollectorIntake());
         addSequential(new ElevatorPositionCarriage());
-        addSequential(new CollectorTransferCarriage());
+        //addSequential(new CollectorTransferCarriage());
     }
-
+/*
     @Override
     protected void initialize() {
         super.initialize();
@@ -28,5 +28,5 @@ public class CollectCube extends CommandGroup {
     @Override
     protected boolean isFinished() {
         return super.isFinished() || !canIntake;
-    }
+    }*/
 }

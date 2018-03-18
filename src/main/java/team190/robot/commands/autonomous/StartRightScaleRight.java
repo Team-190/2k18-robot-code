@@ -18,6 +18,7 @@ public class StartRightScaleRight extends CommandGroup {
 
     public StartRightScaleRight() {
         // start moving elevator at start of CommandGroup
+        addSequential(new ElevatorPositionCarriage());
         addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
         // Drive to the Scale
         addSequential(new DriveSequence(AutoSequence.StartRightScaleRight));

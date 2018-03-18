@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.carriage.CarriageIntake;
+import team190.robot.commands.carriage.CarriageIntakeSequence;
 import team190.robot.commands.carriage.CarriageManualMove;
 import team190.robot.commands.collector.CollectorExtakeFront;
 import team190.robot.commands.collector.CollectorExtakeRear;
@@ -81,7 +82,6 @@ public class OI {
      */
     OI() {
         // Driver
-        // TODO: Calibrate deadband
         leftStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_1, 0.1);
         rightStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_2, 0.1);
 
@@ -125,10 +125,9 @@ public class OI {
         intakeButton.whenPressed(new CollectCube());
 
         carriageIntakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_INTAKE);
-        carriageIntakeButton.whenPressed(new CarriageIntake());
+        carriageIntakeButton.whenPressed(new CarriageIntakeSequence());
 
         turboButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_TURBO);
-        // TODO: add command for turbo
 
         carriageFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_F);
         carriageFrontManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Intake));
@@ -149,7 +148,6 @@ public class OI {
         elevatorManualUpButton.whileHeld(new ElevatorManualMove(0.5));
 
         manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
-        // TODO: add manual override to elevator
     }
 
     /**

@@ -32,7 +32,14 @@ import java.util.concurrent.Delayed;
  */
 public class Robot extends TimedRobot {
 
-    public static final double TIME_CROSS_LINE = 3;
+    private enum AutoMode {
+        DRIVE_FORWARD,
+        AUTO_LEFT_THIS_SIDE,
+        AUTO_RIGHT_THIS_SIDE,
+        DRIVE_AND_SPIT
+    }
+
+    public static final double TIME_CROSS_LINE = 1.7;
     public static Drivetrain drivetrain;
     public static Collector collector;
     public static Elevator elevator;
@@ -40,7 +47,7 @@ public class Robot extends TimedRobot {
     public static OI m_oi;
 
     private Command m_autonomousCommand;
-    private SendableChooser<Command> m_autonomousChooser = new SendableChooser<>();
+    private SendableChooser<AutoMode> m_autonomousChooser = new SendableChooser<>();
     private double m_autonomousDelay;
     private SendableChooser<Double> m_delayChooser = new SendableChooser<>();
 
@@ -59,9 +66,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Drivetrain", drivetrain);
 
         m_autonomousChooser.addDefault("Do Nothing", null);
-        m_autonomousChooser.addObject("Drive Forward", new DriveForward(TIME_CROSS_LINE));
-        m_autonomousChooser.addObject("Auto Left This Side", new AutoStartLeftThisSide());
-        m_autonomousChooser.addObject("Auto Right This Side", new AutoStartRightThisSide());
+        m_autonomousChooser.addObject("Drive Forward", AutoMode.DRIVE_FORWARD);
+        m_autonomousChooser.addObject("Auto Left This Side", AutoMode.AUTO_LEFT_THIS_SIDE);
+        m_autonomousChooser.addObject("Auto Right This Side", AutoMode.AUTO_RIGHT_THIS_SIDE);
+        m_autonomousChooser.addObject("Drive and Spit", AutoMode.DRIVE_AND_SPIT);
         //m_autonomousChooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
         //m_autonomousChooser.addObject("Start Right 2 Cube", null); // TODO: Write 2 Cube auto
         SmartDashboard.putData("Auto mode", m_autonomousChooser);
@@ -110,11 +118,18 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.setBrakeMode();
         drivetrain.shift(Drivetrain.Gear.HIGH);
-        m_autonomousCommand = m_autonomousChooser.getSelected();
+        AutoMode autoMode = m_autonomousChooser.getSelected();
         m_autonomousDelay = m_delayChooser.getSelected();
 
         // schedule the autonomous command (example)
-        if (m_autonomousCommand != null) {
+        if (autoMode != null) {
+            switch (autoMode) {
+                case DRIVE_FORWARD: m_autonomousCommand = new DriveForward(TIME_CROSS_LINE); break;
+                case AUTO_LEFT_THIS_SIDE: m_autonomousCommand = new AutoStartLeftThisSide(); break;
+                case AUTO_RIGHT_THIS_SIDE: m_autonomousCommand = new AutoStartRightThisSide(); break;
+                case DRIVE_AND_SPIT: m_autonomousCommand = new AutoRobotRightSwitchRight(); break;
+            }
+
             m_autonomousCommand = new DelayedCommand(m_autonomousDelay, m_autonomousCommand);
             m_autonomousCommand.start();
         }

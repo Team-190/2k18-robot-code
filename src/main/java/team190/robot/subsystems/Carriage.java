@@ -28,13 +28,13 @@ public class Carriage extends Subsystem {
         // TODO: Calibrate speeds
         if (mode == CarriageMode.Extake) {
             // Modify extake speed if in turbo mode
-            speed = Robot.m_oi.isTurboActivated() ? 1 : 2;
+            speed = 1;
         } else if (mode == CarriageMode.Stop) {
             speed = 0;
         } else if (mode == CarriageMode.Transfer) {
             speed = 0.5;
         } else if (mode == CarriageMode.Intake) {
-            speed = -.75;
+            speed = -1.0;
         }
 
         mainMotor.set(ControlMode.PercentOutput, speed);

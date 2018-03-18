@@ -14,7 +14,7 @@ public class Collector extends Subsystem {
 
     // CAN Channels
     private static final int SRX_LEFT = 7, SRX_RIGHT = 8;
-    private static final boolean INVERT_LEFT = false, INVERT_RIGHT = true;
+    private static final boolean INVERT_LEFT = true, INVERT_RIGHT = false;
     // DIO inputs
     private static final int INTAKE_CUBE_SENSOR_PORT = 1;
 
@@ -43,10 +43,10 @@ public class Collector extends Subsystem {
         if (mode == IntakeMode.Stop) {
             percent = 0.0;
         } else if (mode == IntakeMode.Intake) {
-            percent = 0.5;
+            percent = 1.0;
         } else if (mode == IntakeMode.Extake) {
             // Modify extake speed if in turbo mode
-            percent = Robot.m_oi.isTurboActivated() ? 0.2 : -0.4;
+            percent = Robot.m_oi.isTurboActivated() ? -1.0 : -0.5;
         } else if (mode == IntakeMode.Transfer) {
             percent = 0.1;
         }

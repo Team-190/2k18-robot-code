@@ -18,7 +18,7 @@ public class CollectorExtakeRear extends Command {
     protected void initialize() {
         canExtake = Robot.collector.hasCube();
 
-        setTimeout(1); // TODO find actual timeout for extake rear
+        setTimeout(3); // TODO find actual timeout for extake rear
     }
 
     @Override
