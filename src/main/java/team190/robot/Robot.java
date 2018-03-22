@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.autonomous.*;
+import team190.robot.commands.autonomous.scale.StartRightScaleLeft;
 import team190.robot.commands.drivetrain.*;
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
@@ -40,6 +42,8 @@ public class Robot extends TimedRobot {
     private SendableChooser<AutoMode> m_autonomousChooser = new SendableChooser<>();
     private double m_autonomousDelay;
     private SendableChooser<Double> m_delayChooser = new SendableChooser<>();
+    private MatchData.OwnedSide position;
+    private SendableChooser<MatchData.OwnedSide> m_startSide = new SendableChooser();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -56,14 +60,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Drivetrain", drivetrain);
 
         m_autonomousChooser.addDefault("Do Nothing", null);
-        m_autonomousChooser.addObject("Drive Forward", AutoMode.DRIVE_FORWARD);
-        m_autonomousChooser.addObject("Auto Left This Side", AutoMode.AUTO_LEFT_THIS_SIDE);
-        m_autonomousChooser.addObject("Auto Right This Side", AutoMode.AUTO_RIGHT_THIS_SIDE);
-        m_autonomousChooser.addObject("SWITCH RIGHT", AutoMode.SWITCH_RIGHT);
-        m_autonomousChooser.addObject("SWITCH LEFT", AutoMode.SWITCH_LEFT);
+        for (AutoMode auto : AutoMode.values()) {
+            m_autonomousChooser.addObject(auto.prettyName, auto);
+        }
 
-        //m_autonomousChooser.addObject("Start Right 1 Cube", new AutoStartRightOneCube());
-        //m_autonomousChooser.addObject("Start Right 2 Cube", null); // TODO: Write 2 Cube auto
         SmartDashboard.putData("Auto mode", m_autonomousChooser);
 
         // Allow for the delay of the start of autnonmous by 0 to 5 seconds
@@ -74,6 +74,9 @@ public class Robot extends TimedRobot {
         m_delayChooser.addObject("4 Sec", 4.0);
         m_delayChooser.addObject("5 Sec", 5.0);
         SmartDashboard.putData("Auto delay", m_delayChooser);
+
+        m_startSide.addDefault("Start Right", MatchData.OwnedSide.RIGHT);
+        m_startSide.addObject("Start Left", MatchData.OwnedSide.LEFT);
 
 
         // Debug commands
@@ -112,28 +115,11 @@ public class Robot extends TimedRobot {
         drivetrain.shift(Drivetrain.Gear.HIGH);
         AutoMode autoMode = m_autonomousChooser.getSelected();
         m_autonomousDelay = m_delayChooser.getSelected();
+        position = m_startSide.getSelected();
 
         // schedule the autonomous command (example)
         if (autoMode != null) {
-            switch (autoMode) {
-                case DRIVE_FORWARD:
-                    m_autonomousCommand = new DriveForward(TIME_CROSS_LINE);
-                    break;
-                case AUTO_LEFT_THIS_SIDE:
-                    m_autonomousCommand = new AutoStartLeftThisSide();
-                    break;
-                case AUTO_RIGHT_THIS_SIDE:
-                    m_autonomousCommand = new AutoStartRightThisSide();
-                    break;
-                case SWITCH_RIGHT:
-                    m_autonomousCommand = new AutoRobotRightSwitchRight();
-                    break;
-                case SWITCH_LEFT:
-                    m_autonomousCommand = new AutoRobotLeftSwitchLeft();
-                    break;
-            }
-
-            m_autonomousCommand = new DelayedCommand(m_autonomousDelay, m_autonomousCommand);
+            m_autonomousCommand = new DelayedCommand(m_autonomousDelay, autoMode.getCommand(position));
             m_autonomousCommand.start();
         }
     }
@@ -202,10 +188,31 @@ public class Robot extends TimedRobot {
     }
 
     private enum AutoMode {
-        DRIVE_FORWARD,
-        AUTO_LEFT_THIS_SIDE,
-        AUTO_RIGHT_THIS_SIDE,
-        SWITCH_RIGHT,
-        SWITCH_LEFT
+        DRIVE_FORWARD("Drive Forward"),
+        SWITCH_SCORE("Score Switch"),
+        SCALE_OR_DRIVE("Scale or Drive Forward");
+
+        private final String prettyName;
+
+        private AutoMode(final String prettyName) {
+            this.prettyName = prettyName;
+        }
+        public Command getCommand(MatchData.OwnedSide position) {
+            switch(this) {
+                case DRIVE_FORWARD:
+                    return new DriveForward(TIME_CROSS_LINE);
+                case SWITCH_SCORE:
+                    return new SwitchScore(position);
+                case SCALE_OR_DRIVE:
+                    return new ScaleOrDriveForward(position);
+                default:
+                    return new Command() {
+                        @Override
+                        protected boolean isFinished() {
+                            return true;
+                        }
+                    };
+            }
+        }
     }
 }

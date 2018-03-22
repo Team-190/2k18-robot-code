@@ -30,11 +30,6 @@ public class DriveForward extends Command {
     }
 
     @Override
-    protected void interrupted() {
-        end();
-    }
-
-    @Override
     protected void end() {
         Robot.drivetrain.drive(ControlMode.PercentOutput, 0, 0);
     }

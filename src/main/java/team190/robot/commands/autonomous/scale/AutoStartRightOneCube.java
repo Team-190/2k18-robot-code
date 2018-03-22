@@ -1,17 +1,17 @@
-package team190.robot.commands.autonomous;
+package team190.robot.commands.autonomous.scale;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import openrio.powerup.MatchData;
-import team190.robot.Robot;
+import team190.robot.commands.autonomous.ScaleOrDriveForward;
 
 /**
  * Created by Kevin O'Brien on 2/19/2018.
  */
+/*
 public class AutoStartRightOneCube extends ConditionalCommand {
     public AutoStartRightOneCube() {
-        // TODO: add the ScaleRight Command
-        this(new StartRightScaleLeft(), new DriveForward(Robot.TIME_CROSS_LINE));
+        this(new StartRightScaleLeft(), new ScaleOrDriveForward.ScaleScore());
     }
 
     public AutoStartRightOneCube(Command onTrue, Command onFalse) {
@@ -24,3 +24,4 @@ public class AutoStartRightOneCube extends ConditionalCommand {
         return side == MatchData.OwnedSide.LEFT;
     }
 }
+*/

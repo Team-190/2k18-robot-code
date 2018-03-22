@@ -8,10 +8,11 @@ import team190.robot.Robot;
 /**
  * Created by Kevin O'Brien on 3/14/2018.
  */
+/*
 public class AutoStartRightThisSide extends ConditionalCommand {
 
     public AutoStartRightThisSide() {
-        this(new StartRightScaleRight(), new DriveForward(Robot.TIME_CROSS_LINE));
+        this(new ScaleOrDriveForward.ScaleScore(), new DriveForward(Robot.TIME_CROSS_LINE));
     }
 
     public AutoStartRightThisSide(Command onTrue, Command onFalse) {
@@ -24,3 +25,4 @@ public class AutoStartRightThisSide extends ConditionalCommand {
         return side == MatchData.OwnedSide.RIGHT;
     }
 }
+*/

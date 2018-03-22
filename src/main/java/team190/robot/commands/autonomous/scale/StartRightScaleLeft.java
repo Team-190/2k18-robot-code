@@ -1,4 +1,4 @@
-package team190.robot.commands.autonomous;
+package team190.robot.commands.autonomous.scale;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
