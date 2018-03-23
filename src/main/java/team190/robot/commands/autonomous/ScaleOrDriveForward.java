@@ -6,8 +6,11 @@ import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
 import team190.robot.Robot;
 import team190.robot.commands.autonomous.scale.StartLeftScaleLeft;
+import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.collector.CollectorIntake;
 import team190.robot.commands.drivetrain.DriveSequence;
+import team190.robot.commands.elevator.ElevatorPositionCarriage;
+import team190.robot.commands.elevator.ElevatorPositionHigh;
 
 /**
  * Created by Kevin O'Brien on 3/14/2018.
@@ -43,16 +46,19 @@ public class ScaleOrDriveForward extends ConditionalCommand {
                 driveCubeOne = AutoSequence.ScaleRightCollectCubeOne;
             }
             // start moving elevator at start of CommandGroup
-            //addSequential(new ElevatorPositionCarriage());
+            addSequential(new ElevatorPositionCarriage());
             //addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
             // Drive to the Scale
             addSequential(new DriveSequence(driveScale));
+
+            addSequential(new ElevatorPositionHigh());
+            addSequential(new CollectorExtakeRear());
             // wait for elevator to be in position
             //addSequential(new WaitForChildren());
             // Extake the cube
             //addSequential(new CollectorExtakeFront());
-            addParallel(new CollectorIntake());
-            addSequential(new DriveSequence(driveCubeOne, false));
+            //addParallel(new CollectorIntake());
+            //addSequential(new DriveSequence(driveCubeOne, false));
 
         }
     }

@@ -8,10 +8,12 @@
 package team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
+import team190.robot.commands.carriage.CarriageIntake;
 import team190.robot.commands.carriage.CarriageIntakeSequence;
 import team190.robot.commands.carriage.CarriageManualMove;
 import team190.robot.commands.collector.CollectorExtakeFront;
@@ -38,8 +40,8 @@ public class OI {
             PORT_OPERATOR_CONTROLLER_B = 3;
 
     // Buttons for the driver
-    private static final int BUTTON_DRIVER_HIGH_GEAR = 3,
-            BUTTON_DRIVER_LOW_GEAR = 2;
+    private static final int BUTTON_DRIVER_HIGH_GEAR = 2,
+            BUTTON_DRIVER_LOW_GEAR = 3;
 
     // Buttons for the operator a
     private static final int BUTTON_OPERATOR_A_ELEV_CARRIAGE = 1,
@@ -73,6 +75,8 @@ public class OI {
             turboButton, carriageFrontManualButton, carriageRearManualButton, intakeFrontManualButton, intakeRearManualButton,
             elevatorManualUpButton, elevatorManualDownButton, manualOverrideButton;
 
+    private XboxController xboxController;
+
     private Joystick leftStick;
     private Joystick rightStick;
 
@@ -89,9 +93,42 @@ public class OI {
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
+        xboxController = new XboxController(4);
+
+        new JoystickButton(xboxController, 6).whenPressed(new CollectCube()); // right bumper
+        new JoystickButton(xboxController, 5).whenPressed(new CollectorExtakeFront()); // left bumper
+        new JoystickButton(xboxController, 4).whileHeld(new ElevatorManualMove(0.5)); // y button
+        new JoystickButton(xboxController, 1).whileHeld(new ElevatorManualMove(-0.5)); // a button
+
+        new JoystickButton(xboxController, 8).whenPressed(new CarriageIntake()); // start
+        new JoystickButton(xboxController, 7).whenPressed(new CollectorExtakeRear()); // back
+
+        new JoystickButton(xboxController, 3).whenPressed(new ElevatorPositionLow()); // x
+        new JoystickButton(xboxController, 2).whenPressed(new ElevatorPositionHigh()); // b
+
+        new JoystickButton(xboxController, 9).whenPressed(new ElevatorPositionCarriage()); // left stick
+        new JoystickButton(xboxController, 10).whenPressed(new ElevatorPositionMed()); // right stick
+
+
+
+        /*
+            kBumperLeft(5),
+    kBumperRight(6),
+    kStickLeft(9),
+    kStickRight(10),
+    kA(1),
+    kB(2),
+    kX(3),
+    kY(4),
+    kBack(7),
+    kStart(8);
+         */
+
+
+
         // A CHANNEL OPERATOR
         operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
-
+/*
         // Elevator Positions
         elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_CARRIAGE);
         elevatorPosCarriageButton.whenPressed(new ElevatorPositionCarriage());
@@ -116,9 +153,10 @@ public class OI {
 
         extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_REAR);
         extakeRearButton.whenPressed(new CollectorExtakeRear());
-
+*/
         // B CHANNEL OPERATOR
         operatorControllerB = new Joystick(PORT_OPERATOR_CONTROLLER_B);
+        /*
         // Intake & Extake
         intakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INTAKE);
         intakeButton.whenPressed(new CollectCube());
@@ -147,6 +185,7 @@ public class OI {
         elevatorManualUpButton.whileHeld(new ElevatorManualMove(0.5));
 
         manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
+        */
     }
 
     /**

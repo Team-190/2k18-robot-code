@@ -18,23 +18,23 @@ public class Elevator extends Subsystem {
     // All POS's in INCHES - Height of Intake
     // 0 is bottom of intake travel, POS_MAX is the inches of travel from
     // that 0.
-    public final static double POS_INTAKE = 1;
-    public final static double POS_CAR = 30;
+    public final static double POS_INTAKE = 0;
+    public final static double POS_CAR = 25;
     public final static double POS_LO = 1;
-    public final static double POS_MED = 86.95;
-    public final static double POS_HI = 93.21; // MAX height
-    public final static double POS_CLIMB = 93.21;
+    public final static double POS_MED = 60;
+    public final static double POS_HI = 80; // MAX height
+    public final static double POS_CLIMB = 80;
     public final static double POS_MAX = 90;
 
     // TODO redo thsese too
-    private final static double POT_BOTTOM = 116; // Pot Value
-    private final static double POT_TOP_OFFSET = 560; // Pot Value
+    private final static double POT_BOTTOM = 88; // Pot Value
+    private final static double POT_TOP_OFFSET = 577; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
 
     private static final double SPEED_TOLERANCE = 0.5;
-    private static final double ERROR_TOLERANCE = 10.0;
+    private static final double ERROR_TOLERANCE = 8.0;
 
     // CAN Channels
     private static final int ELEVATOR_SRX_LEFT = 5,
@@ -54,7 +54,7 @@ public class Elevator extends Subsystem {
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
 
         // TODO: Tune PID
-        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 16.0, 0, 0, 0);
+        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 18.0, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
@@ -96,9 +96,12 @@ public class Elevator extends Subsystem {
      * @param percent The percent vbus for the elevator motor.
      */
     public void manualMove(double percent) {
+        //TODO: UNDO ONCE OI IS FIXED
+        /*
         if (Robot.m_oi.isElevatorManual()) {
             motor.set(ControlMode.PercentOutput, percent);
-        }
+        }*/
+        motor.set(ControlMode.PercentOutput, percent);
     }
 
     public void stop() {

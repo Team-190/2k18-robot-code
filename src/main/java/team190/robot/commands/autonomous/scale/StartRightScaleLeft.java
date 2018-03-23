@@ -16,9 +16,10 @@ public class StartRightScaleLeft extends CommandGroup {
 
     public StartRightScaleLeft() {
         // start moving elevator at start of CommandGroup
-        addParallel(new ElevatorPositionHigh());
+        addSequential(new ElevatorPositionCarriage());
         // Drive to the Scale
         addSequential(new DriveSequence(AutoSequence.StartRightScaleLeft));
+       /*
         // wait for elevator to be in position
         addSequential(new WaitForChildren());
         // Extake the cube
@@ -38,6 +39,6 @@ public class StartRightScaleLeft extends CommandGroup {
         // Wait for elevator to be in position
         addSequential(new WaitForChildren());
         // Extake the cube
-        addSequential(new CollectorExtakeFront());
+        addSequential(new CollectorExtakeFront());*/
     }
 }

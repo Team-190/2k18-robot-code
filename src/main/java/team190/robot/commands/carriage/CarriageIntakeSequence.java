@@ -17,7 +17,7 @@ public class CarriageIntakeSequence extends CommandGroup {
     private class CarriageTimedIntake extends Command {
 
         public CarriageTimedIntake() {
-            setTimeout(0.1);
+            setTimeout(0.3);
         }
 
         @Override

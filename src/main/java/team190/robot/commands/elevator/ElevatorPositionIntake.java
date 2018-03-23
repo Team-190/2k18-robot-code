@@ -8,6 +8,7 @@ public class ElevatorPositionIntake extends Command {
 
     public ElevatorPositionIntake() {
         requires(Robot.elevator);
+        setTimeout(2.0);
     }
 
     @Override
@@ -17,7 +18,7 @@ public class ElevatorPositionIntake extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.inPosition();
+        return Robot.elevator.inPosition() || isTimedOut();
     }
 
     @Override

@@ -7,6 +7,7 @@
 
 package team190.robot;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -43,7 +44,7 @@ public class Robot extends TimedRobot {
     private double m_autonomousDelay;
     private SendableChooser<Double> m_delayChooser = new SendableChooser<>();
     private MatchData.OwnedSide position;
-    private SendableChooser<MatchData.OwnedSide> m_startSide = new SendableChooser();
+    private SendableChooser<MatchData.OwnedSide> m_startSide = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -77,10 +78,13 @@ public class Robot extends TimedRobot {
 
         m_startSide.addDefault("Start Right", MatchData.OwnedSide.RIGHT);
         m_startSide.addObject("Start Left", MatchData.OwnedSide.LEFT);
+        SmartDashboard.putData("Start Position", m_startSide);
 
 
         // Debug commands
         debugSmartDashboard();
+
+        new PowerDistributionPanel();
     }
 
     /**
@@ -190,11 +194,12 @@ public class Robot extends TimedRobot {
     private enum AutoMode {
         DRIVE_FORWARD("Drive Forward"),
         SWITCH_SCORE("Score Switch"),
-        SCALE_OR_DRIVE("Scale or Drive Forward");
+        SCALE_OR_DRIVE("Scale or Drive Forward"),
+        SCALE_LEFT_START_RIGHT("Start Right Scale Left");
 
         private final String prettyName;
 
-        private AutoMode(final String prettyName) {
+        AutoMode(final String prettyName) {
             this.prettyName = prettyName;
         }
         public Command getCommand(MatchData.OwnedSide position) {
@@ -205,6 +210,8 @@ public class Robot extends TimedRobot {
                     return new SwitchScore(position);
                 case SCALE_OR_DRIVE:
                     return new ScaleOrDriveForward(position);
+                case SCALE_LEFT_START_RIGHT:
+                    return new StartRightScaleLeft();
                 default:
                     return new Command() {
                         @Override
