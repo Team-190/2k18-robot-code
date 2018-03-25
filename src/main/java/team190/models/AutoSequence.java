@@ -22,7 +22,9 @@ public enum AutoSequence {
     ScaleRightCollectCubeOne,
 
     StartRightScaleRight,
-    StartLeftScaleLeft;
+    StartLeftScaleLeft,
+
+    StartRightSwitchRight;
 
     private static HashMap<AutoSequence, PairedTrajectory> trajectories;
     private final String directory = "/home/lvuser/sequences";

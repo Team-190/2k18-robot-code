@@ -42,18 +42,29 @@ public class Collector extends Subsystem {
         double percent = 0;
         if (mode == IntakeMode.Stop) {
             percent = 0.0;
+            right.follow(left);
         } else if (mode == IntakeMode.Intake) {
-            percent = 1.0;
+            percent = 0.80;
         } else if (mode == IntakeMode.Extake) {
             // Modify extake speed if in turbo mode
             // TODO: Fix once oi is fixed
             //percent = Robot.m_oi.isTurboActivated() ? -1.0 : -0.5;
-            percent = -1.0;
+            //percent = -1.0;
+            percent = -0.3;
         } else if (mode == IntakeMode.Transfer) {
             percent = 0.6;
+        } else if (mode == IntakeMode.SlowReverse) {
+            percent = -0.3;
+        } else if (mode == IntakeMode.ExtakeGround) {
+            percent = -1.0;
         }
 
         left.set(ControlMode.PercentOutput, percent);
+    }
+
+    public void antiJerk() {
+        left.set(ControlMode.PercentOutput, 0.4);
+        right.set(ControlMode.PercentOutput, -0.4);
     }
 
     public boolean hasCube() {
@@ -72,6 +83,6 @@ public class Collector extends Subsystem {
     }
 
     public enum IntakeMode {
-        Stop, Intake, Extake, Transfer
+        Stop, Intake, Extake, SlowReverse, ExtakeGround, Transfer
     }
 }

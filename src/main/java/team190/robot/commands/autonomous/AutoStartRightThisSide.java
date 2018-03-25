@@ -12,7 +12,7 @@ import team190.robot.Robot;
 public class AutoStartRightThisSide extends ConditionalCommand {
 
     public AutoStartRightThisSide() {
-        this(new ScaleOrDriveForward.ScaleScore(), new DriveForward(Robot.TIME_CROSS_LINE));
+        this(new ScaleSwitchOrDriveForward.ScaleScore(), new DriveForward(Robot.TIME_CROSS_LINE));
     }
 
     public AutoStartRightThisSide(Command onTrue, Command onFalse) {

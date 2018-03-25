@@ -8,6 +8,7 @@ public class ElevatorPositionHigh extends Command {
 
     public ElevatorPositionHigh() {
         requires(Robot.elevator);
+        setTimeout(3);
     }
 
     @Override
@@ -17,11 +18,11 @@ public class ElevatorPositionHigh extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.inPosition();
+        return Robot.elevator.inPosition() || isTimedOut();
     }
 
     @Override
     protected void end() {
-        Robot.elevator.stop();
+        //Robot.elevator.stop();
     }
 }

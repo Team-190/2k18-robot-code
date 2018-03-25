@@ -194,7 +194,7 @@ public class Robot extends TimedRobot {
     private enum AutoMode {
         DRIVE_FORWARD("Drive Forward"),
         SWITCH_SCORE("Score Switch"),
-        SCALE_OR_DRIVE("Scale or Drive Forward"),
+        SCALE_OR_DRIVE("Scale, Switch, or Drive Forward"),
         SCALE_LEFT_START_RIGHT("Start Right Scale Left");
 
         private final String prettyName;
@@ -209,7 +209,7 @@ public class Robot extends TimedRobot {
                 case SWITCH_SCORE:
                     return new SwitchScore(position);
                 case SCALE_OR_DRIVE:
-                    return new ScaleOrDriveForward(position);
+                    return new ScaleSwitchOrDriveForward(position);
                 case SCALE_LEFT_START_RIGHT:
                     return new StartRightScaleLeft();
                 default:

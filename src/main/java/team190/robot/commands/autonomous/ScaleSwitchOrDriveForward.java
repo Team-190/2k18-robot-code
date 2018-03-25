@@ -15,11 +15,11 @@ import team190.robot.commands.elevator.ElevatorPositionHigh;
 /**
  * Created by Kevin O'Brien on 3/14/2018.
  */
-public class ScaleOrDriveForward extends ConditionalCommand {
+public class ScaleSwitchOrDriveForward extends ConditionalCommand {
 
     private MatchData.OwnedSide position;
-    public ScaleOrDriveForward(MatchData.OwnedSide position) {
-        super(new ScaleScore(position), new DriveForward(Robot.TIME_CROSS_LINE));
+    public ScaleSwitchOrDriveForward(MatchData.OwnedSide position) {
+        super(new ScaleScore(position), new CheckSwitch(position));
         this.position = position;
     }
 
@@ -62,4 +62,40 @@ public class ScaleOrDriveForward extends ConditionalCommand {
 
         }
     }
+
+    public static class CheckSwitch extends ConditionalCommand {
+        private MatchData.OwnedSide position;
+        public CheckSwitch(MatchData.OwnedSide position) {
+            super(new SwitchPath(position), new DriveForward(Robot.TIME_CROSS_LINE));
+            this.position = position;
+        }
+
+        @Override
+        protected boolean condition() {
+            MatchData.OwnedSide side = MatchData.getOwnedSide(MatchData.GameFeature.SWITCH_NEAR);
+            return side == position;
+        }
+
+    }
+
+    public static class SwitchPath extends CommandGroup {
+
+        public SwitchPath(MatchData.OwnedSide position) {
+            AutoSequence driveSwitch = AutoSequence.StartRightSwitchRight;
+            // start moving elevator at start of CommandGroup
+            addSequential(new ElevatorPositionCarriage());
+            //addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
+            // Drive to the Scale
+            addSequential(new DriveSequence(driveSwitch));
+            addSequential(new CollectorExtakeRear());
+            // wait for elevator to be in position
+            //addSequential(new WaitForChildren());
+            // Extake the cube
+            //addSequential(new CollectorExtakeFront());
+            //addParallel(new CollectorIntake());
+            //addSequential(new DriveSequence(driveCubeOne, false));
+
+        }
+    }
+
 }

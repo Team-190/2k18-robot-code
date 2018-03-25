@@ -13,12 +13,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
+import team190.robot.commands.VaultExtake;
 import team190.robot.commands.carriage.CarriageIntake;
 import team190.robot.commands.carriage.CarriageIntakeSequence;
 import team190.robot.commands.carriage.CarriageManualMove;
-import team190.robot.commands.collector.CollectorExtakeFront;
-import team190.robot.commands.collector.CollectorExtakeRear;
-import team190.robot.commands.collector.CollectorManualMove;
+import team190.robot.commands.collector.*;
 import team190.robot.commands.drivetrain.Shift;
 import team190.robot.commands.elevator.*;
 import team190.robot.subsystems.Carriage;
@@ -44,16 +43,17 @@ public class OI {
             BUTTON_DRIVER_LOW_GEAR = 3;
 
     // Buttons for the operator a
-    private static final int BUTTON_OPERATOR_A_ELEV_CARRIAGE = 1,
-            BUTTON_OPERATOR_A_ELEV_LOW = 2,
+    private static final int BUTTON_OPERATOR_A_ELEV_CARRIAGE = 2,
+            BUTTON_OPERATOR_A_ELEV_LOW = 1,
             BUTTON_OPERATOR_A_ELEV_MID = 3,
             BUTTON_OPERATOR_A_ELEV_HIGH = 4,
             BUTTON_OPERATOR_A_PREP_CLIMB = 5,
-            BUTTON_OPERATOR_A_CLIMB = 6,
+            BUTTON_OPERATOR_A_CLIMB = 6, // NOW TRANSFER
             BUTTON_OPERATOR_A_EXTAKE_FRONT = 7,
             BUTTON_OPERATOR_A_EXTAKE_REAR = 8;
 
     // Buttons for the operator b
+    /*
     private static final int BUTTON_OPERATOR_B_INTAKE = 1,
             BUTTON_OPERATOR_B_CARR_INTAKE = 2,
             BUTTON_OPERATOR_B_TURBO = 3,
@@ -64,7 +64,17 @@ public class OI {
             BUTTON_OPERATOR_B_ELEV_MAN_D = 8,
             BUTTON_OPERATOR_B_ELEV_MAN_U = 9,
             BUTTON_OPERATOR_B_MAN_OVERRIDE = 10;
-
+*/
+    private static final int BUTTON_OPERATOR_B_INTAKE = 9,
+            BUTTON_OPERATOR_B_CARR_INTAKE = 10,
+            //BUTTON_OPERATOR_B_TURBO = 11,
+            BUTTON_OPERATOR_B_CARR_MAN_F = 12,
+            BUTTON_OPERATOR_B_CARR_MAN_R = 13,
+            BUTTON_OPERATOR_B_INT_MAN_F = 14,
+            BUTTON_OPERATOR_B_INT_MAN_R = 15,
+            BUTTON_OPERATOR_B_ELEV_MAN_D = 16,
+            BUTTON_OPERATOR_B_ELEV_MAN_U = 11;
+            //BUTTON_OPERATOR_B_MAN_OVERRIDE = 18;
 
     /* Driver Controls */
     private Button highGearButton, lowGearButton;
@@ -93,6 +103,7 @@ public class OI {
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
+        /*
         xboxController = new XboxController(4);
 
         new JoystickButton(xboxController, 6).whenPressed(new CollectCube()); // right bumper
@@ -108,7 +119,7 @@ public class OI {
 
         new JoystickButton(xboxController, 9).whenPressed(new ElevatorPositionCarriage()); // left stick
         new JoystickButton(xboxController, 10).whenPressed(new ElevatorPositionMed()); // right stick
-
+*/
 
 
         /*
@@ -128,7 +139,7 @@ public class OI {
 
         // A CHANNEL OPERATOR
         operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
-/*
+
         // Elevator Positions
         elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_CARRIAGE);
         elevatorPosCarriageButton.whenPressed(new ElevatorPositionCarriage());
@@ -143,28 +154,31 @@ public class OI {
         elevatorPosHighButton.whenPressed(new ElevatorPositionHigh());
 
         prepClimb = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_PREP_CLIMB);
+        prepClimb.whenPressed(new VaultExtake());
         // TODO: Add command to prepare for climbing
 
         elevatorPosClimbButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_CLIMB);
-        elevatorPosClimbButton.whenPressed(new ElevatorPositionClimb());
+        //elevatorPosClimbButton.whenPressed(new ElevatorPositionClimb());
+        elevatorPosClimbButton.whenPressed(new CarriageIntakeSequence());
 
         extakeFrontButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_FRONT);
         extakeFrontButton.whenPressed(new CollectorExtakeFront());
 
         extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_REAR);
         extakeRearButton.whenPressed(new CollectorExtakeRear());
-*/
+
         // B CHANNEL OPERATOR
-        operatorControllerB = new Joystick(PORT_OPERATOR_CONTROLLER_B);
-        /*
+        //operatorControllerB = new Joystick(PORT_OPERATOR_CONTROLLER_B);
+        operatorControllerB = operatorControllerA;
+
         // Intake & Extake
         intakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INTAKE);
         intakeButton.whenPressed(new CollectCube());
 
         carriageIntakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_INTAKE);
-        carriageIntakeButton.whenPressed(new CarriageIntakeSequence());
+        carriageIntakeButton.whenPressed(new AntiJerk());
 
-        turboButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_TURBO);
+        //turboButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_TURBO);
 
         carriageFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_F);
         carriageFrontManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Intake));
@@ -184,8 +198,8 @@ public class OI {
         elevatorManualUpButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_ELEV_MAN_U);
         elevatorManualUpButton.whileHeld(new ElevatorManualMove(0.5));
 
-        manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
-        */
+        //manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
+
     }
 
     /**
@@ -212,7 +226,8 @@ public class OI {
      * @return True if in turbo mode
      */
     public boolean isTurboActivated() {
-        return turboButton.get();
+        //return turboButton.get();
+        return true;
     }
 
     /**
@@ -221,6 +236,7 @@ public class OI {
      * @return True if in manual mode
      */
     public boolean isElevatorManual() {
-        return manualOverrideButton.get();
+        //return manualOverrideButton.get();
+        return true;
     }
 }
