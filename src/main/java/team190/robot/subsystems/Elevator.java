@@ -27,7 +27,7 @@ public class Elevator extends Subsystem {
     public final static double POS_MAX = 90;
 
     // TODO redo thsese too
-    private final static double POT_BOTTOM = 242; // Pot Value
+    private final static double POT_BOTTOM = 247; // Pot Value
     private final static double POT_TOP_OFFSET = 572; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;

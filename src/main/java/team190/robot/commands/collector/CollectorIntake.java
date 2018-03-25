@@ -14,6 +14,7 @@ import team190.robot.subsystems.Collector;
 public class CollectorIntake extends CommandGroup {
     public CollectorIntake() {
         addSequential(new InitialIntake());
+        addSequential(new IntakeAfterSensor());
         //addSequential(new QuickReverse());
     }
 
@@ -57,7 +58,7 @@ public class CollectorIntake extends CommandGroup {
             // Use requires() here to declare subsystem dependencies
             // eg. requires(chassis);
             requires(Robot.collector);
-            setTimeout(0.15);
+            setTimeout(0.5);
 
         }
 
