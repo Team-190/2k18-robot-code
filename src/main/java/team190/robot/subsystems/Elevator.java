@@ -21,6 +21,7 @@ public class Elevator extends Subsystem {
     public final static double POS_INTAKE = 0;
     public final static double POS_CAR = 28;
     public final static double POS_LO = 0;
+    public final static double POS_SWITCH = 50;
     public final static double POS_MED = 72;
     public final static double POS_HI = 95; // MAX height
     public final static double POS_CLIMB = 80;

@@ -7,12 +7,15 @@
 
 package team190.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
+import team190.robot.commands.CollectorCarriageManualMove;
 import team190.robot.commands.VaultExtake;
 import team190.robot.commands.carriage.CarriageIntake;
 import team190.robot.commands.carriage.CarriageIntakeSequence;
@@ -85,10 +88,12 @@ public class OI {
             turboButton, carriageFrontManualButton, carriageRearManualButton, intakeFrontManualButton, intakeRearManualButton,
             elevatorManualUpButton, elevatorManualDownButton, manualOverrideButton;
 
-    private XboxController xboxController;
+    //private XboxController xboxController;
 
     private Joystick leftStick;
     private Joystick rightStick;
+
+    private XboxController operatorGamepad;
 
     /**
      * Constructor
@@ -103,23 +108,31 @@ public class OI {
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
-        /*
-        xboxController = new XboxController(4);
+        operatorGamepad = new XboxController(4);
 
-        new JoystickButton(xboxController, 6).whenPressed(new CollectCube()); // right bumper
-        new JoystickButton(xboxController, 5).whenPressed(new CollectorExtakeFront()); // left bumper
-        new JoystickButton(xboxController, 4).whileHeld(new ElevatorManualMove(0.5)); // y button
-        new JoystickButton(xboxController, 1).whileHeld(new ElevatorManualMove(-0.5)); // a button
 
-        new JoystickButton(xboxController, 8).whenPressed(new CarriageIntake()); // start
-        new JoystickButton(xboxController, 7).whenPressed(new CollectorExtakeRear()); // back
+        // Elevator Presets:
+        new JoystickButton(operatorGamepad, 1).whenPressed(new ElevatorPositionSwitch()); // A
+        new JoystickButton(operatorGamepad, 2).whenPressed(new ElevatorPositionMed()); // B
+        new JoystickButton(operatorGamepad, 3).whenPressed(new ElevatorPositionCarriage()); // X
+        new JoystickButton(operatorGamepad, 4).whenPressed(new ElevatorPositionHigh()); // Y
 
-        new JoystickButton(xboxController, 3).whenPressed(new ElevatorPositionLow()); // x
-        new JoystickButton(xboxController, 2).whenPressed(new ElevatorPositionHigh()); // b
 
-        new JoystickButton(xboxController, 9).whenPressed(new ElevatorPositionCarriage()); // left stick
-        new JoystickButton(xboxController, 10).whenPressed(new ElevatorPositionMed()); // right stick
-*/
+        // Elevator Manual jog
+        // Right Analog Stick Up and Down
+        new AxisTrigger(GenericHID.Hand.kRight, AxisDirection.Y, PosNegDirection.UP).whileActive(new ElevatorManualMove(0.5));
+        new AxisTrigger(GenericHID.Hand.kRight, AxisDirection.Y, PosNegDirection.DOWN).whileActive(new ElevatorManualMove(-0.5));
+
+        // Carriage and Collector Manual job
+        // Left Analog Stick Up and Down
+        new AxisTrigger(GenericHID.Hand.kLeft, AxisDirection.Y, PosNegDirection.DOWN)
+                .whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
+        new AxisTrigger(GenericHID.Hand.kLeft, AxisDirection.Y, PosNegDirection.UP)
+                .whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
+
+        // Intake Sequence
+        new TriggerTrigger(GenericHID.Hand.kLeft).whenActive(new CollectCube()); // Left trigger
+        new JoystickButton(operatorGamepad, 5).whenPressed(new AntiJerk()); // Left bumper
 
 
         /*
@@ -238,5 +251,53 @@ public class OI {
     public boolean isElevatorManual() {
         //return manualOverrideButton.get();
         return true;
+    }
+
+    private class AxisTrigger extends Trigger {
+        GenericHID.Hand hand;
+        AxisDirection axisDirection;
+        PosNegDirection posNegDirection;
+
+        public AxisTrigger(GenericHID.Hand hand, AxisDirection axisDirection, PosNegDirection posNegDirection) {
+            this.hand = hand;
+            this.axisDirection = axisDirection;
+            this.posNegDirection = posNegDirection;
+        }
+        @Override
+        public boolean get() {
+            if (axisDirection == AxisDirection.X) {
+                if (posNegDirection == PosNegDirection.UP) {
+                    return operatorGamepad.getX(hand) < -0.75;
+                } else {
+                    return operatorGamepad.getX(hand) > 0.75;
+                }
+            } else {
+                if (posNegDirection == PosNegDirection.UP) {
+                    return operatorGamepad.getY(hand) < -0.75;
+                } else {
+                    return operatorGamepad.getY(hand) > 0.75;
+                }
+            }
+        }
+    }
+
+    private enum AxisDirection {
+        X, Y;
+    }
+
+    private enum PosNegDirection {
+        UP, DOWN;
+    }
+
+    private class TriggerTrigger extends Trigger {
+
+        private final GenericHID.Hand hand;
+
+        public TriggerTrigger(GenericHID.Hand hand) {
+            this.hand = hand;
+        }
+        public boolean get() {
+            return operatorGamepad.getTriggerAxis(hand) > 0.75;
+        }
     }
 }

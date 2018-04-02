@@ -148,7 +148,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        drivetrain.shift(Drivetrain.Gear.LOW);
+        //drivetrain.shift(Drivetrain.Gear.LOW);
+        drivetrain.shift(Drivetrain.Gear.HIGH);
         drivetrain.setCoastMode();
     }
 
@@ -195,9 +196,9 @@ public class Robot extends TimedRobot {
         DRIVE_FORWARD("Drive Forward"),
         SWITCH_SCORE("Score Switch L or R"),
         SCALE_OR_DRIVE("Scale, Switch, or Drive Forward"),
-        SWITCH_CENTER("Switch Center");
+        SWITCH_CENTER("Switch Center"),
 
-        //SCALE_LEFT_START_RIGHT("Start Right Scale Left");
+        SCALE_LEFT_START_RIGHT("Start Right Scale Left");
 
         private final String prettyName;
 
@@ -214,8 +215,8 @@ public class Robot extends TimedRobot {
                     return new ScaleSwitchOrDriveForward(position);
                 case SWITCH_CENTER:
                     return new CenterSwitch();
-                //case SCALE_LEFT_START_RIGHT:
-                //    return new StartRightScaleLeft();
+                case SCALE_LEFT_START_RIGHT:
+                    return new StartRightScaleLeft();
                 default:
                     return new Command() {
                         @Override
