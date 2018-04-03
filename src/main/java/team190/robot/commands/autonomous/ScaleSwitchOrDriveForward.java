@@ -56,6 +56,13 @@ public class ScaleSwitchOrDriveForward extends ConditionalCommand {
             addSequential(new ElevatorPositionHigh());
             //addSequential(new DriveForward(0.25));
             addSequential(new CollectorExtakeRear());
+
+            // Pick up next cube
+            addSequential(new ElevatorPositionCarriage());
+            addParallel(new CollectCube());
+            addSequential(new DriveSequence(AutoSequence.ScaleRightCollectCubeOne));
+            addSequential(new WaitForChildren());
+
             /*
             addParallel(new ElevatorPositionCarriage());
             addSequential(new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
