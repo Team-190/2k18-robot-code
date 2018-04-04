@@ -8,7 +8,6 @@ import team190.models.AutoSequence;
 import team190.robot.Robot;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.collector.CollectorExtakeRear;
-import team190.robot.commands.collector.CollectorIntake;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
 import team190.robot.commands.elevator.ElevatorPositionHigh;
@@ -19,6 +18,7 @@ import team190.robot.commands.elevator.ElevatorPositionHigh;
 public class ScaleSwitchOrDriveForward extends ConditionalCommand {
 
     private MatchData.OwnedSide position;
+
     public ScaleSwitchOrDriveForward(MatchData.OwnedSide position) {
         super(new ScaleScore(position), new CheckSwitch(position));
         this.position = position;
@@ -62,6 +62,7 @@ public class ScaleSwitchOrDriveForward extends ConditionalCommand {
 
     public static class CheckSwitch extends ConditionalCommand {
         private MatchData.OwnedSide position;
+
         public CheckSwitch(MatchData.OwnedSide position) {
             super(new SwitchPath(position), new DriveForward(Robot.TIME_CROSS_LINE));
             this.position = position;

@@ -1,6 +1,5 @@
 package team190.robot.commands.autonomous;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import openrio.powerup.MatchData;

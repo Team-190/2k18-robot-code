@@ -18,7 +18,6 @@ import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.autonomous.*;
-import team190.robot.commands.autonomous.ScaleEitherPlate;
 import team190.robot.commands.drivetrain.*;
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
@@ -208,7 +207,7 @@ public class Robot extends TimedRobot {
         }
 
         public Command getCommand(MatchData.OwnedSide position) {
-            switch(this) {
+            switch (this) {
                 case DRIVE_FORWARD:
                     return new DriveForward(TIME_CROSS_LINE);
                 case SWITCH_SCORE:

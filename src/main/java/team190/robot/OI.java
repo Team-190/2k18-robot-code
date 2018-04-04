@@ -17,10 +17,12 @@ import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.CollectorCarriageManualMove;
 import team190.robot.commands.VaultExtake;
-import team190.robot.commands.carriage.CarriageIntake;
 import team190.robot.commands.carriage.CarriageIntakeSequence;
 import team190.robot.commands.carriage.CarriageManualMove;
-import team190.robot.commands.collector.*;
+import team190.robot.commands.collector.AntiJerk;
+import team190.robot.commands.collector.CollectorExtakeFront;
+import team190.robot.commands.collector.CollectorExtakeRear;
+import team190.robot.commands.collector.CollectorManualMove;
 import team190.robot.commands.drivetrain.Shift;
 import team190.robot.commands.elevator.*;
 import team190.robot.subsystems.Carriage;
@@ -70,14 +72,14 @@ public class OI {
 */
     private static final int BUTTON_OPERATOR_B_INTAKE = 9,
             BUTTON_OPERATOR_B_CARR_INTAKE = 10,
-            //BUTTON_OPERATOR_B_TURBO = 11,
-            BUTTON_OPERATOR_B_CARR_MAN_F = 12,
+    //BUTTON_OPERATOR_B_TURBO = 11,
+    BUTTON_OPERATOR_B_CARR_MAN_F = 12,
             BUTTON_OPERATOR_B_CARR_MAN_R = 13,
             BUTTON_OPERATOR_B_INT_MAN_F = 14,
             BUTTON_OPERATOR_B_INT_MAN_R = 15,
             BUTTON_OPERATOR_B_ELEV_MAN_D = 16,
             BUTTON_OPERATOR_B_ELEV_MAN_U = 11;
-            //BUTTON_OPERATOR_B_MAN_OVERRIDE = 18;
+    //BUTTON_OPERATOR_B_MAN_OVERRIDE = 18;
 
     /* Driver Controls */
     private Button highGearButton, lowGearButton;
@@ -147,7 +149,6 @@ public class OI {
     kBack(7),
     kStart(8);
          */
-
 
 
         // A CHANNEL OPERATOR
@@ -253,6 +254,14 @@ public class OI {
         return true;
     }
 
+    private enum AxisDirection {
+        X, Y
+    }
+
+    private enum PosNegDirection {
+        UP, DOWN
+    }
+
     private class AxisTrigger extends Trigger {
         GenericHID.Hand hand;
         AxisDirection axisDirection;
@@ -263,6 +272,7 @@ public class OI {
             this.axisDirection = axisDirection;
             this.posNegDirection = posNegDirection;
         }
+
         @Override
         public boolean get() {
             if (axisDirection == AxisDirection.X) {
@@ -281,14 +291,6 @@ public class OI {
         }
     }
 
-    private enum AxisDirection {
-        X, Y;
-    }
-
-    private enum PosNegDirection {
-        UP, DOWN;
-    }
-
     private class TriggerTrigger extends Trigger {
 
         private final GenericHID.Hand hand;
@@ -296,6 +298,7 @@ public class OI {
         public TriggerTrigger(GenericHID.Hand hand) {
             this.hand = hand;
         }
+
         public boolean get() {
             return operatorGamepad.getTriggerAxis(hand) > 0.75;
         }

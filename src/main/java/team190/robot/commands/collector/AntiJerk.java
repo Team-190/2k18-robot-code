@@ -20,6 +20,7 @@ public class AntiJerk extends CommandGroup {
         addSequential(new CollectorTransferCarriage());
 
     }
+
     private class AntiJerkSegment extends Command {
         public AntiJerkSegment() {
             requires(Robot.collector);

@@ -3,7 +3,6 @@ package team190.robot.commands.collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import team190.robot.Robot;
 import team190.robot.subsystems.Collector;
 
