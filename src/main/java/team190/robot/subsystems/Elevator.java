@@ -27,7 +27,6 @@ public class Elevator extends Subsystem {
     public final static double POS_CLIMB = 80;
     public final static double POS_MAX = 90;
 
-    // TODO redo thsese too
     private final static double POT_BOTTOM = 266; // Pot Value
     private final static double POT_TOP_OFFSET = 572; // Pot Value
 
@@ -75,8 +74,7 @@ public class Elevator extends Subsystem {
      * @param inches The height of the intake.
      */
     public void moveElevator(double inches) {
-        double potValue = heightToPot(inches);
-        motorSetpoint = potValue;
+        motorSetpoint = heightToPot(inches);
         SmartDashboard.putNumber("Elev Setpoint", motorSetpoint);
 
         motor.set(ControlMode.Position, motorSetpoint);
@@ -97,26 +95,18 @@ public class Elevator extends Subsystem {
      * @param percent The percent vbus for the elevator motor.
      */
     public void manualMove(double percent) {
-        //TODO: UNDO ONCE OI IS FIXED
-
         if (Robot.m_oi.isElevatorManual()) {
             motor.set(ControlMode.PercentOutput, percent);
         }
-        //motor.set(ControlMode.PercentOutput, percent);
     }
 
     public void stop() {
         motor.set(ControlMode.PercentOutput, 0);
     }
 
-    // TODO: confirm that it works
     public boolean inPosition() {
         double thisError = motorSetpoint - motor.getSelectedSensorPosition(DEFAULT_PIDX);
-
-        System.out.println("thisError = " + thisError);
-
-        boolean onTarget = Math.abs(thisError) <= ERROR_TOLERANCE;
-        return onTarget;
+        return Math.abs(thisError) <= ERROR_TOLERANCE;
     }
 
     public boolean getBottomLimitSwitch() {

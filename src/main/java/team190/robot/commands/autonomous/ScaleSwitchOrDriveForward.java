@@ -7,7 +7,6 @@ import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
 import team190.robot.Robot;
 import team190.robot.commands.CollectCube;
-import team190.robot.commands.autonomous.scale.StartLeftScaleLeft;
 import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.collector.CollectorIntake;
 import team190.robot.commands.drivetrain.DriveSequence;
@@ -39,22 +38,17 @@ public class ScaleSwitchOrDriveForward extends ConditionalCommand {
 
         public ScaleScore(MatchData.OwnedSide position) {
             AutoSequence driveScale;
-            AutoSequence driveCubeOne;
             if (position == MatchData.OwnedSide.LEFT) {
                 driveScale = AutoSequence.StartLeftScaleLeft;
-                driveCubeOne = AutoSequence.ScaleLeftCollectCubeOne;
             } else {
                 driveScale = AutoSequence.StartRightScaleRight;
-                driveCubeOne = AutoSequence.ScaleRightCollectCubeOne;
             }
             // start moving elevator at start of CommandGroup
             addSequential(new ElevatorPositionCarriage());
-            //addParallel(new DelayedCommand(2.0, new ElevatorPositionHigh()));
             // Drive to the Scale
             addSequential(new DriveSequence(driveScale));
 
             addSequential(new ElevatorPositionHigh());
-            //addSequential(new DriveForward(0.25));
             addSequential(new CollectorExtakeRear());
 
             // Pick up next cube
@@ -62,17 +56,6 @@ public class ScaleSwitchOrDriveForward extends ConditionalCommand {
             addParallel(new CollectCube());
             addSequential(new DriveSequence(AutoSequence.ScaleRightCollectCubeOne));
             addSequential(new WaitForChildren());
-
-            /*
-            addParallel(new ElevatorPositionCarriage());
-            addSequential(new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
-            addSequential(new WaitForChildren());
-            addSequential(new CollectCube());
-            addParallel(new ElevatorPositionHigh());
-            addSequential(new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
-            addSequential(new WaitForChildren());
-            addSequential(new CollectorExtakeRear());
-            */
 
         }
     }
