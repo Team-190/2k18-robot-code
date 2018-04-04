@@ -97,11 +97,13 @@ public class OI {
 
     private XboxController operatorGamepad;
 
+    private Joystick operatorStick;
+
     /**
      * Constructor
      */
     OI() {
-        // Driver
+        // Driver Sticks
         leftStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_1, 0.1);
         rightStick = new DeadbandJoystick(PORT_DRIVER_JOYSTICK_2, 0.1);
 
@@ -111,44 +113,65 @@ public class OI {
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
         operatorGamepad = new XboxController(4);
+        useXboxController();
 
+        operatorStick = new Joystick(5);
 
-        // Elevator Presets:
-        new JoystickButton(operatorGamepad, 1).whenPressed(new ElevatorPositionSwitch()); // A
-        new JoystickButton(operatorGamepad, 2).whenPressed(new ElevatorPositionMed()); // B
-        new JoystickButton(operatorGamepad, 3).whenPressed(new ElevatorPositionCarriage()); // X
-        new JoystickButton(operatorGamepad, 4).whenPressed(new ElevatorPositionHigh()); // Y
+        // Collector Carriage Jogs
+        final int CarriageButton = 6, CollectorButton = 4;
+        Trigger bothJogIn = new Trigger() {
+            @Override
+            public boolean get() {
+                return operatorStick.getY() < -.75 && !operatorStick.getRawButton(CarriageButton) && !operatorStick.getRawButton(CollectorButton);
+            }
+        };
+        bothJogIn.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
+        Trigger bothJogOut = new Trigger() {
 
+            @Override
+            public boolean get() {
+                return operatorStick.getY() > .75 && !operatorStick.getRawButton(CarriageButton) && !operatorStick.getRawButton(CollectorButton);
+            }
+        };
+        bothJogOut.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
 
-        // Elevator Manual jog
-        // Right Analog Stick Up and Down
-        new AxisTrigger(GenericHID.Hand.kRight, AxisDirection.Y, PosNegDirection.UP).whileActive(new ElevatorManualMove(0.5));
-        new AxisTrigger(GenericHID.Hand.kRight, AxisDirection.Y, PosNegDirection.DOWN).whileActive(new ElevatorManualMove(-0.5));
+        // Collector Jogs
+        Trigger collectorJogIn = new Trigger() {
+            @Override
+            public boolean get() {
+                return operatorStick.getY() < -.75 && operatorStick.getRawButton(CollectorButton);
+            }
+        };
+        collectorJogIn.whileActive(new CollectorManualMove(Collector.IntakeMode.Intake));
+        Trigger collectorJogOut = new Trigger() {
+            @Override
+            public boolean get() {
+                return operatorStick.getY() > .75 && operatorStick.getRawButton(CollectorButton);
+            }
+        };
+        collectorJogOut.whileActive(new CollectorManualMove(Collector.IntakeMode.Extake));
 
-        // Carriage and Collector Manual job
-        // Left Analog Stick Up and Down
-        new AxisTrigger(GenericHID.Hand.kLeft, AxisDirection.Y, PosNegDirection.DOWN)
-                .whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
-        new AxisTrigger(GenericHID.Hand.kLeft, AxisDirection.Y, PosNegDirection.UP)
-                .whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
+        // Carriage Jogs
+        Trigger carriageJogIn = new Trigger() {
+            @Override
+            public boolean get() {
+                return operatorStick.getY() < -.75 && operatorStick.getRawButton(CarriageButton);
+            }
+        };
+        carriageJogIn.whileActive(new CarriageManualMove(Carriage.CarriageMode.Extake));
+        Trigger carriageJogOut = new Trigger() {
+            @Override
+            public boolean get() {
+                return operatorStick.getY() > .75 && operatorStick.getRawButton(CarriageButton);
+            }
+        };
+        carriageJogOut.whileActive(new CarriageManualMove(Carriage.CarriageMode.Intake));
 
-        // Intake Sequence
-        new TriggerTrigger(GenericHID.Hand.kLeft).whenActive(new CollectCube()); // Left trigger
-        new JoystickButton(operatorGamepad, 5).whenPressed(new AntiJerk()); // Left bumper
+        // Intake Button
+        new JoystickButton(operatorStick, 1).whenPressed(new CollectCube());
 
-
-        /*
-            kBumperLeft(5),
-    kBumperRight(6),
-    kStickLeft(9),
-    kStickRight(10),
-    kA(1),
-    kB(2),
-    kX(3),
-    kY(4),
-    kBack(7),
-    kStart(8);
-         */
+        // Anti-Jerk
+        new JoystickButton(operatorStick, 2).whenPressed(new AntiJerk());
 
 
         // A CHANNEL OPERATOR
@@ -214,6 +237,31 @@ public class OI {
 
         //manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
 
+    }
+
+    private void useXboxController() {
+        // Elevator Presets:
+        new JoystickButton(operatorGamepad, 1).whenPressed(new ElevatorPositionSwitch()); // A
+        new JoystickButton(operatorGamepad, 2).whenPressed(new ElevatorPositionMed()); // B
+        new JoystickButton(operatorGamepad, 3).whenPressed(new ElevatorPositionCarriage()); // X
+        new JoystickButton(operatorGamepad, 4).whenPressed(new ElevatorPositionHigh()); // Y
+
+
+        // Elevator Manual jog
+        // Right Analog Stick Up and Down
+        new AxisTrigger(GenericHID.Hand.kRight, AxisDirection.Y, PosNegDirection.UP).whileActive(new ElevatorManualMove(0.5));
+        new AxisTrigger(GenericHID.Hand.kRight, AxisDirection.Y, PosNegDirection.DOWN).whileActive(new ElevatorManualMove(-0.5));
+
+        // Carriage and Collector Manual job
+        // Left Analog Stick Up and Down
+        new AxisTrigger(GenericHID.Hand.kLeft, AxisDirection.Y, PosNegDirection.DOWN)
+                .whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
+        new AxisTrigger(GenericHID.Hand.kLeft, AxisDirection.Y, PosNegDirection.UP)
+                .whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
+
+        // Intake Sequence
+        new TriggerTrigger(GenericHID.Hand.kLeft).whenActive(new CollectCube()); // Left trigger
+        new JoystickButton(operatorGamepad, 5).whenPressed(new AntiJerk()); // Left bumper
     }
 
     /**
