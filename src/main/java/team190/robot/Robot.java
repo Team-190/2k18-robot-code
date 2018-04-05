@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         drivetrain.setBrakeMode();
-        drivetrain.shift(Drivetrain.Gear.HIGH);
+        drivetrain.shift(Drivetrain.Gear.LOW);
         AutoMode autoMode = m_autonomousChooser.getSelected();
         m_autonomousDelay = m_delayChooser.getSelected();
         position = m_startSide.getSelected();
@@ -148,8 +148,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        //drivetrain.shift(Drivetrain.Gear.LOW);
-        drivetrain.shift(Drivetrain.Gear.HIGH);
+        drivetrain.shift(Drivetrain.Gear.LOW);
         drivetrain.setCoastMode();
     }
 

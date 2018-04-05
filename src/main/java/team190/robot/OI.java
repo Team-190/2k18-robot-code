@@ -43,8 +43,8 @@ public class OI {
             PORT_OPERATOR_CONTROLLER_A = 2;
 
     // Buttons for the driver
-    private static final int BUTTON_DRIVER_HIGH_GEAR = 2,
-            BUTTON_DRIVER_LOW_GEAR = 3;
+    private static final int BUTTON_DRIVER_HIGH_GEAR = 3,
+            BUTTON_DRIVER_LOW_GEAR = 2;
 
     /* Driver Controls */
     private Button highGearButton, lowGearButton;

@@ -111,11 +111,11 @@ public class Drivetrain extends Subsystem {
     //Shifts gear
     public void shift(Gear gear) {
         if (gear.equals(Gear.HIGH)) {
-            shifter.set(DoubleSolenoid.Value.kForward);
-            SmartDashboard.putBoolean("Gear", false);
-        } else if (gear.equals(Gear.LOW)) {
             shifter.set(DoubleSolenoid.Value.kReverse);
             SmartDashboard.putBoolean("Gear", true);
+        } else if (gear.equals(Gear.LOW)) {
+            shifter.set(DoubleSolenoid.Value.kForward);
+            SmartDashboard.putBoolean("Gear", false);
         }
     }
 
