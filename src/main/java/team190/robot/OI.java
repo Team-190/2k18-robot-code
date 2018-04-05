@@ -40,55 +40,16 @@ public class OI {
     // Ports for controllers
     private static final int PORT_DRIVER_JOYSTICK_1 = 0,
             PORT_DRIVER_JOYSTICK_2 = 1,
-            PORT_OPERATOR_CONTROLLER_A = 2,
-            PORT_OPERATOR_CONTROLLER_B = 3;
+            PORT_OPERATOR_CONTROLLER_A = 2;
 
     // Buttons for the driver
     private static final int BUTTON_DRIVER_HIGH_GEAR = 2,
             BUTTON_DRIVER_LOW_GEAR = 3;
 
-    // Buttons for the operator a
-    private static final int BUTTON_OPERATOR_A_ELEV_CARRIAGE = 2,
-            BUTTON_OPERATOR_A_ELEV_LOW = 1,
-            BUTTON_OPERATOR_A_ELEV_MID = 3,
-            BUTTON_OPERATOR_A_ELEV_HIGH = 4,
-            BUTTON_OPERATOR_A_PREP_CLIMB = 5,
-            BUTTON_OPERATOR_A_CLIMB = 6, // NOW TRANSFER
-            BUTTON_OPERATOR_A_EXTAKE_FRONT = 7,
-            BUTTON_OPERATOR_A_EXTAKE_REAR = 8;
-
-    // Buttons for the operator b
-    /*
-    private static final int BUTTON_OPERATOR_B_INTAKE = 1,
-            BUTTON_OPERATOR_B_CARR_INTAKE = 2,
-            BUTTON_OPERATOR_B_TURBO = 3,
-            BUTTON_OPERATOR_B_CARR_MAN_F = 4,
-            BUTTON_OPERATOR_B_CARR_MAN_R = 5,
-            BUTTON_OPERATOR_B_INT_MAN_F = 6,
-            BUTTON_OPERATOR_B_INT_MAN_R = 7,
-            BUTTON_OPERATOR_B_ELEV_MAN_D = 8,
-            BUTTON_OPERATOR_B_ELEV_MAN_U = 9,
-            BUTTON_OPERATOR_B_MAN_OVERRIDE = 10;
-*/
-    private static final int BUTTON_OPERATOR_B_INTAKE = 9,
-            BUTTON_OPERATOR_B_CARR_INTAKE = 10,
-    //BUTTON_OPERATOR_B_TURBO = 11,
-    BUTTON_OPERATOR_B_CARR_MAN_F = 12,
-            BUTTON_OPERATOR_B_CARR_MAN_R = 13,
-            BUTTON_OPERATOR_B_INT_MAN_F = 14,
-            BUTTON_OPERATOR_B_INT_MAN_R = 15,
-            BUTTON_OPERATOR_B_ELEV_MAN_D = 16,
-            BUTTON_OPERATOR_B_ELEV_MAN_U = 11;
-    //BUTTON_OPERATOR_B_MAN_OVERRIDE = 18;
-
     /* Driver Controls */
     private Button highGearButton, lowGearButton;
     /* Operator Controls */
-    private Joystick operatorControllerA, operatorControllerB;
-    private Button elevatorPosCarriageButton, elevatorPosLowButton, elevatorPosMidButton, elevatorPosHighButton,
-            elevatorPosClimbButton, intakeButton, carriageIntakeButton, extakeFrontButton, extakeRearButton, prepClimb,
-            turboButton, carriageFrontManualButton, carriageRearManualButton, intakeFrontManualButton, intakeRearManualButton,
-            elevatorManualUpButton, elevatorManualDownButton, manualOverrideButton;
+    private Joystick operatorControllerA;
 
     //private XboxController xboxController;
 
@@ -173,70 +134,14 @@ public class OI {
         // Anti-Jerk
         new JoystickButton(operatorStick, 2).whenPressed(new AntiJerk());
 
-
         // A CHANNEL OPERATOR
         operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
 
-        // Elevator Positions
-        elevatorPosCarriageButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_CARRIAGE);
-        elevatorPosCarriageButton.whenPressed(new ElevatorPositionCarriage());
-
-        elevatorPosLowButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_LOW);
-        elevatorPosLowButton.whenPressed(new ElevatorPositionLow());
-
-        elevatorPosMidButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_MID);
-        elevatorPosMidButton.whenPressed(new ElevatorPositionMed());
-
-        elevatorPosHighButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_ELEV_HIGH);
-        elevatorPosHighButton.whenPressed(new ElevatorPositionHigh());
-
-        prepClimb = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_PREP_CLIMB);
-        prepClimb.whenPressed(new VaultExtake());
-        // TODO: Add command to prepare for climbing
-
-        elevatorPosClimbButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_CLIMB);
-        //elevatorPosClimbButton.whenPressed(new ElevatorPositionClimb());
-        elevatorPosClimbButton.whenPressed(new CarriageIntakeSequence());
-
-        extakeFrontButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_FRONT);
-        extakeFrontButton.whenPressed(new CollectorExtakeFront());
-
-        extakeRearButton = new JoystickButton(operatorControllerA, BUTTON_OPERATOR_A_EXTAKE_REAR);
-        extakeRearButton.whenPressed(new CollectorExtakeRear());
-
-        // B CHANNEL OPERATOR
-        //operatorControllerB = new Joystick(PORT_OPERATOR_CONTROLLER_B);
-        operatorControllerB = operatorControllerA;
-
-        // Intake & Extake
-        intakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INTAKE);
-        intakeButton.whenPressed(new CollectCube());
-
-        carriageIntakeButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_INTAKE);
-        carriageIntakeButton.whenPressed(new AntiJerk());
-
-        //turboButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_TURBO);
-
-        carriageFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_F);
-        carriageFrontManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Intake));
-
-        carriageRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_CARR_MAN_R);
-        carriageRearManualButton.whileHeld(new CarriageManualMove(Carriage.CarriageMode.Extake));
-
-        intakeFrontManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_F);
-        intakeFrontManualButton.whileHeld(new CollectorManualMove(Collector.IntakeMode.Extake));
-
-        intakeRearManualButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_INT_MAN_R);
-        intakeRearManualButton.whileHeld(new CollectorManualMove(Collector.IntakeMode.Intake));
-
-        elevatorManualDownButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_ELEV_MAN_D);
-        elevatorManualDownButton.whileHeld(new ElevatorManualMove(-0.5));
-
-        elevatorManualUpButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_ELEV_MAN_U);
-        elevatorManualUpButton.whileHeld(new ElevatorManualMove(0.5));
-
-        //manualOverrideButton = new JoystickButton(operatorControllerB, BUTTON_OPERATOR_B_MAN_OVERRIDE);
-
+        new JoystickButton(operatorControllerA, 1).whenPressed(new ElevatorPositionHigh());
+        new JoystickButton(operatorControllerA, 2).whenPressed(new ElevatorPositionMed());
+        new JoystickButton(operatorControllerA, 3).whenPressed(new ElevatorPositionSwitch());
+        new JoystickButton(operatorControllerA, 4).whenPressed(new ElevatorPositionCarriage());
+        new JoystickButton(operatorControllerA, 5).whenPressed(new ElevatorPositionLow());
     }
 
     private void useXboxController() {
@@ -282,32 +187,34 @@ public class OI {
         return rightStick.getY() * -1.0;
     }
 
-    /**
-     * Check if the turbo mode is switched on
-     *
-     * @return True if in turbo mode
-     */
-    public boolean isTurboActivated() {
-        //return turboButton.get();
-        return true;
-    }
-
-    /**
-     * Check if the elevator manual switch is on
-     *
-     * @return True if in manual mode
-     */
-    public boolean isElevatorManual() {
-        //return manualOverrideButton.get();
-        return true;
-    }
-
     private enum AxisDirection {
         X, Y
     }
 
     private enum PosNegDirection {
         UP, DOWN
+    }
+
+    private class ButtonAxisTrigger extends Trigger {
+        private GenericHID joystick;
+        private int buttonNumber;
+        private boolean up;
+
+        public ButtonAxisTrigger(GenericHID joystick, int buttonNumber, boolean up) {
+
+            this.joystick = joystick;
+            this.buttonNumber = buttonNumber;
+            this.up = up;
+        }
+        @Override
+        public boolean get() {
+            boolean buttonStatus = joystick.getRawButton(buttonNumber);
+            if (up) {
+                return joystick.getY() < -0.75 && buttonStatus;
+            } else {
+                return joystick.getY() > 0.75 && buttonStatus;
+            }
+        }
     }
 
     private class AxisTrigger extends Trigger {

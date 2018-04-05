@@ -95,9 +95,7 @@ public class Elevator extends Subsystem {
      * @param percent The percent vbus for the elevator motor.
      */
     public void manualMove(double percent) {
-        if (Robot.m_oi.isElevatorManual()) {
-            motor.set(ControlMode.PercentOutput, percent);
-        }
+        motor.set(ControlMode.PercentOutput, percent);
     }
 
     public void stop() {
