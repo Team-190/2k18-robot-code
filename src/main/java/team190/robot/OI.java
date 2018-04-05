@@ -51,8 +51,6 @@ public class OI {
     /* Operator Controls */
     private Joystick operatorControllerA;
 
-    //private XboxController xboxController;
-
     private Joystick leftStick;
     private Joystick rightStick;
 
@@ -73,60 +71,28 @@ public class OI {
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
-        operatorGamepad = new XboxController(4);
-        useXboxController();
+        //operatorGamepad = new XboxController(4);
+        //useXboxController();
 
         operatorStick = new Joystick(5);
 
-        // Collector Carriage Jogs
-        final int CarriageButton = 6, CollectorButton = 4;
-        Trigger bothJogIn = new Trigger() {
-            @Override
-            public boolean get() {
-                return operatorStick.getY() < -.75 && !operatorStick.getRawButton(CarriageButton) && !operatorStick.getRawButton(CollectorButton);
-            }
-        };
-        bothJogIn.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
-        Trigger bothJogOut = new Trigger() {
+        // Manual Jogs
+        final int CarriageButton = 6, CollectorButton = 4, ElevatorButton = 3;
 
-            @Override
-            public boolean get() {
-                return operatorStick.getY() > .75 && !operatorStick.getRawButton(CarriageButton) && !operatorStick.getRawButton(CollectorButton);
-            }
-        };
-        bothJogOut.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
+        new ButtonAxisTrigger(operatorStick, CarriageButton, true)
+                .whileActive(new CarriageManualMove(Carriage.CarriageMode.Extake));
+        new ButtonAxisTrigger(operatorStick, CarriageButton, false)
+                .whileActive(new CarriageManualMove(Carriage.CarriageMode.Intake));
 
-        // Collector Jogs
-        Trigger collectorJogIn = new Trigger() {
-            @Override
-            public boolean get() {
-                return operatorStick.getY() < -.75 && operatorStick.getRawButton(CollectorButton);
-            }
-        };
-        collectorJogIn.whileActive(new CollectorManualMove(Collector.IntakeMode.Intake));
-        Trigger collectorJogOut = new Trigger() {
-            @Override
-            public boolean get() {
-                return operatorStick.getY() > .75 && operatorStick.getRawButton(CollectorButton);
-            }
-        };
-        collectorJogOut.whileActive(new CollectorManualMove(Collector.IntakeMode.Extake));
+        new ButtonAxisTrigger(operatorStick, CollectorButton, true)
+                .whileActive(new CollectorManualMove(Collector.IntakeMode.Intake));
+        new ButtonAxisTrigger(operatorStick, CollectorButton, false)
+                .whileActive(new CollectorManualMove(Collector.IntakeMode.Extake));
 
-        // Carriage Jogs
-        Trigger carriageJogIn = new Trigger() {
-            @Override
-            public boolean get() {
-                return operatorStick.getY() < -.75 && operatorStick.getRawButton(CarriageButton);
-            }
-        };
-        carriageJogIn.whileActive(new CarriageManualMove(Carriage.CarriageMode.Extake));
-        Trigger carriageJogOut = new Trigger() {
-            @Override
-            public boolean get() {
-                return operatorStick.getY() > .75 && operatorStick.getRawButton(CarriageButton);
-            }
-        };
-        carriageJogOut.whileActive(new CarriageManualMove(Carriage.CarriageMode.Intake));
+        new ButtonAxisTrigger(operatorStick, ElevatorButton, true)
+                .whileActive(new ElevatorManualMove(0.5));
+        new ButtonAxisTrigger(operatorStick, ElevatorButton, false)
+                .whileActive(new ElevatorManualMove(-0.5));
 
         // Intake Button
         new JoystickButton(operatorStick, 1).whenPressed(new CollectCube());
