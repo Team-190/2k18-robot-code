@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.models.PairedTalonSRX;
-import team190.robot.Robot;
 
 /**
  *

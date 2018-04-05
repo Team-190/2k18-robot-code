@@ -16,12 +16,8 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.CollectorCarriageManualMove;
-import team190.robot.commands.VaultExtake;
-import team190.robot.commands.carriage.CarriageIntakeSequence;
 import team190.robot.commands.carriage.CarriageManualMove;
 import team190.robot.commands.collector.AntiJerk;
-import team190.robot.commands.collector.CollectorExtakeFront;
-import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.collector.CollectorManualMove;
 import team190.robot.commands.drivetrain.Shift;
 import team190.robot.commands.elevator.*;
@@ -71,6 +67,9 @@ public class OI {
         lowGearButton = new JoystickButton(rightStick, BUTTON_DRIVER_LOW_GEAR);
         lowGearButton.whenPressed(new Shift(Gear.LOW));
 
+        new JoystickButton(leftStick, 1).whenPressed(new ElevatorPositionCarriage()); // Trigger
+        new JoystickButton(rightStick, 1).whenPressed(new CollectCube()); // Trigger
+
         //operatorGamepad = new XboxController(4);
         //useXboxController();
 
@@ -79,15 +78,40 @@ public class OI {
         // Manual Jogs
         final int CarriageButton = 6, CollectorButton = 4, ElevatorButton = 3;
 
+        // Jog Carriage and Collector
+        Trigger jogUp = new Trigger() {
+            @Override
+            public boolean get() {
+                boolean carr = operatorStick.getRawButton(CarriageButton);
+                boolean coll = operatorStick.getRawButton(CollectorButton);
+                boolean elev = operatorStick.getRawButton(ElevatorButton);
+                return operatorStick.getY() < -0.75 && !carr && !coll && !elev;
+            }
+        };
+        jogUp.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
+
+        // Jog Carriage and Collector
+        Trigger jogDown = new Trigger() {
+            @Override
+            public boolean get() {
+                boolean carr = operatorStick.getRawButton(CarriageButton);
+                boolean coll = operatorStick.getRawButton(CollectorButton);
+                boolean elev = operatorStick.getRawButton(ElevatorButton);
+                return operatorStick.getY() > 0.75 && !carr && !coll && !elev;
+            }
+        };
+        jogDown.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
+
+
         new ButtonAxisTrigger(operatorStick, CarriageButton, true)
-                .whileActive(new CarriageManualMove(Carriage.CarriageMode.Extake));
-        new ButtonAxisTrigger(operatorStick, CarriageButton, false)
                 .whileActive(new CarriageManualMove(Carriage.CarriageMode.Intake));
+        new ButtonAxisTrigger(operatorStick, CarriageButton, false)
+                .whileActive(new CarriageManualMove(Carriage.CarriageMode.Extake));
 
         new ButtonAxisTrigger(operatorStick, CollectorButton, true)
-                .whileActive(new CollectorManualMove(Collector.IntakeMode.Intake));
-        new ButtonAxisTrigger(operatorStick, CollectorButton, false)
                 .whileActive(new CollectorManualMove(Collector.IntakeMode.Extake));
+        new ButtonAxisTrigger(operatorStick, CollectorButton, false)
+                .whileActive(new CollectorManualMove(Collector.IntakeMode.Intake));
 
         new ButtonAxisTrigger(operatorStick, ElevatorButton, true)
                 .whileActive(new ElevatorManualMove(0.5));
@@ -172,6 +196,7 @@ public class OI {
             this.buttonNumber = buttonNumber;
             this.up = up;
         }
+
         @Override
         public boolean get() {
             boolean buttonStatus = joystick.getRawButton(buttonNumber);
