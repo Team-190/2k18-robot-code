@@ -70,13 +70,13 @@ public class OI {
         new JoystickButton(leftStick, 1).whenPressed(new ElevatorPositionCarriage()); // Trigger
         new JoystickButton(rightStick, 1).whenPressed(new CollectCube()); // Trigger
 
-        //operatorGamepad = new XboxController(4);
+        //operatorGamepad = new XboxController(5);
         //useXboxController();
 
-        operatorStick = new Joystick(5);
+        operatorStick = new Joystick(4);
 
         // Manual Jogs
-        final int CarriageButton = 6, CollectorButton = 4, ElevatorButton = 3;
+        final int CarriageButton = 4, CollectorButton = 6, ElevatorButton = 3;
 
         // Jog Carriage and Collector
         Trigger jogUp = new Trigger() {
@@ -85,7 +85,7 @@ public class OI {
                 boolean carr = operatorStick.getRawButton(CarriageButton);
                 boolean coll = operatorStick.getRawButton(CollectorButton);
                 boolean elev = operatorStick.getRawButton(ElevatorButton);
-                return operatorStick.getY() < -0.75 && !carr && !coll && !elev;
+                return operatorStick.getY() < -0.5 && !carr && !coll && !elev;
             }
         };
         jogUp.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Extake, Carriage.CarriageMode.Intake));
@@ -97,7 +97,7 @@ public class OI {
                 boolean carr = operatorStick.getRawButton(CarriageButton);
                 boolean coll = operatorStick.getRawButton(CollectorButton);
                 boolean elev = operatorStick.getRawButton(ElevatorButton);
-                return operatorStick.getY() > 0.75 && !carr && !coll && !elev;
+                return operatorStick.getY() > 0.5 && !carr && !coll && !elev;
             }
         };
         jogDown.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
@@ -201,9 +201,9 @@ public class OI {
         public boolean get() {
             boolean buttonStatus = joystick.getRawButton(buttonNumber);
             if (up) {
-                return joystick.getY() < -0.75 && buttonStatus;
+                return joystick.getY() < -0.5 && buttonStatus;
             } else {
-                return joystick.getY() > 0.75 && buttonStatus;
+                return joystick.getY() > 0.5 && buttonStatus;
             }
         }
     }

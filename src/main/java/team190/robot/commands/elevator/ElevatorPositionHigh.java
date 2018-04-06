@@ -8,7 +8,7 @@ public class ElevatorPositionHigh extends Command {
 
     public ElevatorPositionHigh() {
         requires(Robot.elevator);
-        setTimeout(3);
+        setTimeout(6);
     }
 
     @Override

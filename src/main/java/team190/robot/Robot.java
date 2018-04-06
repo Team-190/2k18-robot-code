@@ -83,8 +83,6 @@ public class Robot extends TimedRobot {
 
         // Debug commands
         debugSmartDashboard();
-
-        new PowerDistributionPanel();
     }
 
     /**

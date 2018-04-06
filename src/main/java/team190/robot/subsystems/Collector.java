@@ -43,7 +43,7 @@ public class Collector extends Subsystem {
             percent = 0.0;
             right.follow(left);
         } else if (mode == IntakeMode.Intake) {
-            percent = 0.80;
+            percent = 0.50;
         } else if (mode == IntakeMode.Extake) {
             // Modify extake speed if in turbo mode
             // TODO: Fix once oi is fixed

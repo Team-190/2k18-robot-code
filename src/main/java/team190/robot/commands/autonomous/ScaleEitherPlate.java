@@ -29,8 +29,6 @@ public class ScaleEitherPlate extends ConditionalCommand {
     public static class ScaleCrossover extends CommandGroup {
 
         public ScaleCrossover() {
-            // start moving elevator at start of CommandGroup
-            addSequential(new ElevatorPositionCarriage());
             // Drive to the Scale
             addSequential(new DriveSequence(AutoSequence.StartRightScaleLeft));
             addSequential(new ElevatorPositionHigh());

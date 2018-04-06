@@ -26,14 +26,14 @@ public class Elevator extends Subsystem {
     public final static double POS_CLIMB = 80;
     public final static double POS_MAX = 90;
 
-    private final static double POT_BOTTOM = 266; // Pot Value
+    private final static double POT_BOTTOM = 297; // Pot Value
     private final static double POT_TOP_OFFSET = 572; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
 
     private static final double SPEED_TOLERANCE = 0.5;
-    private static final double ERROR_TOLERANCE = 8.0;
+    private static final double ERROR_TOLERANCE = 10.0;
 
     // CAN Channels
     private static final int ELEVATOR_SRX_LEFT = 5,
@@ -107,7 +107,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean getBottomLimitSwitch() {
-        return motor.getSensorCollection().isFwdLimitSwitchClosed();
+        return motor.getSensorCollection().isRevLimitSwitchClosed();
     }
 
     public void initDefaultCommand() {

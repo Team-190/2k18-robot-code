@@ -57,7 +57,7 @@ public class CollectorIntake extends CommandGroup {
             // Use requires() here to declare subsystem dependencies
             // eg. requires(chassis);
             requires(Robot.collector);
-            setTimeout(0.5);
+            setTimeout(0.3);
 
         }
 
