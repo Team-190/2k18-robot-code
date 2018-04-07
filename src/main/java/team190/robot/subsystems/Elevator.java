@@ -22,11 +22,11 @@ public class Elevator extends Subsystem {
     public final static double POS_LO = 0;
     public final static double POS_SWITCH = 50;
     public final static double POS_MED = 72;
-    public final static double POS_HI = 95; // MAX height
+    public final static double POS_HI = 104; // MAX height
     public final static double POS_CLIMB = 80;
     public final static double POS_MAX = 90;
 
-    private final static double POT_BOTTOM = 297; // Pot Value
+    private final static double POT_BOTTOM = 186; // Pot Value
     private final static double POT_TOP_OFFSET = 572; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
@@ -53,7 +53,7 @@ public class Elevator extends Subsystem {
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
 
         // TODO: Tune PID
-        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 20, 0, 0, 0);
+        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 50, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
@@ -103,7 +103,9 @@ public class Elevator extends Subsystem {
 
     public boolean inPosition() {
         double thisError = motorSetpoint - motor.getSelectedSensorPosition(DEFAULT_PIDX);
-        return Math.abs(thisError) <= ERROR_TOLERANCE;
+        boolean inPos = Math.abs(thisError) <= ERROR_TOLERANCE;
+        SmartDashboard.putBoolean("Elevator in pos", inPos);
+        return inPos;
     }
 
     public boolean getBottomLimitSwitch() {
