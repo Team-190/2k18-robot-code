@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.Command;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.CollectorCarriageManualMove;
@@ -76,7 +77,7 @@ public class OI {
         operatorStick = new Joystick(4);
 
         // Manual Jogs
-        final int CarriageButton = 4, CollectorButton = 6, ElevatorButton = 3;
+        final int CarriageButton = 4, CollectorButton = 6, ElevatorButton = 5;
 
         // Jog Carriage and Collector
         Trigger jogUp = new Trigger() {
@@ -101,6 +102,14 @@ public class OI {
             }
         };
         jogDown.whileActive(new CollectorCarriageManualMove(Collector.IntakeMode.Intake, Carriage.CarriageMode.Extake));
+
+        Trigger groundExtake = new Trigger() {
+            @Override
+            public boolean get() {
+                return operatorStick.getPOV() == 0; // 0 degrees is top
+            }
+        };
+        groundExtake.whileActive(new CollectorManualMove(Collector.IntakeMode.ExtakeGround));
 
 
         new ButtonAxisTrigger(operatorStick, CarriageButton, true)
@@ -176,6 +185,7 @@ public class OI {
     public double getRightY() {
         return rightStick.getY() * -1.0;
     }
+
 
     private enum AxisDirection {
         X, Y

@@ -21,13 +21,13 @@ public class Elevator extends Subsystem {
     public final static double POS_CAR = 28;
     public final static double POS_LO = 0;
     public final static double POS_SWITCH = 50;
-    public final static double POS_MED = 72;
-    public final static double POS_HI = 104; // MAX height
+    public final static double POS_MED = 78;
+    public final static double POS_HI = 92; // MAX height
     public final static double POS_CLIMB = 80;
     public final static double POS_MAX = 90;
 
-    private final static double POT_BOTTOM = 186; // Pot Value
-    private final static double POT_TOP_OFFSET = 572; // Pot Value
+    private final static double POT_BOTTOM = 110; // Pot Value
+    private final static double POT_TOP_OFFSET = 470; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
@@ -53,7 +53,7 @@ public class Elevator extends Subsystem {
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
 
         // TODO: Tune PID
-        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 50, 0, 0, 0);
+        motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 35, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);
 
