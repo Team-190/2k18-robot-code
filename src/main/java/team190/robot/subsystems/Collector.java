@@ -17,7 +17,11 @@ public class Collector extends Subsystem {
     // DIO inputs
     private static final int INTAKE_CUBE_SENSOR_PORT = 1;
 
+    private static final int INTAKE_JAM_SENSOR_PORT = 3;
+
     private TalonSRX left, right;
+
+    private DigitalInput jamSensor;
 
     // Banner sensor
     private DigitalInput cubeSensor;
@@ -31,6 +35,7 @@ public class Collector extends Subsystem {
         right.follow(left);
 
         cubeSensor = new DigitalInput(INTAKE_CUBE_SENSOR_PORT);
+        jamSensor = new DigitalInput(INTAKE_JAM_SENSOR_PORT);
     }
 
     // Put methods for controlling this subsystem
@@ -44,6 +49,7 @@ public class Collector extends Subsystem {
             right.follow(left);
         } else if (mode == IntakeMode.Intake) {
             percent = 0.50;
+            right.follow(left);
         } else if (mode == IntakeMode.Extake) {
             // Modify extake speed if in turbo mode
             // TODO: Fix once oi is fixed
@@ -68,6 +74,10 @@ public class Collector extends Subsystem {
 
     public boolean hasCube() {
         return !cubeSensor.get();
+    }
+
+    public boolean isJammed() {
+        return jamSensor.get();
     }
 
     public void log() {

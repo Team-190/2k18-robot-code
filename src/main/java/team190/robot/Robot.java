@@ -195,7 +195,9 @@ public class Robot extends TimedRobot {
         SCALE_OR_DRIVE("Scale, Switch, or Drive Forward"),
         SCALE_EITHER("Scale (Either Plate)"),
         SWITCH_CENTER("Switch Center"),
-        SCALE_LEFT_START_RIGHT("DONT USE (Probably) Scale Left");
+        SCALE_LEFT_START_RIGHT("DONT USE (Probably) Scale Left"),
+        SCALE_RIGHT_START_RIGHT("DONT USE Scale Right");
+
 
         private final String prettyName;
 
@@ -217,6 +219,8 @@ public class Robot extends TimedRobot {
                     return new CenterSwitch();
                 case SCALE_LEFT_START_RIGHT:
                     return new ScaleEitherPlate.ScaleCrossover();
+                case SCALE_RIGHT_START_RIGHT:
+                    return new ScaleSwitchOrDriveForward.ScaleScore(MatchData.OwnedSide.RIGHT);
                 default:
                     return new InstantCommand();
             }

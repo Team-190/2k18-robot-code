@@ -32,12 +32,16 @@ public class CollectorIntake extends CommandGroup {
 
         @Override
         protected void execute() {
-            Robot.collector.move(Collector.IntakeMode.Intake);
+            if(!Robot.collector.isJammed()) {
+                Robot.collector.move(Collector.IntakeMode.Intake);
+            } else {
+                Robot.collector.antiJerk();
+            }
         }
 
         @Override
         protected boolean isFinished() {
-            return Robot.collector.hasCube() || Robot.carriage.hasCube();
+            return Robot.collector.hasCube() && !Robot.collector.isJammed();
         }
 
         @Override
