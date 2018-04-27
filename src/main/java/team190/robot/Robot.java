@@ -7,7 +7,6 @@
 
 package team190.robot;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -208,7 +207,7 @@ public class Robot extends TimedRobot {
         public Command getCommand(MatchData.OwnedSide position) {
             switch (this) {
                 case DRIVE_FORWARD:
-                    return new DriveForward(TIME_CROSS_LINE);
+                    return new DriveForSpeed(TIME_CROSS_LINE);
                 case SWITCH_SCORE:
                     return new SwitchScore(position);
                 case SCALE_OR_DRIVE:

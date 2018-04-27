@@ -16,7 +16,7 @@ public class CollectorExtakeGround extends Command {
 
     @Override
     protected void initialize() {
-        setTimeout(3); // TODO find actual timeout for extake front
+        setTimeout(3);
     }
 
     @Override

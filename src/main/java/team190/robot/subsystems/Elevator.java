@@ -13,7 +13,6 @@ import team190.models.PairedTalonSRX;
  */
 public class Elevator extends Subsystem {
 
-    // TODO: re-do heights
     // All POS's in INCHES - Height of Intake
     // 0 is bottom of intake travel, POS_MAX is the inches of travel from
     // that 0.
@@ -52,7 +51,6 @@ public class Elevator extends Subsystem {
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, DEFAULT_TIMEOUT_MS);
 
-        // TODO: Tune PID
         motor.configPIDF(DEFAULT_PIDX, DEFAULT_TIMEOUT_MS, 35, 0, 0, 0);
 
         motor.configAllowableClosedloopError(0, DEFAULT_PIDX, DEFAULT_TIMEOUT_MS);

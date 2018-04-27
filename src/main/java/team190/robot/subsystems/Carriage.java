@@ -24,7 +24,6 @@ public class Carriage extends Subsystem {
 
     public void move(CarriageMode mode) {
         double speed = 0;
-        // TODO: Calibrate speeds
         if (mode == CarriageMode.Extake) {
             // Modify extake speed if in turbo mode
             speed = 1;

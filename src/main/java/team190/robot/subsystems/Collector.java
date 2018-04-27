@@ -41,7 +41,6 @@ public class Collector extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    //TODO: Calibrate speeds
     public void move(IntakeMode mode) {
         double percent = 0;
         if (mode == IntakeMode.Stop) {
@@ -51,10 +50,6 @@ public class Collector extends Subsystem {
             percent = 0.50;
             right.follow(left);
         } else if (mode == IntakeMode.Extake) {
-            // Modify extake speed if in turbo mode
-            // TODO: Fix once oi is fixed
-            //percent = Robot.m_oi.isTurboActivated() ? -1.0 : -0.5;
-            //percent = -1.0;
             percent = -0.3;
         } else if (mode == IntakeMode.Transfer) {
             percent = 0.6;

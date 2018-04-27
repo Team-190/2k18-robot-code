@@ -14,7 +14,7 @@ public class SwitchScore extends ConditionalCommand {
     private MatchData.OwnedSide position;
 
     public SwitchScore(MatchData.OwnedSide position) {
-        super(new PlaceCube(), new DriveForward(Robot.TIME_CROSS_LINE));
+        super(new PlaceCube(), new DriveForSpeed(Robot.TIME_CROSS_LINE));
         this.position = position;
     }
 
@@ -26,7 +26,7 @@ public class SwitchScore extends ConditionalCommand {
 
     private static class PlaceCube extends CommandGroup {
         public PlaceCube() {
-            addSequential(new DriveForward(Robot.TIME_CROSS_LINE));
+            addSequential(new DriveForSpeed(Robot.TIME_CROSS_LINE));
             addSequential(new CollectorExtakeRear());
         }
     }

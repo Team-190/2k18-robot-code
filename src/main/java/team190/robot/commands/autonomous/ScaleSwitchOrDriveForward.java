@@ -2,7 +2,6 @@ package team190.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
@@ -13,7 +12,6 @@ import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
 import team190.robot.commands.elevator.ElevatorPositionHigh;
-import team190.robot.commands.elevator.ElevatorPositionMed;
 
 /**
  * Created by Kevin O'Brien on 3/14/2018.
@@ -74,7 +72,7 @@ public class ScaleSwitchOrDriveForward extends ConditionalCommand {
         private MatchData.OwnedSide position;
 
         public CheckSwitch(MatchData.OwnedSide position) {
-            super(new SwitchPath(position), new DriveForward(Robot.TIME_CROSS_LINE));
+            super(new SwitchPath(position), new DriveForSpeed(Robot.TIME_CROSS_LINE));
             this.position = position;
         }
 

@@ -33,6 +33,8 @@ public class ScaleEitherPlate extends ConditionalCommand {
             addSequential(new DriveSequence(AutoSequence.StartRightScaleLeft));
             addSequential(new ElevatorPositionHigh());
             addSequential(new CollectorExtakeRear());
+            addSequential(new DriveForSpeed(0.25, 1));
+            addSequential(new ElevatorPositionCarriage());
         }
     }
 }

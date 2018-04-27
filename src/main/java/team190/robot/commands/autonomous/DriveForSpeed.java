@@ -5,12 +5,18 @@ import edu.wpi.first.wpilibj.command.Command;
 import team190.robot.Robot;
 import team190.robot.subsystems.Drivetrain;
 
-public class DriveForward extends Command {
+public class DriveForSpeed extends Command {
     private double runTime;
+    private double speed;
 
-    public DriveForward(double timeToRun) {
+    public DriveForSpeed(double timeToRun) {
+        this(-0.5, timeToRun);
+    }
+
+    public DriveForSpeed(double speed, double timeToRun) {
         requires(Robot.drivetrain);
         runTime = timeToRun;
+        this.speed = speed;
     }
 
     @Override
@@ -21,7 +27,7 @@ public class DriveForward extends Command {
 
     @Override
     protected void execute() {
-        Robot.drivetrain.drive(ControlMode.PercentOutput, -0.5, -0.5);
+        Robot.drivetrain.drive(ControlMode.PercentOutput, speed, speed);
     }
 
     @Override

@@ -15,7 +15,6 @@ public class CarriageIntake extends Command {
 
     @Override
     public void initialize() {
-        // TODO: test timeout
         setTimeout(4);
     }
 
