@@ -14,28 +14,22 @@ public class CollectorIntake extends CommandGroup {
     public CollectorIntake() {
         addSequential(new InitialIntake());
         addSequential(new IntakeAfterSensor());
-        //addSequential(new QuickReverse());
     }
 
     private class InitialIntake extends Command {
 
-        public InitialIntake() {
+        InitialIntake() {
             // Use requires() here to declare subsystem dependencies
             // eg. requires(chassis);
             requires(Robot.collector);
-
-        }
-
-        @Override
-        protected void initialize() {
         }
 
         @Override
         protected void execute() {
-            if(!Robot.collector.isJammed()) {
+            if (!Robot.collector.isJammed()) {
                 Robot.collector.move(Collector.IntakeMode.Intake);
             } else {
-                Robot.collector.antiJerk();
+                Robot.collector.antiJam();
             }
         }
 
@@ -49,24 +43,15 @@ public class CollectorIntake extends CommandGroup {
             Robot.collector.move(Collector.IntakeMode.Stop);
         }
 
-        @Override
-        protected void interrupted() {
-            end();
-        }
     }
 
     private class IntakeAfterSensor extends Command {
 
-        public IntakeAfterSensor() {
+        IntakeAfterSensor() {
             // Use requires() here to declare subsystem dependencies
             // eg. requires(chassis);
             requires(Robot.collector);
             setTimeout(0.3);
-
-        }
-
-        @Override
-        protected void initialize() {
         }
 
         @Override
@@ -84,10 +69,6 @@ public class CollectorIntake extends CommandGroup {
             Robot.collector.move(Collector.IntakeMode.Stop);
         }
 
-        @Override
-        protected void interrupted() {
-            end();
-        }
     }
 
 }

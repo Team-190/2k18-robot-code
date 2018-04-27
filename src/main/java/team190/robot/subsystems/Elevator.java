@@ -18,20 +18,17 @@ public class Elevator extends Subsystem {
     // that 0.
     public final static double POS_INTAKE = 0;
     public final static double POS_CAR = 28;
-    public final static double POS_LO = 0;
     public final static double POS_SWITCH = 50;
     public final static double POS_MED = 78;
     public final static double POS_HI = 92; // MAX height
-    public final static double POS_CLIMB = 80;
-    public final static double POS_MAX = 90;
+    private final static double POS_MAX = 90;
 
-    private final static double POT_BOTTOM = 127; // Pot Value (i.e Pot Value - 3 cause why not)
+    private final static double POT_BOTTOM = 271; // Pot Value
     private final static double POT_TOP_OFFSET = 470; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
     private static final int DEFAULT_PIDX = 0;
 
-    private static final double SPEED_TOLERANCE = 0.5;
     private static final double ERROR_TOLERANCE = 10.0;
 
     // CAN Channels

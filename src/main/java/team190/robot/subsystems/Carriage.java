@@ -19,14 +19,12 @@ public class Carriage extends Subsystem {
     public Carriage() {
         mainMotor = new TalonSRX(CARRIAGE_SRX);
         cubeSensor = new DigitalInput(CARRIAGE_CUBE_SENSOR_PORT);
-        //mainMotor.setInverted(false);
     }
 
     public void move(CarriageMode mode) {
-        double speed = 0;
+        double speed = 0.0;
         if (mode == CarriageMode.Extake) {
-            // Modify extake speed if in turbo mode
-            speed = 1;
+            speed = 1.0;
         } else if (mode == CarriageMode.Stop) {
             speed = 0;
         } else if (mode == CarriageMode.Transfer) {

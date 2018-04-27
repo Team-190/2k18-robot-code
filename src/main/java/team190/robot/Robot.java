@@ -17,7 +17,12 @@ import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.autonomous.*;
-import team190.robot.commands.drivetrain.*;
+import team190.robot.commands.drivetrain.DriveForTimeAndSpeed;
+import team190.robot.commands.drivetrain.DriveSequence;
+import team190.robot.commands.drivetrain.debug.HighGearBrakeMode;
+import team190.robot.commands.drivetrain.debug.LowGearCoastMode;
+import team190.robot.commands.drivetrain.debug.ZeroEncoders;
+import team190.robot.commands.drivetrain.debug.ZeroGyro;
 import team190.robot.subsystems.Carriage;
 import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain;
@@ -32,7 +37,7 @@ import team190.robot.subsystems.Elevator;
  */
 public class Robot extends TimedRobot {
 
-    public static final double TIME_CROSS_LINE = 1.7;
+    public static final double TIME_CROSS_LINE = 3.5;
     public static Drivetrain drivetrain;
     public static Collector collector;
     public static Elevator elevator;
@@ -181,8 +186,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Zero Gyro", new ZeroGyro());
         SmartDashboard.putData("Start Right Scale", new DriveSequence(AutoSequence.StartRightScaleLeft));
-        SmartDashboard.putData("Get First Cube", new DriveSequence(AutoSequence.ScaleLeftCollectCubeOne));
-        SmartDashboard.putData("Place First Cube", new DriveSequence(AutoSequence.ScaleLeftPlaceCubeOne));
         SmartDashboard.putData("Left Scale Sequence", new ScaleEitherPlate.ScaleCrossover());
         SmartDashboard.putData("HighGearBrake", new HighGearBrakeMode());
         SmartDashboard.putData("LowGearCoast", new LowGearCoastMode());
@@ -190,12 +193,13 @@ public class Robot extends TimedRobot {
 
     private enum AutoMode {
         DRIVE_FORWARD("Drive Forward"),
-        SWITCH_SCORE("Score Switch L or R"),
+        SWITCH_OR_DRIVE("Switch or Drive Forward"),
+        SWITCH_CENTER("Switch Center"),
         SCALE_OR_DRIVE("Scale, Switch, or Drive Forward"),
         SCALE_EITHER("Scale (Either Plate)"),
-        SWITCH_CENTER("Switch Center"),
-        SCALE_LEFT_START_RIGHT("DONT USE (Probably) Scale Left"),
-        SCALE_RIGHT_START_RIGHT("DONT USE Scale Right");
+        //SCALE_LEFT_START_RIGHT("DONT USE (Probably) Scale Left"),
+        //SCALE_RIGHT_START_RIGHT("DONT USE Scale Right"),
+        SWITCH_SCORE("In Front of Switch Score");
 
 
         private final String prettyName;
@@ -207,19 +211,21 @@ public class Robot extends TimedRobot {
         public Command getCommand(MatchData.OwnedSide position) {
             switch (this) {
                 case DRIVE_FORWARD:
-                    return new DriveForSpeed(TIME_CROSS_LINE);
-                case SWITCH_SCORE:
-                    return new SwitchScore(position);
+                    return new DriveForTimeAndSpeed(TIME_CROSS_LINE);
+                case SWITCH_OR_DRIVE:
+                    return new SwitchOrDriveForward(position);
+                case SWITCH_CENTER:
+                    return new CenterSwitch();
                 case SCALE_OR_DRIVE:
                     return new ScaleSwitchOrDriveForward(position);
                 case SCALE_EITHER:
                     return new ScaleEitherPlate();
-                case SWITCH_CENTER:
-                    return new CenterSwitch();
-                case SCALE_LEFT_START_RIGHT:
+                case SWITCH_SCORE:
+                    return new InFrontOfSwitch(position);
+                /*case SCALE_LEFT_START_RIGHT:
                     return new ScaleEitherPlate.ScaleCrossover();
                 case SCALE_RIGHT_START_RIGHT:
-                    return new ScaleSwitchOrDriveForward.ScaleScore(MatchData.OwnedSide.RIGHT);
+                    return new ScaleSwitchOrDriveForward.ScoreScale();*/
                 default:
                     return new InstantCommand();
             }

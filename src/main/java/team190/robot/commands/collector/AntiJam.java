@@ -11,18 +11,18 @@ import team190.robot.subsystems.Collector;
  * Created by Kevin O'Brien on 3/24/2018.
  */
 
-public class AntiJerk extends CommandGroup {
-    public AntiJerk() {
+public class AntiJam extends CommandGroup {
+    public AntiJam() {
         addSequential(new ElevatorPositionIntake());
-        addSequential(new AntiJerkSegment());
+        addSequential(new AntiJamSegment());
         addSequential(new CollectorIntake());
         addSequential(new ElevatorPositionCarriage());
         addSequential(new CollectorTransferCarriage());
 
     }
 
-    private class AntiJerkSegment extends Command {
-        public AntiJerkSegment() {
+    private class AntiJamSegment extends Command {
+        AntiJamSegment() {
             requires(Robot.collector);
             requires(Robot.carriage);
             setTimeout(0.3);
@@ -33,7 +33,7 @@ public class AntiJerk extends CommandGroup {
         }
 
         protected void execute() {
-            Robot.collector.antiJerk();
+            Robot.collector.antiJam();
         }
 
         protected boolean isFinished() {

@@ -17,11 +17,6 @@ public class CollectorManualMove extends Command {
     }
 
     @Override
-    protected void initialize() {
-
-    }
-
-    @Override
     protected void execute() {
         Robot.collector.move(mode);
     }
@@ -36,8 +31,4 @@ public class CollectorManualMove extends Command {
         Robot.collector.move(Collector.IntakeMode.Stop);
     }
 
-    @Override
-    protected void interrupted() {
-        end();
-    }
 }

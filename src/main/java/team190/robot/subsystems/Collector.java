@@ -21,6 +21,7 @@ public class Collector extends Subsystem {
 
     private TalonSRX left, right;
 
+    // Anti-jam limit switch
     private DigitalInput jamSensor;
 
     // Banner sensor
@@ -53,8 +54,6 @@ public class Collector extends Subsystem {
             percent = -0.3;
         } else if (mode == IntakeMode.Transfer) {
             percent = 0.6;
-        } else if (mode == IntakeMode.SlowReverse) {
-            percent = -0.3;
         } else if (mode == IntakeMode.ExtakeGround) {
             percent = -1.0;
         }
@@ -62,7 +61,7 @@ public class Collector extends Subsystem {
         left.set(ControlMode.PercentOutput, percent);
     }
 
-    public void antiJerk() {
+    public void antiJam() {
         left.set(ControlMode.PercentOutput, 0.4);
         right.set(ControlMode.PercentOutput, -0.4);
     }
@@ -87,6 +86,6 @@ public class Collector extends Subsystem {
     }
 
     public enum IntakeMode {
-        Stop, Intake, Extake, SlowReverse, ExtakeGround, Transfer
+        Stop, Intake, Extake, ExtakeGround, Transfer
     }
 }

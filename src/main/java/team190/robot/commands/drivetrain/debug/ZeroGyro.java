@@ -1,4 +1,4 @@
-package team190.robot.commands.drivetrain;
+package team190.robot.commands.drivetrain.debug;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import team190.robot.Robot;

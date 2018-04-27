@@ -5,16 +5,17 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import openrio.powerup.MatchData;
 import team190.robot.Robot;
 import team190.robot.commands.collector.CollectorExtakeRear;
+import team190.robot.commands.drivetrain.DriveForTimeAndSpeed;
 
 /**
  * Created by Kevin O'Brien on 3/18/2018.
  */
-public class SwitchScore extends ConditionalCommand {
+public class InFrontOfSwitch extends ConditionalCommand {
 
     private MatchData.OwnedSide position;
 
-    public SwitchScore(MatchData.OwnedSide position) {
-        super(new PlaceCube(), new DriveForSpeed(Robot.TIME_CROSS_LINE));
+    public InFrontOfSwitch(MatchData.OwnedSide position) {
+        super(new PlaceCube(), new DriveForTimeAndSpeed(Robot.TIME_CROSS_LINE));
         this.position = position;
     }
 
@@ -25,8 +26,8 @@ public class SwitchScore extends ConditionalCommand {
     }
 
     private static class PlaceCube extends CommandGroup {
-        public PlaceCube() {
-            addSequential(new DriveForSpeed(Robot.TIME_CROSS_LINE));
+        PlaceCube() {
+            addSequential(new DriveForTimeAndSpeed(Robot.TIME_CROSS_LINE));
             addSequential(new CollectorExtakeRear());
         }
     }

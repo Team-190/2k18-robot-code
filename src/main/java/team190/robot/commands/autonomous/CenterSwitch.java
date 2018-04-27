@@ -2,10 +2,8 @@ package team190.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import edu.wpi.first.wpilibj.command.WaitForChildren;
 import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
-import team190.robot.commands.CollectCube;
 import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
@@ -27,25 +25,25 @@ public class CenterSwitch extends ConditionalCommand {
     }
 
     private static class ScoreSwitchCenter extends CommandGroup {
-        public ScoreSwitchCenter(MatchData.OwnedSide side) {
+        ScoreSwitchCenter(MatchData.OwnedSide side) {
             AutoSequence driveSwitch = AutoSequence.StartCenterSwitchRight;
-            AutoSequence collectCube = AutoSequence.SwitchRightCollectCube;
-            AutoSequence placeCube = AutoSequence.SwitchRightPlaceCube;
+            //AutoSequence collectCube = AutoSequence.SwitchRightCollectCube;
+            //AutoSequence placeCube = AutoSequence.SwitchRightPlaceCube;
             if (side == MatchData.OwnedSide.LEFT) {
                 driveSwitch = AutoSequence.StartCenterSwitchLeft;
-                collectCube = AutoSequence.SwitchLeftCollectCube;
-                placeCube = AutoSequence.SwitchLeftPlaceCube;
+                //collectCube = AutoSequence.SwitchLeftCollectCube;
+                //placeCube = AutoSequence.SwitchLeftPlaceCube;
             }
             addSequential(new ElevatorPositionCarriage());
             addSequential(new DriveSequence(driveSwitch));
             addSequential(new CollectorExtakeRear());
+            /*
             addParallel(new CollectCube());
             addSequential(new DriveSequence(collectCube, false));
             addSequential(new WaitForChildren());
             addSequential(new DriveSequence(placeCube, false));
             addSequential(new CollectorExtakeRear());
-
-
+            */
         }
     }
 }

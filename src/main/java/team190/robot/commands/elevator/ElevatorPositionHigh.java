@@ -1,7 +1,6 @@
 package team190.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team190.robot.Robot;
 import team190.robot.subsystems.Elevator;
 

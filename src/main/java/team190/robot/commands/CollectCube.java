@@ -8,24 +8,11 @@ import team190.robot.commands.elevator.ElevatorPositionIntake;
 
 public class CollectCube extends CommandGroup {
 
-    private boolean canIntake;
-
     public CollectCube() {
         addSequential(new ElevatorPositionIntake());
         addSequential(new CollectorIntake());
         addSequential(new ElevatorPositionCarriage());
         addSequential(new CollectorTransferCarriage());
     }
-/*
-    @Override
-    protected void initialize() {
-        super.initialize();
 
-        canIntake = Robot.carriage.hasCube();
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return super.isFinished() || !canIntake;
-    }*/
 }

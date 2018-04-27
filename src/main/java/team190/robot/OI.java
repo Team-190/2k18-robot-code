@@ -13,12 +13,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.command.Command;
 import team190.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
-import team190.robot.commands.CollectorCarriageManualMove;
-import team190.robot.commands.carriage.CarriageManualMove;
-import team190.robot.commands.collector.AntiJerk;
+import team190.robot.commands.collector.AntiJam;
+import team190.robot.commands.collector.CarriageManualMove;
+import team190.robot.commands.collector.CollectorCarriageManualMove;
 import team190.robot.commands.collector.CollectorManualMove;
 import team190.robot.commands.drivetrain.Shift;
 import team190.robot.commands.elevator.*;
@@ -27,8 +26,7 @@ import team190.robot.subsystems.Collector;
 import team190.robot.subsystems.Drivetrain.Gear;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * Sorry this file is real gross at this point. Too bad. The rest of the code's ok.
  *
  * @author Jerry Brown
  */
@@ -130,8 +128,8 @@ public class OI {
         // Intake Button
         new JoystickButton(operatorStick, 1).whenPressed(new CollectCube());
 
-        // Anti-Jerk
-        new JoystickButton(operatorStick, 2).whenPressed(new AntiJerk());
+        // Anti-Jam
+        new JoystickButton(operatorStick, 2).whenPressed(new AntiJam());
 
         // A CHANNEL OPERATOR
         operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
@@ -140,7 +138,7 @@ public class OI {
         new JoystickButton(operatorControllerA, 2).whenPressed(new ElevatorPositionMed());
         new JoystickButton(operatorControllerA, 3).whenPressed(new ElevatorPositionSwitch());
         new JoystickButton(operatorControllerA, 4).whenPressed(new ElevatorPositionCarriage());
-        new JoystickButton(operatorControllerA, 5).whenPressed(new ElevatorPositionLow());
+        new JoystickButton(operatorControllerA, 5).whenPressed(new ElevatorPositionIntake());
     }
 
     private void useXboxController() {
@@ -165,7 +163,7 @@ public class OI {
 
         // Intake Sequence
         new TriggerTrigger(GenericHID.Hand.kLeft).whenActive(new CollectCube()); // Left trigger
-        new JoystickButton(operatorGamepad, 5).whenPressed(new AntiJerk()); // Left bumper
+        new JoystickButton(operatorGamepad, 5).whenPressed(new AntiJam()); // Left bumper
     }
 
     /**
@@ -200,7 +198,7 @@ public class OI {
         private int buttonNumber;
         private boolean up;
 
-        public ButtonAxisTrigger(GenericHID joystick, int buttonNumber, boolean up) {
+        ButtonAxisTrigger(GenericHID joystick, int buttonNumber, boolean up) {
 
             this.joystick = joystick;
             this.buttonNumber = buttonNumber;
@@ -223,7 +221,7 @@ public class OI {
         AxisDirection axisDirection;
         PosNegDirection posNegDirection;
 
-        public AxisTrigger(GenericHID.Hand hand, AxisDirection axisDirection, PosNegDirection posNegDirection) {
+        AxisTrigger(GenericHID.Hand hand, AxisDirection axisDirection, PosNegDirection posNegDirection) {
             this.hand = hand;
             this.axisDirection = axisDirection;
             this.posNegDirection = posNegDirection;
@@ -251,7 +249,7 @@ public class OI {
 
         private final GenericHID.Hand hand;
 
-        public TriggerTrigger(GenericHID.Hand hand) {
+        TriggerTrigger(GenericHID.Hand hand) {
             this.hand = hand;
         }
 

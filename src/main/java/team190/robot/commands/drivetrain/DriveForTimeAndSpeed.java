@@ -1,19 +1,19 @@
-package team190.robot.commands.autonomous;
+package team190.robot.commands.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 import team190.robot.Robot;
 import team190.robot.subsystems.Drivetrain;
 
-public class DriveForSpeed extends Command {
+public class DriveForTimeAndSpeed extends Command {
     private double runTime;
     private double speed;
 
-    public DriveForSpeed(double timeToRun) {
+    public DriveForTimeAndSpeed(double timeToRun) {
         this(-0.5, timeToRun);
     }
 
-    public DriveForSpeed(double speed, double timeToRun) {
+    public DriveForTimeAndSpeed(double speed, double timeToRun) {
         requires(Robot.drivetrain);
         runTime = timeToRun;
         this.speed = speed;

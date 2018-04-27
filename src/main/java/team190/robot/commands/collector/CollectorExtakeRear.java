@@ -31,11 +31,6 @@ public class CollectorExtakeRear extends Command {
     }
 
     @Override
-    protected void interrupted() {
-        end();
-    }
-
-    @Override
     protected void end() {
         Robot.carriage.move(Carriage.CarriageMode.Stop);
         Robot.collector.move(Collector.IntakeMode.Stop);

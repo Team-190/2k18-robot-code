@@ -32,7 +32,4 @@ public class CollectorTransferCarriage extends Command {
         Robot.carriage.move(Carriage.CarriageMode.Stop);
     }
 
-    protected void interrupted() {
-        end();
-    }
 }

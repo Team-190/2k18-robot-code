@@ -1,4 +1,4 @@
-package team190.robot.commands.carriage;
+package team190.robot.commands.collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 import team190.robot.Robot;
@@ -9,16 +9,11 @@ import team190.robot.subsystems.Carriage;
  */
 public class CarriageManualMove extends Command {
 
-
     private final Carriage.CarriageMode mode;
 
     public CarriageManualMove(Carriage.CarriageMode mode) {
         this.mode = mode;
         requires(Robot.carriage);
-    }
-
-    @Override
-    protected void initialize() {
     }
 
     @Override
@@ -36,8 +31,4 @@ public class CarriageManualMove extends Command {
         Robot.carriage.move(Carriage.CarriageMode.Stop);
     }
 
-    @Override
-    protected void interrupted() {
-        end();
-    }
 }

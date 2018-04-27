@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import openrio.powerup.MatchData;
 import team190.models.AutoSequence;
 import team190.robot.commands.collector.CollectorExtakeRear;
+import team190.robot.commands.drivetrain.DriveForTimeAndSpeed;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
 import team190.robot.commands.elevator.ElevatorPositionHigh;
@@ -33,7 +34,7 @@ public class ScaleEitherPlate extends ConditionalCommand {
             addSequential(new DriveSequence(AutoSequence.StartRightScaleLeft));
             addSequential(new ElevatorPositionHigh());
             addSequential(new CollectorExtakeRear());
-            addSequential(new DriveForSpeed(0.25, 1));
+            addSequential(new DriveForTimeAndSpeed(0.25, 1));
             addSequential(new ElevatorPositionCarriage());
         }
     }
