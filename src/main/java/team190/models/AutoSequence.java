@@ -28,7 +28,7 @@ public enum AutoSequence {
     StartRightSwitchRight,
 
     StartCenterSwitchLeft,
-    StartCenterSwitchRight;
+    StartCenterSwitchRight, SwitchRightCollectCube, SwitchLeftCollectCube, SwitchRightPlaceCube, SwitchLeftPlaceCube;
 
     private static HashMap<AutoSequence, PairedTrajectory> trajectories;
     private final String directory = "/home/lvuser/sequences";

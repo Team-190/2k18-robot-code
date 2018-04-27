@@ -26,7 +26,7 @@ public class Elevator extends Subsystem {
     public final static double POS_CLIMB = 80;
     public final static double POS_MAX = 90;
 
-    private final static double POT_BOTTOM = 124; // Pot Value (i.e Pot Value - 3 cause why not)
+    private final static double POT_BOTTOM = 127; // Pot Value (i.e Pot Value - 3 cause why not)
     private final static double POT_TOP_OFFSET = 470; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
@@ -65,6 +65,7 @@ public class Elevator extends Subsystem {
         SmartDashboard.putNumber("Elevator Pot Position", potValue);
         SmartDashboard.putNumber("Elevator Pot Speed", motor.getSelectedSensorVelocity(DEFAULT_PIDX));
         SmartDashboard.putNumber("Elevator Height", potToInches(potValue));
+        SmartDashboard.putBoolean("Elevator Limit", getBottomLimitSwitch());
     }
 
     /**
