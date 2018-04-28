@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import team190.models.DeadbandJoystick;
+import team190.robot.models.DeadbandJoystick;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.collector.AntiJam;
 import team190.robot.commands.collector.CarriageManualMove;

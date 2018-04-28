@@ -1,4 +1,4 @@
-package team190.models;
+package team190.robot.models;
 
 /**
  * Sequences that make up an auto. Each possible autonomous will likely use a combination of AutoSequences.

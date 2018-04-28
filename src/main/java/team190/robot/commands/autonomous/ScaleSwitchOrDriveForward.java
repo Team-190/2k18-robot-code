@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import openrio.powerup.MatchData;
-import team190.models.AutoSequence;
+import team190.robot.models.AutoSequence;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.collector.CollectorExtakeRear;

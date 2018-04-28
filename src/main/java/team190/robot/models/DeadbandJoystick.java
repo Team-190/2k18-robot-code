@@ -1,4 +1,4 @@
-package team190.models;
+package team190.robot.models;
 
 import edu.wpi.first.wpilibj.Joystick;
 
