@@ -44,20 +44,12 @@ public class Collector extends Subsystem {
 
     public void move(IntakeMode mode) {
         double percent = 0;
-        if (mode == IntakeMode.Stop) {
-            percent = 0.0;
-            right.follow(left);
-        } else if (mode == IntakeMode.Intake) {
-            percent = 0.50;
-            right.follow(left);
-        } else if (mode == IntakeMode.Extake) {
-            percent = -0.3;
-        } else if (mode == IntakeMode.Transfer) {
-            percent = 0.6;
-        } else if (mode == IntakeMode.ExtakeGround) {
-            percent = -1.0;
-        }
-
+        if (mode == IntakeMode.Stop) percent = 0.0;
+        else if (mode == IntakeMode.Intake) percent = 0.50;
+        else if (mode == IntakeMode.Extake) percent = -0.3;
+        else if (mode == IntakeMode.Transfer) percent = 0.6;
+        else if (mode == IntakeMode.ExtakeGround) percent = -1.0;
+        right.follow(left);
         left.set(ControlMode.PercentOutput, percent);
     }
 

@@ -185,8 +185,6 @@ public class Robot extends TimedRobot {
     private void debugSmartDashboard() {
         SmartDashboard.putData("Zero Encoders", new ZeroEncoders());
         SmartDashboard.putData("Zero Gyro", new ZeroGyro());
-        SmartDashboard.putData("Start Right Scale", new DriveSequence(AutoSequence.StartRightScaleLeft));
-        SmartDashboard.putData("Left Scale Sequence", new ScaleEitherPlate.ScaleCrossover());
         SmartDashboard.putData("HighGearBrake", new HighGearBrakeMode());
         SmartDashboard.putData("LowGearCoast", new LowGearCoastMode());
     }
@@ -195,8 +193,8 @@ public class Robot extends TimedRobot {
         DRIVE_FORWARD("Drive Forward"),
         SWITCH_OR_DRIVE("Switch or Drive Forward"),
         SWITCH_CENTER("Switch Center"),
-        SCALE_OR_DRIVE("Scale, Switch, or Drive Forward"),
-        SCALE_EITHER("Scale (Either Plate)"),
+        SCALE_OR_DRIVE("Scale, Switch, or Drive Forward ONLY RIGHT"),
+        SCALE_EITHER("Scale (Either Plate) ONLY RIGHT"),
         //SCALE_LEFT_START_RIGHT("DONT USE (Probably) Scale Left"),
         //SCALE_RIGHT_START_RIGHT("DONT USE Scale Right"),
         SWITCH_SCORE("In Front of Switch Score");

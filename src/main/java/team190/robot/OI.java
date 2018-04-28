@@ -35,7 +35,7 @@ public class OI {
     // Ports for controllers
     private static final int PORT_DRIVER_JOYSTICK_1 = 0,
             PORT_DRIVER_JOYSTICK_2 = 1,
-            PORT_OPERATOR_CONTROLLER_A = 2;
+            PORT_OPERATOR_CONTROLLER = 2;
 
     // Buttons for the driver
     private static final int BUTTON_DRIVER_HIGH_GEAR = 3,
@@ -44,7 +44,7 @@ public class OI {
     /* Driver Controls */
     private Button highGearButton, lowGearButton;
     /* Operator Controls */
-    private Joystick operatorControllerA;
+    private Joystick operatorController;
 
     private Joystick leftStick;
     private Joystick rightStick;
@@ -132,13 +132,13 @@ public class OI {
         new JoystickButton(operatorStick, 2).whenPressed(new AntiJam());
 
         // A CHANNEL OPERATOR
-        operatorControllerA = new Joystick(PORT_OPERATOR_CONTROLLER_A);
+        operatorController = new Joystick(PORT_OPERATOR_CONTROLLER);
 
-        new JoystickButton(operatorControllerA, 1).whenPressed(new ElevatorPositionHigh());
-        new JoystickButton(operatorControllerA, 2).whenPressed(new ElevatorPositionMed());
-        new JoystickButton(operatorControllerA, 3).whenPressed(new ElevatorPositionSwitch());
-        new JoystickButton(operatorControllerA, 4).whenPressed(new ElevatorPositionCarriage());
-        new JoystickButton(operatorControllerA, 5).whenPressed(new ElevatorPositionIntake());
+        new JoystickButton(operatorController, 1).whenPressed(new ElevatorPositionHigh());
+        new JoystickButton(operatorController, 2).whenPressed(new ElevatorPositionMed());
+        new JoystickButton(operatorController, 3).whenPressed(new ElevatorPositionSwitch());
+        new JoystickButton(operatorController, 4).whenPressed(new ElevatorPositionCarriage());
+        new JoystickButton(operatorController, 5).whenPressed(new ElevatorPositionIntake());
     }
 
     private void useXboxController() {
