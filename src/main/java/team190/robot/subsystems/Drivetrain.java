@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import team190.robot.models.PairedTalonSRX;
 import team190.robot.commands.drivetrain.ControllerDriveCommand;
+import team190.robot.models.PairedTalonSRX;
 
 /**
  *

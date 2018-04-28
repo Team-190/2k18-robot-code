@@ -3,12 +3,12 @@ package team190.robot.commands.autonomous;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import openrio.powerup.MatchData;
-import team190.robot.models.AutoSequence;
 import team190.robot.Robot;
 import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.drivetrain.DriveForTimeAndSpeed;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
+import team190.robot.models.AutoSequence;
 
 /**
  * Created by Kevin O'Brien on 4/27/2018.

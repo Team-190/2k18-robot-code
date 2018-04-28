@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import openrio.powerup.MatchData;
-import team190.robot.models.AutoSequence;
 import team190.robot.commands.CollectCube;
 import team190.robot.commands.DelayedCommand;
 import team190.robot.commands.collector.CollectorExtakeRear;
 import team190.robot.commands.drivetrain.DriveSequence;
 import team190.robot.commands.elevator.ElevatorPositionCarriage;
 import team190.robot.commands.elevator.ElevatorPositionHigh;
+import team190.robot.models.AutoSequence;
 
 /**
  * Created by Kevin O'Brien on 3/14/2018.

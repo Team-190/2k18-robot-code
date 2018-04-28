@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
-import team190.robot.models.AutoSequence;
 import team190.robot.Robot;
+import team190.robot.models.AutoSequence;
 import team190.robot.subsystems.Drivetrain;
 
 import java.io.File;
