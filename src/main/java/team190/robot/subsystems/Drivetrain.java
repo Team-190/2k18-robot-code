@@ -16,9 +16,9 @@ import team190.robot.commands.drivetrain.ControllerDriveCommand;
  */
 public class Drivetrain extends Subsystem {
     public static final double WHEELDIAMETER_FT = 4.0 / 12.0; // 4 inch diameter wheels
+    public static final double TICKS_PER_REV = 1024.0 * 3.0 * (50.0 / 34.0); // Encoder PPR: 256 (*4 for quadrature), Vex: "Encoder output spins at 3x the speed of the output shaft", "then a 50:34 reduction"
     private static final double WHEELCIRCUMFERENCE_FT = Math.PI * WHEELDIAMETER_FT;
     private static final double REV_PER_FT = 1.0 / WHEELCIRCUMFERENCE_FT;
-    public static final double TICKS_PER_REV = 1024.0 * 3.0 * (50.0 / 34.0); // Encoder PPR: 256 (*4 for quadrature), Vex: "Encoder output spins at 3x the speed of the output shaft", "then a 50:34 reduction"
     private static final double TICKS_PER_FT = TICKS_PER_REV * REV_PER_FT;
     private static final double HUNDRED_MS_PER_SEC = 10.0;
     private static final int SHIFTER_PCM = 0,

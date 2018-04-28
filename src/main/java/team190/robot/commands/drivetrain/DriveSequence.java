@@ -87,11 +87,6 @@ public class DriveSequence extends Command {
         Robot.drivetrain.drive(ControlMode.PercentOutput, 0, 0);
     }
 
-    @Override
-    protected void interrupted() {
-        end();
-    }
-
     /**
      * Return true if the file is not found
      *
@@ -101,8 +96,7 @@ public class DriveSequence extends Command {
     private boolean fileDoesntExist(File file) {
         if (!file.exists()) {
             DriverStation.reportWarning(file.getPath() + " not found.", false);
-            isFinished = true;
-            return true;
+            return isFinished = true;
         } else {
             return false;
         }

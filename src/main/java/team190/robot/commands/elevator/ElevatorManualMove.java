@@ -31,8 +31,4 @@ public class ElevatorManualMove extends Command {
         Robot.elevator.stop();
     }
 
-    @Override
-    protected void interrupted() {
-        end();
-    }
 }
