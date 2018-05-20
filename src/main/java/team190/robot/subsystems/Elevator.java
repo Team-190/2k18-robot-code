@@ -4,8 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team190.robot.Robot;
 import team190.robot.models.PairedTalonSRX;
 
 /**
@@ -23,7 +26,7 @@ public class Elevator extends Subsystem {
     public final static double POS_HI = 92; // MAX height
     private final static double POS_MAX = 90;
 
-    private final static double POT_BOTTOM = 271; // Pot Value
+    private static double POT_BOTTOM = 271; // Pot Value
     private final static double POT_TOP_OFFSET = 470; // Pot Value
 
     private static final int DEFAULT_TIMEOUT_MS = 0;
@@ -38,7 +41,12 @@ public class Elevator extends Subsystem {
     private PairedTalonSRX motor;
     private double motorSetpoint;
 
+    private final String POT_KEY = "ELEVATOR_BOTTOM";
+
     public Elevator() {
+        POT_BOTTOM = Preferences.getInstance().getDouble(POT_KEY, POT_BOTTOM);
+        DriverStation.reportWarning("Elevator Pot Bottom set to: " + POT_BOTTOM, false);
+
         motor = new PairedTalonSRX(ELEVATOR_SRX_LEFT, ELEVATOR_SRX_RIGHT);
         motor.setInverted(true);
 
@@ -85,7 +93,7 @@ public class Elevator extends Subsystem {
     }
 
     /**
-     * Move the elevator at a certain percent vbus, only if in manual mode.
+     * Move the elevator at a certain percent vbus.
      *
      * @param percent The percent vbus for the elevator motor.
      */
@@ -111,5 +119,29 @@ public class Elevator extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
+    }
+
+    /**
+     * Zero the potentiometer if the difference between the old value and new value is greater than ERROR_TOLERANCE.
+     * Currently only called from the ElevatorPositionIntake command when the limit switch is pressed.
+     */
+    public void zeroPot() {
+        double position = motor.getSelectedSensorPosition(DEFAULT_PIDX);
+        double difference = Math.abs(POT_BOTTOM - position);
+        if (difference > ERROR_TOLERANCE) {
+            POT_BOTTOM = position;
+            Preferences.getInstance().putDouble(POT_KEY, POT_BOTTOM);
+            DriverStation.reportWarning("New Elevator Pot Bottom: " + POT_BOTTOM, false);
+        }
+    }
+
+    /**
+     * Periodic method - checks if the POT_BOTTOM has been set over NetworkTables and updates accordingly.
+     */
+    public void periodic() {
+        double prefValue = Preferences.getInstance().getDouble(POT_KEY, POT_BOTTOM);
+        if (prefValue != POT_BOTTOM) {
+            POT_BOTTOM = prefValue;
+        }
     }
 }

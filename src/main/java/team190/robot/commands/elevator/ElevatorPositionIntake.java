@@ -17,6 +17,13 @@ public class ElevatorPositionIntake extends Command {
     }
 
     @Override
+    protected void execute() {
+        if (Robot.elevator.getBottomLimitSwitch()) {
+            Robot.elevator.zeroPot();
+        }
+    }
+
+    @Override
     protected boolean isFinished() {
         return Robot.elevator.inPosition() || isTimedOut() || Robot.elevator.getBottomLimitSwitch();
     }
